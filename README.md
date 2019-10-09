@@ -3,9 +3,7 @@
 
 ## **Customer**
 
-    	Organization Name:	VMware
-
-URL: vmare.com
+   [VMware](https://www.vmware.com/)
 
 
 ## **Overview**
