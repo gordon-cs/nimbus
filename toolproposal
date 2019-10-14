@@ -1,0 +1,11 @@
+Material Design Guidelines (material.io), following Clarity (clarity.design) where appropriate
+Java (not Kotlin)
+Android native sdk
+Android Studio (based on IntelliJ)
+
+End-to-End Hello World
+Native Android App with:
+	Login page, field for api key and button to login
+	Login should link to main activity, disregards authentication for now
+	Main activity with two tabs, one for blueprints, one for deployments
+	List of tappable items on each view, each of which say hello world
