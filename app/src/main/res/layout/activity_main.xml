@@ -12,14 +12,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <ImageButton
-            android:id="@+id/settingsButton"
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:layout_gravity="end"
-            android:contentDescription="@string/settings_button_desc"
-            android:src="@android:drawable/ic_menu_info_details" />
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -44,7 +36,8 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary">
+            android:background="?attr/colorPrimary"
+            app:tabTextColor="@android:color/background_light">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/blueprints"
