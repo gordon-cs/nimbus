@@ -21,19 +21,35 @@
             android:id="@+id/hello_deployments_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="start|center_vertical" />
+            android:gravity="start|top"
+            android:paddingStart="@dimen/blueprints_title_padding"
+            android:paddingEnd="@dimen/blueprints_title_padding" />
 
         <TextView
             android:id="@+id/world_deployments_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center" />
+            android:paddingStart="@dimen/blueprints_details__start_padding"
+            android:paddingTop="@dimen/blueprints_details_top_padding_1"
+            android:paddingEnd="@dimen/blueprints_title_padding" />
 
         <TextView
             android:id="@+id/index_deployments_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|end" />
+            android:paddingStart="@dimen/blueprints_details__start_padding"
+            android:paddingTop="@dimen/blueprints_details_top_padding_2"
+            android:paddingEnd="@dimen/blueprints_title_padding" />
+
+        <TextView
+            android:id="@+id/blueprints_click_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            android:paddingStart="@dimen/blueprints_title_padding"
+            android:paddingEnd="@dimen/blueprints_title_padding"
+            android:text="@string/blueprints_click_icon"
+            android:textSize="30sp" />
 
     </androidx.cardview.widget.CardView>
 </FrameLayout>

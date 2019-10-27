@@ -9,4 +9,8 @@
     <dimen name="card_width">400dp</dimen>
     <dimen name="card_frame_height">120dp</dimen>
     <dimen name="card_elevation">6dp</dimen>
+    <dimen name="blueprints_title_padding">10dp</dimen>
+    <dimen name="blueprints_details__start_padding">40dp</dimen>
+    <dimen name="blueprints_details_top_padding_1">20dp</dimen>
+    <dimen name="blueprints_details_top_padding_2">40dp</dimen>
 </resources>
