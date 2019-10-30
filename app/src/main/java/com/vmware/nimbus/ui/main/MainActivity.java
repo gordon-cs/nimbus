@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.vmware.nimbus.R;
 import com.google.android.material.tabs.TabLayout;
+import com.vmware.nimbus.ui.main.adapters.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.vmware.nimbus.ui.main;
+package com.vmware.nimbus.ui.main.adapters;
 
 import android.content.Context;
 
@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.vmware.nimbus.R;
+import com.vmware.nimbus.ui.main.fragments.BlueprintsViewFragment;
+import com.vmware.nimbus.ui.main.fragments.DeploymentsViewFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

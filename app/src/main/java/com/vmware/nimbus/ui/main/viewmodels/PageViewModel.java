@@ -1,4 +1,4 @@
-package com.vmware.nimbus.ui.main;
+package com.vmware.nimbus.ui.main.viewmodels;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;

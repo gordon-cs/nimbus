@@ -1,4 +1,4 @@
-package com.vmware.nimbus.ui.main;
+package com.vmware.nimbus.ui.main.fragments;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.DeploymentsModel;
+import com.vmware.nimbus.ui.main.adapters.DeploymentsAdapter;
+import com.vmware.nimbus.ui.main.viewmodels.DeploymentsViewModel;
+import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

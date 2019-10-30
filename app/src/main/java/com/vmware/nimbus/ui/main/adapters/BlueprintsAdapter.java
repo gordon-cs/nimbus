@@ -1,4 +1,4 @@
-package com.vmware.nimbus.ui.main;
+package com.vmware.nimbus.ui.main.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

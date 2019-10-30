@@ -8,7 +8,7 @@
     android:layout_weight="1"
     android:orientation="vertical"
     android:paddingTop="4dp"
-    tools:context=".ui.main.BlueprintsViewFragment">
+    tools:context=".ui.main.fragments.BlueprintsViewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_blueprints_recycler"

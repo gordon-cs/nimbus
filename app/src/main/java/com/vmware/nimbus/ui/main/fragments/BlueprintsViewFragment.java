@@ -1,4 +1,4 @@
-package com.vmware.nimbus.ui.main;
+package com.vmware.nimbus.ui.main.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.BlueprintsModel;
+import com.vmware.nimbus.ui.main.adapters.BlueprintsAdapter;
+import com.vmware.nimbus.ui.main.viewmodels.BlueprintsViewModel;
+import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
