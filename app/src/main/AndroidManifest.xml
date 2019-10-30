@@ -17,7 +17,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <service
             android:name=".api.APIService"
-            android:exported="false"></service>
+            android:exported="false"/>
 
         <activity
             android:name=".ui.main.MainActivity"

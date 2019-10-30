@@ -4,11 +4,13 @@
     android:id="@+id/blueprints_card_frame"
     android:layout_width="match_parent"
     android:layout_height="@dimen/card_frame_height"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/blueprints_card_view"
-        android:layout_width="@dimen/card_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/card_height"
         android:layout_gravity="center"
         android:clickable="true"
