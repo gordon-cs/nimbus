@@ -11,6 +11,13 @@
     <string name="blueprints_tab">Blueprints</string>
     <string name="deployments_tab">Deployments</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="settings_button_desc">Settings Button</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="blueprints_click_icon">\></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_world_card">Hello world!</string>
+    <string name="hello">Hello</string>
+    <string name="world">world</string>
 </resources>
