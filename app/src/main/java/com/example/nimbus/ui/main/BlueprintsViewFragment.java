@@ -80,5 +80,4 @@ public class BlueprintsViewFragment extends Fragment {
 //        });
         return recyclerView;
     }
-
 }

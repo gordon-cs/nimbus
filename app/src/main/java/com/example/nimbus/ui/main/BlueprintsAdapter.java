@@ -27,9 +27,8 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
             hello_blueprints_text = blueprints_card_view.findViewById(R.id.hello_blueprints_text);
             world_blueprints_text = blueprints_card_view.findViewById(R.id.world_blueprints_text);
             index_blueprints_text = blueprints_card_view.findViewById(R.id.index_blueprints_text);
+            }
         }
-
-    }
 
     List<BlueprintsModel> blueprintsData;
 
