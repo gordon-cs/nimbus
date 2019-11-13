@@ -6,23 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|start"
+        android:minHeight="?actionBarSize"
+        android:padding="@dimen/appbar_padding"
+        android:text="@string/app_name"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:textColor="#FFFFFF"
+        android:translationZ="100dp" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:elevation="0dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="start|top"
-            android:minHeight="?actionBarSize"
-            android:padding="@dimen/appbar_padding"
-            android:text="@string/app_name"
-            android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-            android:textColor="#FFFFFF" />
+        <ImageButton
+            android:id="@+id/options_vertical_ellipses"
+            android:layout_width="48dp"
+            android:layout_height="60dp"
+            android:layout_gravity="end"
+            android:background="@color/colorPrimary"
+            android:contentDescription="@string/vertical_ellipsis_desc"
+            android:onClick="displayToastMoreOptions"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -51,6 +64,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/deployments_tab" />
         </com.google.android.material.tabs.TabLayout>
+
     </androidx.viewpager.widget.ViewPager>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
