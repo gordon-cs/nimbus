@@ -5,7 +5,6 @@
     <string name="action_sign_in">Log in</string>
     <string name="action_sign_in_short">Log in</string>
     <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="blueprints_tab">Blueprints</string>

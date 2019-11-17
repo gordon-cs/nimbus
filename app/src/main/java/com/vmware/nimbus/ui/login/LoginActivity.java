@@ -12,104 +12,116 @@ import androidx.appcompat.app.AppCompatActivity;
 // import android.text.Editable;
 // import android.text.TextWatcher;
 // import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 // import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 // import android.widget.EditText;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 // import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.vmware.nimbus.api.VolleyController;
 import com.vmware.nimbus.ui.main.MainActivity;
 import com.vmware.nimbus.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+    //VolleyController volleyController = VolleyController.getInstance(this);
+    private String cspUrl = "https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
         Intent mainIntent = new Intent(this, MainActivity.class);
-//        final EditText passwordEditText = findViewById(R.id.password);
+        final EditText apiKeyEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-//        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
-//            @Override
-//            public void onChanged(@Nullable LoginFormState loginFormState) {
-//                if (loginFormState == null) {
-//                    return;
-//                }
-//                loginButton.setEnabled(loginFormState.isDataValid());
-//                if (loginFormState.getPasswordError() != null) {
-//                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-//                }
-//            }
-//        });
-
+        //todo - verify input
         loginButton.setEnabled(true);
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                finish();
-            }
-        });
-
-//        TextWatcher afterTextChangedListener = new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                // ignore
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // ignore
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        };
-//        passwordEditText.addTextChangedListener(afterTextChangedListener);
-//        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    loginViewModel.login(
-//                            passwordEditText.getText().toString());
-//                }
-//                return false;
-//            }
-//        });
+        RequestQueue queue = Volley.newRequestQueue(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                // loginViewModel.login(
-                //        passwordEditText.getText().toString());
+
+                StringRequest jsonObjRequest = new StringRequest(
+
+                        Request.Method.POST,
+                        cspUrl,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("volley response", response);
+                                toastMsg(response);
+                            }
+                        },
+                        new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("volley", "Error: " + error.getMessage());
+                                error.printStackTrace();
+                                toastMsg(error.getMessage());
+                            }
+                        }) {
+
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/x-www-form-urlencoded; charset=UTF-8";
+                    }
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("refresh_token", "957OZwjxgUNXR5KTOt56P0KKMUgtmdbjtA3rgV4pcfD9f1AjPbTBRgfaZR3FDpP1");
+                        return params;
+                    }
+                };
+
+                queue.add(jsonObjRequest);
+
+
                 startActivity(mainIntent);
+
+                //Complete and destroy login activity once successful
+                finish();
             }
         });
+    }
+
+    // Displays a toast so we can verify that the buttons work when clicked
+    public void toastMsg(String msg) {
+        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    boolean isDataValid(String api_key) {
+        boolean isDataValid = false;
+        if(api_key != "" && api_key.length() > 5){
+            isDataValid = true;
+        }
+        Log.d("apikey", api_key);
+        return isDataValid;
     }
 
     @Override
