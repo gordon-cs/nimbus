@@ -1,12 +1,8 @@
 package  com.vmware.nimbus.ui.login;
 
-import android.app.Activity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
+
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 // import android.text.Editable;
@@ -27,15 +23,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.vmware.nimbus.api.VolleyController;
+import com.google.gson.Gson;
+import com.vmware.nimbus.data.model.CspResult;
+import com.vmware.nimbus.data.model.LoginModel;
 import com.vmware.nimbus.ui.main.MainActivity;
 import com.vmware.nimbus.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,16 +66,22 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
                                 Log.d("volley response", response);
-                                toastMsg(response);
+                                Gson gson = new Gson();
+                                CspResult cspResult = gson.fromJson(response, CspResult.class);
+                                LoginModel.getInstance().setAuthenticated(true);
+                                LoginModel.getInstance().setApi_token(apiKeyEditText.getText().toString());
+                                startActivity(mainIntent);
+                                //Complete and destroy login activity once successful
+                                finish();
                             }
                         },
                         new Response.ErrorListener() {
-
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.d("volley", "Error: " + error.getMessage());
                                 error.printStackTrace();
-                                toastMsg(error.getMessage());
+                                loadingProgressBar.setVisibility(View.INVISIBLE);
+                                toastMsg("Login Failed");
                             }
                         }) {
 
@@ -93,18 +93,24 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<String, String>();
-                        params.put("refresh_token", "957OZwjxgUNXR5KTOt56P0KKMUgtmdbjtA3rgV4pcfD9f1AjPbTBRgfaZR3FDpP1");
+                        params.put("refresh_token", apiKeyEditText.getText().toString());
                         return params;
                     }
                 };
 
                 queue.add(jsonObjRequest);
 
-
-                startActivity(mainIntent);
-
-                //Complete and destroy login activity once successful
-                finish();
+//                startActivity(mainIntent);
+//                //Complete and destroy login activity once successful
+//                //toastMsg("toast" + CspResult.getInstance().getAccess_token());
+//                finish();
+//
+//                if(LoginModel.getInstance().isAuthenticated()) {
+//
+//                }
+//                else{
+//                    toastMsg("Login Failed");
+//                }
             }
         });
     }
@@ -127,12 +133,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-    }
-
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
