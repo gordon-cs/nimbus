@@ -1,126 +1,138 @@
 package  com.vmware.nimbus.ui.login;
 
-import android.app.Activity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
+
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 // import android.text.Editable;
 // import android.text.TextWatcher;
 // import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 // import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 // import android.widget.EditText;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 // import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.vmware.nimbus.data.model.CspResult;
+import com.vmware.nimbus.data.model.LoginModel;
 import com.vmware.nimbus.ui.main.MainActivity;
 import com.vmware.nimbus.R;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+    //VolleyController volleyController = VolleyController.getInstance(this);
+    private String cspUrl = "https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
         Intent mainIntent = new Intent(this, MainActivity.class);
-//        final EditText passwordEditText = findViewById(R.id.password);
+        final EditText apiKeyEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-//        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
-//            @Override
-//            public void onChanged(@Nullable LoginFormState loginFormState) {
-//                if (loginFormState == null) {
-//                    return;
-//                }
-//                loginButton.setEnabled(loginFormState.isDataValid());
-//                if (loginFormState.getPasswordError() != null) {
-//                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-//                }
-//            }
-//        });
-
+        //todo - verify input
         loginButton.setEnabled(true);
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                finish();
-            }
-        });
-
-//        TextWatcher afterTextChangedListener = new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                // ignore
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // ignore
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        };
-//        passwordEditText.addTextChangedListener(afterTextChangedListener);
-//        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    loginViewModel.login(
-//                            passwordEditText.getText().toString());
-//                }
-//                return false;
-//            }
-//        });
+        RequestQueue queue = Volley.newRequestQueue(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                // loginViewModel.login(
-                //        passwordEditText.getText().toString());
-                startActivity(mainIntent);
+
+                StringRequest jsonObjRequest = new StringRequest(
+
+                        Request.Method.POST,
+                        cspUrl,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("volley response", response);
+                                Gson gson = new Gson();
+                                CspResult cspResult = gson.fromJson(response, CspResult.class);
+                                LoginModel.getInstance().setAuthenticated(true);
+                                LoginModel.getInstance().setApi_token(apiKeyEditText.getText().toString());
+                                startActivity(mainIntent);
+                                //Complete and destroy login activity once successful
+                                finish();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("volley", "Error: " + error.getMessage());
+                                error.printStackTrace();
+                                loadingProgressBar.setVisibility(View.INVISIBLE);
+                                toastMsg("Login Failed");
+                            }
+                        }) {
+
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/x-www-form-urlencoded; charset=UTF-8";
+                    }
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("refresh_token", apiKeyEditText.getText().toString());
+                        return params;
+                    }
+                };
+
+                queue.add(jsonObjRequest);
+
+//                startActivity(mainIntent);
+//                //Complete and destroy login activity once successful
+//                //toastMsg("toast" + CspResult.getInstance().getAccess_token());
+//                finish();
+//
+//                if(LoginModel.getInstance().isAuthenticated()) {
+//
+//                }
+//                else{
+//                    toastMsg("Login Failed");
+//                }
             }
         });
+    }
+
+    // Displays a toast so we can verify that the buttons work when clicked
+    public void toastMsg(String msg) {
+        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    boolean isDataValid(String api_key) {
+        boolean isDataValid = false;
+        if(api_key != "" && api_key.length() > 5){
+            isDataValid = true;
+        }
+        Log.d("apikey", api_key);
+        return isDataValid;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-    }
-
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
