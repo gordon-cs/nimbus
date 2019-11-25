@@ -5,6 +5,7 @@ import android.content.Context;
 public class LoginModel {
 
     private String api_token;
+    private String bearer_token;
     private boolean isAuthenticated;
     private static LoginModel instance;
     private static Context ctx;
@@ -30,6 +31,10 @@ public class LoginModel {
     public void setApi_token(String api_token) {
         this.api_token = api_token;
     }
+
+    public void setBearer_token(String bearer_token) { this.bearer_token = bearer_token; }
+
+    public String getBearer_token() { return bearer_token; }
 
     public boolean isAuthenticated() {
         return isAuthenticated;

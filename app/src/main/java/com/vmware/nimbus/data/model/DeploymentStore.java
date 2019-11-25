@@ -1,5 +1,11 @@
 package com.vmware.nimbus.data.model;
 
-public class DeploymentStore {
+import java.util.List;
 
+public class DeploymentStore {
+    private List<DeploymentItemModel> deployments;
+
+    public List<DeploymentItemModel> getDeployments() {
+        return deployments;
+    }
 }

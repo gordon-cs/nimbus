@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                                 //Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
                                 LoginModel.getInstance(getBaseContext()).setAuthenticated(true);
                                 LoginModel.getInstance(getBaseContext()).setApi_token(apiKeyEditText.getText().toString());
+                                LoginModel.getInstance(getBaseContext()).setBearer_token(cspResult.getAccess_token());
                                 startActivity(mainIntent);
                                 //Complete and destroy login activity once successful
                                 finish();

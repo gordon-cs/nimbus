@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vmware.nimbus.R;
+import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.data.model.DeploymentsModel;
 import com.vmware.nimbus.ui.main.adapters.DeploymentsAdapter;
 import com.vmware.nimbus.ui.main.viewmodels.DeploymentsViewModel;
@@ -70,10 +72,18 @@ public class DeploymentsViewFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
 
-        deploymentsTest = new ArrayList<>();
-        deploymentsTest = mViewModel.initializeDeploymentsData();
+//        deploymentsTest = new ArrayList<>();
+//        deploymentsTest = mViewModel.initializeDeploymentsData();
+        mViewModel.loadDeployments();
+        List<DeploymentItemModel.DeploymentItem> deploymentItems;
+        try {
+            deploymentItems = mViewModel.getDeploymentItems();
+        }
+        catch (NullPointerException e) {
+            deploymentItems = new ArrayList();
+        }
 
-        rvAdapter = new DeploymentsAdapter(deploymentsTest);
+        rvAdapter = new DeploymentsAdapter(deploymentItems);
 
         recyclerView.setAdapter(rvAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
