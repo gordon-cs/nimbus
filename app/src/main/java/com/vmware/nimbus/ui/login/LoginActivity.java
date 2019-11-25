@@ -38,8 +38,6 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
 
     String LOG_TAG = "LoginActivity";
-
-    //VolleyController volleyController = VolleyController.getInstance(this);
     private String cspUrl = "https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize";
     //RequestQueue queue = SingletonRequest.getInstance(this.getApplicationContext()).getRequestQueue();
 

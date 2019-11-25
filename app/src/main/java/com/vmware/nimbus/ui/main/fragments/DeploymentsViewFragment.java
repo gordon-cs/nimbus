@@ -74,8 +74,9 @@ public class DeploymentsViewFragment extends Fragment {
 
 //        deploymentsTest = new ArrayList<>();
 //        deploymentsTest = mViewModel.initializeDeploymentsData();
-        mViewModel.loadDeployments();
+        //mViewModel.loadDeploymentStore();
         List<DeploymentItemModel.DeploymentItem> deploymentItems;
+        mViewModel.loadDeployments();
         try {
             deploymentItems = mViewModel.getDeploymentItems();
         }
@@ -89,6 +90,11 @@ public class DeploymentsViewFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         return recyclerView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
     }
 
 

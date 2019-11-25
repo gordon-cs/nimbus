@@ -1,6 +1,7 @@
 package com.vmware.nimbus.data.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class DeploymentItemModel {
@@ -26,7 +27,7 @@ public class DeploymentItemModel {
 //    }
 
     public class DeploymentItemPage {
-        public ArrayList<DeploymentItem> content;
+        public List<DeploymentItem> content;
         private Boolean last;
         private int totalElements;
         private int totalPages;

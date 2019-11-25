@@ -14,6 +14,7 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="blueprints_click_icon">\></string>
+    <string name="deployments_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_world_card">Hello world!</string>

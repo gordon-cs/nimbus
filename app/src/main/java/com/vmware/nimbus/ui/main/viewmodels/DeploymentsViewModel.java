@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.vmware.nimbus.api.SingletonRequest;
 import com.vmware.nimbus.data.model.CspResult;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
+import com.vmware.nimbus.data.model.DeploymentStore;
 import com.vmware.nimbus.data.model.DeploymentsModel;
 import com.vmware.nimbus.data.model.LoginModel;
 
@@ -55,15 +56,13 @@ public class DeploymentsViewModel extends AndroidViewModel {
     private DeploymentItemModel.DeploymentItemPage deploymentItemPage;
     private List<DeploymentItemModel.DeploymentItem> deploymentItems;
 
-    public DeploymentItemModel getDeploymentItemModel() { return deploymentItemModel; }
-
     public DeploymentItemModel.DeploymentItemPage getDeploymentItemPage() {
         return deploymentItemPage;
     }
 
     public List<DeploymentItemModel.DeploymentItem> getDeploymentItems() {
-        deploymentItems = deploymentItemPage.content;
-        return deploymentItems;
+//        deploymentItems = deploymentItemPage.content;
+        return deploymentItemPage.content;
     }
 
     public void loadDeployments() {
@@ -79,6 +78,7 @@ public class DeploymentsViewModel extends AndroidViewModel {
                         Gson gson = new Gson();
                         deploymentItemPage = gson.fromJson(response, DeploymentItemModel.DeploymentItemPage.class);
                         Log.d("deserialized object", deploymentItemPage.content.get(0).id);
+                        Log.d("Deserialized pt 2", deploymentItemPage.content.get(0).createdBy);
                     }
                 },
                 new Response.ErrorListener() {
@@ -97,6 +97,9 @@ public class DeploymentsViewModel extends AndroidViewModel {
                 }
         };
         SingletonRequest.getInstance(getApplication().getApplicationContext()).addToRequestQueue(jsonObjRequest);
+    }
+
+    public void loadDeploymentStore() {
     }
 
     public List<DeploymentsModel> initializeDeploymentsData() {
