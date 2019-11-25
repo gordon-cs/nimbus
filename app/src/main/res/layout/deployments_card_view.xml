@@ -49,15 +49,13 @@
             android:paddingTop="@dimen/blueprints_details_top_padding_2"
             android:paddingEnd="@dimen/blueprints_title_padding" />
 
-        <TextView
-            android:id="@+id/blueprints_click_icon"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/deployments_details_arrow"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|end"
-            android:paddingStart="@dimen/blueprints_title_padding"
-            android:paddingEnd="@dimen/blueprints_title_padding"
-            android:text="@string/blueprints_click_icon"
-            android:textSize="30sp" />
+            android:layout_gravity="end"
+            android:contentDescription="@string/card_details_arrow"
+            app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
     </androidx.cardview.widget.CardView>
 </FrameLayout>

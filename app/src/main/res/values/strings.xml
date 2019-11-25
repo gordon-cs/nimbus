@@ -16,6 +16,7 @@
     <string name="blueprints_click_icon">\></string>
     <string name="option_log_out">Log Out</string>
     <string name="vertical_ellipsis_desc">Vertical ellipsis for more options</string>
+    <string name="card_details_arrow">Arrow indicating card can be clicked</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_world_card">Hello world!</string>
