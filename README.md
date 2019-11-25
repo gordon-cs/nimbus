@@ -20,4 +20,6 @@ VMware is seeking to provide their customers (system administrators) with a cohe
 
 VMware has policies in place for open source contributions to ensure projects do not become neglected. Two full time VMware developers will be given ownership of the project throughout its lifetime. VMware has sufficient budget and technical capabilities to ensure maintenance of this project.
 
+![](https://github.com/gordon-cs/nimbus/workflows/build/badge.svg)
+
  [Project Nimbus.pptx](https://1drv.ms/p/s!ArF9O5MKFx7zgYYGr72ys-vkXzzL3A?e=2GSW4w)
