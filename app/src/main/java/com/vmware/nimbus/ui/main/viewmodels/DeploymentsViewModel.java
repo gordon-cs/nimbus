@@ -66,7 +66,7 @@ public class DeploymentsViewModel extends AndroidViewModel {
     }
 
     public void loadDeployments() {
-        Toast.makeText(getApplication().getApplicationContext(), "loading deployments", Toast.LENGTH_LONG);
+        //Toast.makeText(getApplication().getApplicationContext(), "loading deployments", Toast.LENGTH_LONG);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 deploymentsUrl,
@@ -74,11 +74,11 @@ public class DeploymentsViewModel extends AndroidViewModel {
                     @Override
                     public void onResponse(String response) {
                         Log.d("deployments response", response);
-                        Toast.makeText(getApplication().getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplication().getApplicationContext(), response, Toast.LENGTH_LONG).show();
                         Gson gson = new Gson();
                         deploymentItemPage = gson.fromJson(response, DeploymentItemModel.DeploymentItemPage.class);
-                        Log.d("deserialized object", deploymentItemPage.content.get(0).id);
-                        Log.d("Deserialized pt 2", deploymentItemPage.content.get(0).createdBy);
+                        Log.d("deployment id", deploymentItemPage.content.get(0).id);
+                        Log.d("deployment createdby", deploymentItemPage.content.get(0).createdBy);
                     }
                 },
                 new Response.ErrorListener() {
