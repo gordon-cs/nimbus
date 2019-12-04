@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A placeholder fragment containing a simple view.
+ * A fragment containing a list of blueprint items.
  */
 public class BlueprintsViewFragment extends Fragment {
 
@@ -60,7 +60,6 @@ public class BlueprintsViewFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
-
     }
 
     @Override
@@ -73,19 +72,15 @@ public class BlueprintsViewFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
 
-        //blueprintList = mViewModel.initializeBlueprintsData();
-        rvAdapter = new BlueprintsAdapter(blueprintList);
-
         mViewModel.loadBlueprints(new DataCallback() {
             @Override
             public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
                 blueprintList = result;
-                Toast.makeText(getActivity().getApplicationContext(), "blueprint-list:" + blueprintList.get(0).toString(), Toast.LENGTH_LONG).show();
+                rvAdapter = new BlueprintsAdapter(blueprintList);
+                recyclerView.setAdapter(rvAdapter);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
             }
         });
-
-        recyclerView.setAdapter(rvAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         return recyclerView;
     }

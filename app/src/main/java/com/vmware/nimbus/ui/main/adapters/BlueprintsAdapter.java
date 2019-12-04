@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
-import com.vmware.nimbus.data.model.BlueprintsModel;
 
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
     }
 
     @Override
-    public int getItemCount() { return 0; }
+    public int getItemCount() { return this.blueprintsData.size(); }
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
