@@ -2,7 +2,6 @@ package com.vmware.nimbus.ui.main.viewmodels;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.AndroidViewModel;
 
@@ -12,7 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.vmware.nimbus.api.DataCallback;
+import com.vmware.nimbus.api.BlueprintCallback;
 import com.vmware.nimbus.api.SingletonRequest;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
@@ -30,8 +29,7 @@ public class BlueprintsViewModel extends AndroidViewModel {
 
     private BlueprintItemModel.BlueprintItemPage blueprintItemPage;
 
-    public void loadBlueprints(final DataCallback callback) {
-        Toast.makeText(getApplication().getApplicationContext(), "loading blueprints", Toast.LENGTH_LONG);
+    public void loadBlueprints(final BlueprintCallback callback) {
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 blueprintsUrl,
@@ -41,9 +39,6 @@ public class BlueprintsViewModel extends AndroidViewModel {
                         Log.d("deployments response", response);
                         Gson gson = new Gson();
                         blueprintItemPage = gson.fromJson(response, BlueprintItemModel.BlueprintItemPage.class);
-                        Log.d("blueprint id", blueprintItemPage.content.get(0).id);
-                        Log.d("blueprint name", blueprintItemPage.content.get(0).name);
-
                         callback.onSuccess(blueprintItemPage.content);
                     }
                 },

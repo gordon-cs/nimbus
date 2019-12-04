@@ -4,6 +4,6 @@ import com.vmware.nimbus.data.model.BlueprintItemModel;
 
 import java.util.List;
 
-public interface DataCallback {
+public interface BlueprintCallback {
     void onSuccess(List<BlueprintItemModel.BlueprintItem> result);
 }

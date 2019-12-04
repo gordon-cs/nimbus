@@ -7,11 +7,11 @@ import java.util.Optional;
 public class DeploymentItemModel {
 
     public class DeploymentItem {
-        private String blueprintId;
+        public String blueprintId;
         private String catalogItemId;
         private String createdAt;
         public String createdBy;
-        private String description;
+        public String description;
         public String id;
         private String lastUpdatedAt;
         private String lastUpdatedBy;
