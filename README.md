@@ -1,23 +1,28 @@
-## Project Nimbus
+**Getting Started**
 
+Prerequisites:
 
-## **Customer**
+    Android Studio - [https://developer.android.com/studio](https://developer.android.com/studio)
 
-   [VMware](https://www.vmware.com/)
+    Android SDK -  tools -> SDK Manager -> SDK Platform for Android 10
 
+This project follows Google’s Material Design guidelines ([https://material.io](https://material.io/)) and is written in Java (chosen over Kotlin for its familiar syntax, ample documentation, and wide community support)
 
-## **Overview**
+	
+After cloning this repo, the project can be opened in Android Studio (file -> open project). Make sure to make the project (ctl f9) and then run on an available device (set up a virtual device with AVD manager if a physical device is not connected).
 
-VMware creates a product called Cloud Automation Services (CAS) which allows system administrators to create and manage deployments of clusters across various cloud platforms. This product works well on a desktop form factor but lacks any mobile or responsive version. There is an unfulfilled use case for administrators to perform simple “day two” operations on the go, from a mobile device. Our product, the CAS companion app, would fill this gap by allowing system administrators to deploy blueprints and manage deployments from their Android or iOS device.
+Currently this project consists of 2 main activities - login and main
 
+The login activity :
 
-## **Problem Statement**
+	A simple field for API Key and login button
 
-VMware is seeking to provide their customers (system administrators) with a cohesive, cloud-agnostic solution for managing their cloud platforms. “Day two” operations in this context consist of the cloud management operations after the initial setup. Currently, CAS can only be utilized from a desktop environment. However, if a system administrator is away from their desk, they have no way of interacting with CAS. VMware would like to provide basic access to this product from a mobile device. The goals for mobile app capabilities include allowing their customers to monitor the status of their deployments, powering on/off and deploy new instances based on existing blueprints, and passing additional parameters to these blueprints at the time of deployment. Blueprints are units of metadata that define a resource which may consist of a combination of machines, networks, databases, and/or load balancers. Another goal for the mobile app is to provide useful updates through push notifications. They should indicate status updates, success and failure events, as well as any other information that would be useful to the end user.  In addition, a stretch goal is to give access to instances beyond passing a local IP address. For instance, if a web application with a front-facing website was deployed, providing a service route to the location of that resource would provide useful information to the user. Currently there is a prototype iOS companion app, and no Android app. Our task is to reach feature parity on Android, and make the iOS app ready for release.
+	The login button is hardcoded to ignore the api key value and launch the main activity onClick
 
+The main activity:
 
-## **Customer Maintenance Capability** 
+	A tabbed activity with 2 tabs, one for blueprints and one for deployments
 
-VMware has policies in place for open source contributions to ensure projects do not become neglected. Two full time VMware developers will be given ownership of the project throughout its lifetime. VMware has sufficient budget and technical capabilities to ensure maintenance of this project.
+	Each tab holds a fragment view, consisting of a list of blueprints and deployments respectively.
 
- [Project Nimbus.pptx](https://1drv.ms/p/s!ArF9O5MKFx7zgYYGr72ys-vkXzzL3A?e=2GSW4w)
+![](https://github.com/gordon-cs/nimbus/workflows/build/badge.svg)

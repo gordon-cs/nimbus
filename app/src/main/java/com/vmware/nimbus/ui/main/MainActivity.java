@@ -45,4 +45,8 @@ public class MainActivity extends AppCompatActivity {
     public void displayToastMsg(View v) {
         toastMsg("Clicking an element");
     }
+
+    public void displayToastMoreOptions(View v)  {
+        toastMsg("Clicking the 'more options' button");
+    }
 }
