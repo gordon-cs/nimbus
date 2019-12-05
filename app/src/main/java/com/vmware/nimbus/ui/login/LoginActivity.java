@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.vmware.nimbus.api.SingletonRequest;
 import com.vmware.nimbus.data.model.CspResult;
 import com.vmware.nimbus.data.model.LoginModel;
 import com.vmware.nimbus.ui.main.MainActivity;
@@ -36,8 +37,9 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    //VolleyController volleyController = VolleyController.getInstance(this);
+    String LOG_TAG = "LoginActivity";
     private String cspUrl = "https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize";
+    //RequestQueue queue = SingletonRequest.getInstance(this.getApplicationContext()).getRequestQueue();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         //todo - verify input
         loginButton.setEnabled(true);
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+//        RequestQueue queue = Volley.newRequestQueue(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +70,10 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("volley response", response);
                                 Gson gson = new Gson();
                                 CspResult cspResult = gson.fromJson(response, CspResult.class);
-                                LoginModel.getInstance().setAuthenticated(true);
-                                LoginModel.getInstance().setApi_token(apiKeyEditText.getText().toString());
+                                //Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
+                                LoginModel.getInstance(getBaseContext()).setAuthenticated(true);
+                                LoginModel.getInstance(getBaseContext()).setApi_token(apiKeyEditText.getText().toString());
+                                LoginModel.getInstance(getBaseContext()).setBearer_token(cspResult.getAccess_token());
                                 startActivity(mainIntent);
                                 //Complete and destroy login activity once successful
                                 finish();
@@ -98,11 +102,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 };
 
-                queue.add(jsonObjRequest);
+                SingletonRequest.getInstance(getBaseContext()).addToRequestQueue(jsonObjRequest);
+                Log.d(LOG_TAG, "Added request to queue.");
 
 //                startActivity(mainIntent);
 //                //Complete and destroy login activity once successful
-//                //toastMsg("toast" + CspResult.getInstance().getAccess_token());
+                  //toastMsg("toast" + CspResult.getInstance().getAccess_token());
 //                finish();
 //
 //                if(LoginModel.getInstance().isAuthenticated()) {

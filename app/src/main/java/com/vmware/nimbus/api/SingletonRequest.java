@@ -12,8 +12,8 @@ public class SingletonRequest {
     private static Context ctx;
 
     private SingletonRequest(Context context) {
-        ctx = context;
-        requestQueue = getRequestQueue();
+        this.ctx = context;
+        this.requestQueue = getRequestQueue();
 
     }
 

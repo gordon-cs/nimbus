@@ -9,36 +9,36 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vmware.nimbus.R;
-import com.vmware.nimbus.data.model.DeploymentsModel;
+import com.vmware.nimbus.data.model.DeploymentItemModel;
 
 import java.util.List;
 
 public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.CardViewHolder> {
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        TextView hello_deployments_text;
-        TextView world_deployments_text;
-        TextView index_deployments_text;
+        CardView deployments_card_view;
+        TextView bpid_deployments_text;
+        TextView createdby_deployments_text;
+        TextView id_deployments_text;
+
 
         CardViewHolder(View itemView) {
             super(itemView);
-            cardView = itemView.findViewById(R.id.deployments_card_view);
-            hello_deployments_text = cardView.findViewById(R.id.hello_deployments_text);
-            world_deployments_text = cardView.findViewById(R.id.world_deployments_text);
-            index_deployments_text = cardView.findViewById(R.id.index_deployments_text);
+            deployments_card_view = itemView.findViewById(R.id.deployments_card_view);
+            bpid_deployments_text = deployments_card_view.findViewById(R.id.hello_deployments_text);
+            createdby_deployments_text = deployments_card_view.findViewById(R.id.world_deployments_text);
+            id_deployments_text = deployments_card_view.findViewById(R.id.index_deployments_text);
         }
-
     }
 
-    List<DeploymentsModel> deploymentsData;
+    List<DeploymentItemModel.DeploymentItem> deploymentsData;
 
-    public DeploymentsAdapter(List<DeploymentsModel> deploymentsData) {
+    public DeploymentsAdapter(List<DeploymentItemModel.DeploymentItem> deploymentsData) {
         this.deploymentsData = deploymentsData;
     }
 
     @Override
-    public int getItemCount() { return deploymentsData.size(); }
+    public int getItemCount() { return this.deploymentsData.size(); }
 
     @Override
     public DeploymentsAdapter.CardViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -49,9 +49,9 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
 
     @Override
     public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
-        cardViewHolder.hello_deployments_text.setText(deploymentsData.get(i).helloData);
-        cardViewHolder.world_deployments_text.setText(deploymentsData.get(i).worldData);
-        cardViewHolder.index_deployments_text.setText(deploymentsData.get(i).dataIndex);
+        cardViewHolder.bpid_deployments_text.setText(deploymentsData.get(i).id);
+        cardViewHolder.createdby_deployments_text.setText(deploymentsData.get(i).createdBy);
+        cardViewHolder.id_deployments_text.setText(deploymentsData.get(i).id);
     }
 
     @Override

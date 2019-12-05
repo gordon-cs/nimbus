@@ -34,6 +34,20 @@
             android:paddingEnd="@dimen/blueprints_title_padding" />
 
         <TextView
+            android:id="@+id/deployment_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
+
+        <TextView
+            android:id="@+id/created_by"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            android:textAlignment="textEnd" />
+
+        <TextView
             android:id="@+id/world_deployments_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

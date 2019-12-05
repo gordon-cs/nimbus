@@ -9,7 +9,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vmware.nimbus.R;
-import com.vmware.nimbus.data.model.BlueprintsModel;
+import com.vmware.nimbus.data.model.BlueprintItemModel;
 
 import java.util.List;
 
@@ -17,28 +17,27 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         CardView blueprints_card_view;
-        TextView hello_blueprints_text;
-        TextView world_blueprints_text;
-        TextView index_blueprints_text;
+        TextView name_blueprints_text;
+        TextView id_blueprints_text;
+        TextView createdby_blueprints_text;
 
         CardViewHolder(View itemView) {
             super(itemView);
             blueprints_card_view = itemView.findViewById(R.id.blueprints_card_view);
-            hello_blueprints_text = blueprints_card_view.findViewById(R.id.hello_blueprints_text);
-            world_blueprints_text = blueprints_card_view.findViewById(R.id.world_blueprints_text);
-            index_blueprints_text = blueprints_card_view.findViewById(R.id.index_blueprints_text);
+            name_blueprints_text = blueprints_card_view.findViewById(R.id.hello_blueprints_text);
+            id_blueprints_text = blueprints_card_view.findViewById(R.id.world_blueprints_text);
+            createdby_blueprints_text = blueprints_card_view.findViewById(R.id.index_blueprints_text);
         }
-
     }
 
-    List<BlueprintsModel> blueprintsData;
+    List<BlueprintItemModel.BlueprintItem> blueprintsData;
 
-    public BlueprintsAdapter(List<BlueprintsModel> blueprintsData) {
+    public BlueprintsAdapter(List<BlueprintItemModel.BlueprintItem> blueprintsData) {
         this.blueprintsData = blueprintsData;
     }
 
     @Override
-    public int getItemCount() { return blueprintsData.size(); }
+    public int getItemCount() { return this.blueprintsData.size(); }
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -49,9 +48,9 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
 
     @Override
     public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
-        cardViewHolder.hello_blueprints_text.setText(blueprintsData.get(i).helloData);
-        cardViewHolder.world_blueprints_text.setText(blueprintsData.get(i).worldData);
-        cardViewHolder.index_blueprints_text.setText(blueprintsData.get(i).dataIndex);
+        cardViewHolder.name_blueprints_text.setText(blueprintsData.get(i).name);
+        cardViewHolder.id_blueprints_text.setText(blueprintsData.get(i).id);
+        cardViewHolder.createdby_blueprints_text.setText(blueprintsData.get(i).createdBy);
     }
 
     @Override

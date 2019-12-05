@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,16 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vmware.nimbus.R;
-import com.vmware.nimbus.data.model.BlueprintsModel;
+import com.vmware.nimbus.api.BlueprintCallback;
+import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.adapters.BlueprintsAdapter;
 import com.vmware.nimbus.ui.main.viewmodels.BlueprintsViewModel;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A placeholder fragment containing a simple view.
+ * A fragment containing a list of blueprint items.
  */
 public class BlueprintsViewFragment extends Fragment {
 
@@ -35,7 +34,7 @@ public class BlueprintsViewFragment extends Fragment {
     private RecyclerView recyclerView;
 
     private BlueprintsAdapter rvAdapter;
-    private List<BlueprintsModel> blueprintsTests;
+    private List<BlueprintItemModel.BlueprintItem> blueprintList;
 
 
     public static BlueprintsViewFragment newInstance(int index) {
@@ -56,7 +55,6 @@ public class BlueprintsViewFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
-
     }
 
     @Override
@@ -64,24 +62,23 @@ public class BlueprintsViewFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_blueprints, container, false);
-        final TextView textView = root.findViewById(R.id.section_label);
 
         recyclerView = root.findViewById(R.id.fragment_blueprints_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
-        blueprintsTests = new ArrayList<>();
-        blueprintsTests = mViewModel.initializeBlueprintsData();
-        rvAdapter = new BlueprintsAdapter(blueprintsTests);
 
-        recyclerView.setAdapter(rvAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        pageViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+        mViewModel.loadBlueprints(new BlueprintCallback() {
+            @Override
+            public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
+                blueprintList = result;
+                rvAdapter = new BlueprintsAdapter(blueprintList);
+                recyclerView.setAdapter(rvAdapter);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+            }
+        });
+
         return recyclerView;
     }
 
 }
+
