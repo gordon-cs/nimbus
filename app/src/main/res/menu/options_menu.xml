@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <item
         android:id="@+id/option_log_out_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:enabled="true"
-        android:onClick="displayTosatLogOut"
         android:title="@string/option_log_out"
         android:visible="true" />
-</LinearLayout>
+</menu>
