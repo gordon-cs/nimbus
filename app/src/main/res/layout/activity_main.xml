@@ -6,6 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:menu="@menu/options_menu"
+            app:navigationIcon="@drawable/ic_more_vert_black_24dp" />
+    </com.google.android.material.appbar.AppBarLayout>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -19,31 +39,11 @@
         android:textColor="#FFFFFF"
         android:translationZ="100dp" />
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <ImageButton
-            android:id="@+id/options_vertical_ellipses"
-            android:layout_width="48dp"
-            android:layout_height="60dp"
-            android:layout_gravity="end"
-            android:background="@color/colorPrimary"
-            android:contentDescription="@string/vertical_ellipsis_desc"
-            android:onClick="displayToastMoreOptions"
-            android:visibility="visible"
-            app:srcCompat="@drawable/ic_more_vert_black_24dp" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"

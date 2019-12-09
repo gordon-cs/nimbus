@@ -47,6 +47,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayToastMoreOptions(View v)  {
-        toastMsg("Clicking the 'more options' button");
+        toastMsg("Clicking the 'Log Out' button");
     }
 }
