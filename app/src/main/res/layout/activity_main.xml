@@ -22,8 +22,7 @@
             android:focusable="true"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:menu="@menu/options_menu"
-            app:navigationIcon="@drawable/ic_more_vert_black_24dp" />
+            app:menu="@menu/options_menu" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
