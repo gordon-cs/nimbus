@@ -18,16 +18,14 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         CardView deployments_card_view;
         TextView bpid_deployments_text;
-        TextView createdby_deployments_text;
-        TextView id_deployments_text;
+        TextView name_deployments_text;
 
 
         CardViewHolder(View itemView) {
             super(itemView);
             deployments_card_view = itemView.findViewById(R.id.deployments_card_view);
-            bpid_deployments_text = deployments_card_view.findViewById(R.id.hello_deployments_text);
-            createdby_deployments_text = deployments_card_view.findViewById(R.id.world_deployments_text);
-            id_deployments_text = deployments_card_view.findViewById(R.id.index_deployments_text);
+            bpid_deployments_text = deployments_card_view.findViewById(R.id.bpid_deployments_text);
+            name_deployments_text = deployments_card_view.findViewById(R.id.name_deployments_text);
         }
     }
 
@@ -49,9 +47,8 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
 
     @Override
     public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
-        cardViewHolder.bpid_deployments_text.setText(deploymentsData.get(i).id);
-        cardViewHolder.createdby_deployments_text.setText(deploymentsData.get(i).createdBy);
-        cardViewHolder.id_deployments_text.setText(deploymentsData.get(i).id);
+        cardViewHolder.bpid_deployments_text.setText("Blueprint: " + deploymentsData.get(i).id);
+        cardViewHolder.name_deployments_text.setText(deploymentsData.get(i).name);
     }
 
     @Override

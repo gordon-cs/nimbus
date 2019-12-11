@@ -1,6 +1,8 @@
 package com.vmware.nimbus.ui.main.viewmodels;
 
+import android.annotation.TargetApi;
 import android.app.Application;
+import android.graphics.Color;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -58,5 +60,17 @@ public class DeploymentsViewModel extends AndroidViewModel {
                 }
         };
         SingletonRequest.getInstance(getApplication().getApplicationContext()).addToRequestQueue(jsonObjRequest);
+    }
+
+    @TargetApi(26)
+    public Color getPowerState(final DeploymentCallback callback, int index) {
+        Color result = Color.valueOf(Color.GREEN);
+        if (deploymentItemPage.content.get(index).resources == null) {
+            return Color.valueOf(Color.GRAY);
+        }
+        else {
+            
+        }
+        return null;
     }
 }

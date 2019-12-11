@@ -7,35 +7,35 @@ public class BlueprintItemModel {
 
     public class BlueprintItem {
         public String id;
-        private String createdAt;
+        public String createdAt;
         public String createdBy;
-        private String updatedAt;
-        private String updatedBy;
-        private String orgId;
-        private String projectId;
-        private String projectName;
-        private String selfLink;
+        public String updatedAt;
+        public String updatedBy;
+        public String orgId;
+        public String projectId;
+        public String projectName;
+        public String selfLink;
         public String name;
-        private String description;
-        private String status;
-        private String valid;
-        private ArrayList<String> validationMessages;
-        private int totalVersions;
-        private int totalReleasedVersions;
-        private boolean requestScopeOrg;
-        private ArrayList<String> contentSourceSyncMessages;
+        public String description;
+        public String status;
+        public String valid;
+        public ArrayList<String> validationMessages;
+        public int totalVersions;
+        public int totalReleasedVersions;
+        public boolean requestScopeOrg;
+        public ArrayList<String> contentSourceSyncMessages;
     }
 
     public class BlueprintItemPage {
         public List<BlueprintItem> content;
-        private Boolean last;
-        private int totalElements;
-        private int totalPages;
-        private Boolean first;
-        private int numberOfElements;
+        public Boolean last;
+        public int totalElements;
+        public int totalPages;
+        public Boolean first;
+        public int numberOfElements;
         public int size;
-        private int number;
-        private Boolean empty;
+        public int number;
+        public Boolean empty;
     }
 
 }

@@ -24,9 +24,9 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
         CardViewHolder(View itemView) {
             super(itemView);
             blueprints_card_view = itemView.findViewById(R.id.blueprints_card_view);
-            name_blueprints_text = blueprints_card_view.findViewById(R.id.hello_blueprints_text);
-            id_blueprints_text = blueprints_card_view.findViewById(R.id.world_blueprints_text);
-            createdby_blueprints_text = blueprints_card_view.findViewById(R.id.index_blueprints_text);
+            name_blueprints_text = blueprints_card_view.findViewById(R.id.name_blueprints_text);
+            id_blueprints_text = blueprints_card_view.findViewById(R.id.id_blueprints_text);
+            createdby_blueprints_text = blueprints_card_view.findViewById(R.id.createdby_blueprints_text);
         }
     }
 

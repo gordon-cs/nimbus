@@ -8,18 +8,19 @@ public class DeploymentItemModel {
 
     public class DeploymentItem {
         public String blueprintId;
-        private String catalogItemId;
-        private String createdAt;
+        public String catalogItemId;
+        public String createdAt;
         public String createdBy;
         public String description;
         public String id;
-        private String lastUpdatedAt;
-        private String lastUpdatedBy;
-        private String leaseExpireAt;
-        private String projectId;
-        private Boolean simulated;
-        private ArrayList<DeploymentResource> resources;
-        private ArrayList<DeploymentAction> actions;
+        public String lastUpdatedAt;
+        public String lastUpdatedBy;
+        public String leaseExpireAt;
+        public String name;
+        public String projectId;
+        public Boolean simulated;
+        public ArrayList<DeploymentResource> resources;
+        public ArrayList<DeploymentAction> actions;
     }
 //    public DeploymentItemModel(String id, String blueprintId) {
 //        this.id = id;
@@ -28,52 +29,52 @@ public class DeploymentItemModel {
 
     public class DeploymentItemPage {
         public List<DeploymentItem> content;
-        private Boolean last;
-        private int totalElements;
-        private int totalPages;
-        private Boolean first;
-        private int numberOfElements;
+        public Boolean last;
+        public int totalElements;
+        public int totalPages;
+        public Boolean first;
+        public int numberOfElements;
         public int size;
-        private int number;
-        private Boolean empty;
+        public int number;
+        public Boolean empty;
     }
 
     public class DeploymentResourcePage {
-        private ArrayList<DeploymentResource> content;
-        private Boolean last;
-        private int totalElements;
-        private int totalPages;
-        private Boolean first;
-        private int numberOfElements;
-        private int size;
-        private int number;
-        private Boolean empty;
+        public ArrayList<DeploymentResource> content;
+        public Boolean last;
+        public int totalElements;
+        public int totalPages;
+        public Boolean first;
+        public int numberOfElements;
+        public int size;
+        public int number;
+        public Boolean empty;
     }
 
     public class DeploymentResource {
-        private String createdAt;
-        private String description;
-        private String id;
-        private String name;
-        private String state;
-        private String syncStatus;
-        private String type;
-        private DeploymentProperties properties;
+        public String createdAt;
+        public String description;
+        public String id;
+        public String name;
+        public String state;
+        public String syncStatus;
+        public String type;
+        public DeploymentProperties properties;
     }
 
     public class DeploymentProperties {
-        private String powerState;
-        private ArrayList<NetworkCard> networks;
+        public String powerState;
+        public ArrayList<NetworkCard> networks;
     }
 
     public class NetworkCard {
-        private String address;
+        public String address;
     }
 
     public class DeploymentAction {
-        private String id;
-        private String displayName;
-        private Boolean valid;
+        public String id;
+        public String displayName;
+        public Boolean valid;
     }
 
 
