@@ -8,23 +8,11 @@
     android:padding="@dimen/card_frame_padding">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/deployments_card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         app:cardElevation="@dimen/card_elevation"
         app:contentPadding="4dp">
-
-        <Button
-            android:id="@+id/deploymentElement"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0"
-            android:onClick="displayToastMsg"
-            android:visibility="visible" />
 
         <TextView
             android:id="@+id/name_deployments_text"

@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.main.BlueprintActivity"></activity>
+        <activity android:name=".ui.main.DeploymentActivity"></activity>
+        <activity android:name=".ui.main.BlueprintActivity" />
         <activity
             android:name=".ui.main.MainActivity"
             android:label="@string/title_activity_main"

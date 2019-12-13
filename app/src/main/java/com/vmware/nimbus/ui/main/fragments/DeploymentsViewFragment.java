@@ -75,7 +75,7 @@ public class DeploymentsViewFragment extends Fragment {
             @Override
             public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
                 deploymentList = result;
-                rvAdapter = new DeploymentsAdapter(deploymentList);
+                rvAdapter = new DeploymentsAdapter(getContext(), deploymentList);
                 recyclerView.setAdapter(rvAdapter);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
             }
