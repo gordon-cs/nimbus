@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
     String LOG_TAG = "LoginActivity";
     private String cspUrl = "https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize";
-    //RequestQueue queue = SingletonRequest.getInstance(this.getApplicationContext()).getRequestQueue();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
 
         //todo - verify input
         loginButton.setEnabled(true);
-
-//        RequestQueue queue = Volley.newRequestQueue(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("volley response", response);
                                 Gson gson = new Gson();
                                 CspResult cspResult = gson.fromJson(response, CspResult.class);
-                                //Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
                                 LoginModel.getInstance(getBaseContext()).setAuthenticated(true);
                                 LoginModel.getInstance(getBaseContext()).setApi_token(apiKeyEditText.getText().toString());
                                 LoginModel.getInstance(getBaseContext()).setBearer_token(cspResult.getAccess_token());
@@ -104,18 +100,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 SingletonRequest.getInstance(getBaseContext()).addToRequestQueue(jsonObjRequest);
                 Log.d(LOG_TAG, "Added request to queue.");
-
-//                startActivity(mainIntent);
-//                //Complete and destroy login activity once successful
-                  //toastMsg("toast" + CspResult.getInstance().getAccess_token());
-//                finish();
-//
-//                if(LoginModel.getInstance().isAuthenticated()) {
-//
-//                }
-//                else{
-//                    toastMsg("Login Failed");
-//                }
             }
         });
     }
