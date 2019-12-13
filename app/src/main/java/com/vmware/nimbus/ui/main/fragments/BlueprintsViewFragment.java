@@ -1,5 +1,6 @@
 package com.vmware.nimbus.ui.main.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,7 @@ public class BlueprintsViewFragment extends Fragment {
             @Override
             public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
                 blueprintList = result;
-                rvAdapter = new BlueprintsAdapter(blueprintList);
+                rvAdapter = new BlueprintsAdapter(getContext(), blueprintList);
                 recyclerView.setAdapter(rvAdapter);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
             }
