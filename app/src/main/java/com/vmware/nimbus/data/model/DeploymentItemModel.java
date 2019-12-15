@@ -1,12 +1,13 @@
 package com.vmware.nimbus.data.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DeploymentItemModel {
+public class DeploymentItemModel implements Serializable {
 
-    public class DeploymentItem {
+    public class DeploymentItem implements Serializable {
         public String blueprintId;
         public String catalogItemId;
         public String createdAt;
@@ -27,7 +28,7 @@ public class DeploymentItemModel {
 //        this.blueprintId = blueprintId;
 //    }
 
-    public class DeploymentItemPage {
+    public class DeploymentItemPage implements Serializable {
         public List<DeploymentItem> content;
         public Boolean last;
         public int totalElements;
@@ -39,7 +40,7 @@ public class DeploymentItemModel {
         public Boolean empty;
     }
 
-    public class DeploymentResourcePage {
+    public class DeploymentResourcePage implements Serializable {
         public ArrayList<DeploymentResource> content;
         public Boolean last;
         public int totalElements;
@@ -51,7 +52,7 @@ public class DeploymentItemModel {
         public Boolean empty;
     }
 
-    public class DeploymentResource {
+    public class DeploymentResource implements Serializable {
         public String createdAt;
         public String description;
         public String id;
@@ -62,16 +63,16 @@ public class DeploymentItemModel {
         public DeploymentProperties properties;
     }
 
-    public class DeploymentProperties {
+    public class DeploymentProperties implements Serializable {
         public String powerState;
         public ArrayList<NetworkCard> networks;
     }
 
-    public class NetworkCard {
+    public class NetworkCard implements Serializable {
         public String address;
     }
 
-    public class DeploymentAction {
+    public class DeploymentAction implements Serializable {
         public String id;
         public String displayName;
         public Boolean valid;

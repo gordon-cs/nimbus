@@ -17,9 +17,10 @@ import com.vmware.nimbus.api.ItemClickListener;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.DeploymentActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.CardViewHolder> {
+public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.CardViewHolder> implements Serializable {
 
     public static class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView bpid_deployments_text;
@@ -71,6 +72,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
             @Override
             public void onItemClick(View v, int pos) {
                 Intent i = new Intent(c, DeploymentActivity.class);
+                i.putExtra("DeploymentItemModel.DeploymentItem", deploymentsData.get(pos));
                 Toast toast = Toast.makeText(c, "pos " + pos, Toast.LENGTH_SHORT);
                 toast.show();
 
