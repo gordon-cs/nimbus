@@ -15,9 +15,10 @@ import com.vmware.nimbus.api.ItemClickListener;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.BlueprintActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.CardViewHolder> {
+public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.CardViewHolder> implements Serializable {
 
     public static class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView name_blueprints_text;
@@ -71,8 +72,7 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
             @Override
             public void onItemClick(View v, int pos) {
                 Intent i = new Intent(c, BlueprintActivity.class);
-                Toast toast = Toast.makeText(c, "pos " + pos, Toast.LENGTH_SHORT);
-                toast.show();
+                i.putExtra("BlueprintItemModel.BlueprintItem", blueprintsData.get(pos));
 
                 c.startActivity(i);
             }

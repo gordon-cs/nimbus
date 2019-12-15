@@ -1,11 +1,12 @@
 package com.vmware.nimbus.data.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BlueprintItemModel {
 
-    public class BlueprintItem {
+    public class BlueprintItem implements Serializable {
         public String id;
         public String createdAt;
         public String createdBy;
@@ -26,7 +27,7 @@ public class BlueprintItemModel {
         public ArrayList<String> contentSourceSyncMessages;
     }
 
-    public class BlueprintItemPage {
+    public class BlueprintItemPage implements Serializable{
         public List<BlueprintItem> content;
         public Boolean last;
         public int totalElements;
