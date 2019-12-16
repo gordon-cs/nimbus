@@ -16,7 +16,13 @@
     <string name="blueprints_click_icon">\></string>
     <string name="option_log_out">Log Out</string>
     <string name="vertical_ellipsis_desc">Vertical ellipsis for more options</string>
-    <string name="card_details_arrow">Arrow indicating card can be clicked</string>
+    <string name="card_details_arrow">Issa arrow</string>
+    <string name="power_on_button">Power On</string>
+    <string name="power_off_button">Power Off</string>
+    <string name="delete_deployment_button">Delete</string>
+    <string name="change_lease_button">Change Lease</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="day_two_actions">Day 2 Actions</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_world_card">Hello world!</string>
