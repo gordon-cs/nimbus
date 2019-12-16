@@ -1,19 +1,24 @@
 package com.vmware.nimbus.ui.main.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.ItemClickListener;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.BlueprintActivity;
+
+import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,6 +55,16 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
     public BlueprintsAdapter(Context ctx, List<BlueprintItemModel.BlueprintItem> blueprintsData) {
         this.blueprintsData = blueprintsData;
         this.c = ctx;
+    }
+
+    public void clear() {
+        blueprintsData.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<BlueprintItemModel.BlueprintItem> list) {
+        blueprintsData.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override

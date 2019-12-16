@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.BlueprintCallback;
@@ -34,6 +35,7 @@ public class BlueprintsViewFragment extends Fragment {
     private BlueprintsViewModel mViewModel;
 
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeContainer;
 
     private BlueprintsAdapter rvAdapter;
     private List<BlueprintItemModel.BlueprintItem> blueprintList;
