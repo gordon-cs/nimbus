@@ -2,6 +2,7 @@ package com.vmware.nimbus.ui.main.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.adapters.BlueprintsAdapter;
 import com.vmware.nimbus.ui.main.viewmodels.BlueprintsViewModel;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -75,6 +78,27 @@ public class BlueprintsViewFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragment_blueprints_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
+
+        // Lookup the swipe container view
+        swipeContainer = view.findViewById(R.id.swipeContainer_blueprints);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mViewModel.loadBlueprints(new BlueprintCallback() {
+                    @Override
+                    public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
+                        blueprintList = result;
+                        rvAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         mViewModel.loadBlueprints(new BlueprintCallback() {
             @Override

@@ -53,12 +53,7 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public void displayToastMsg(View v) {
-        toastMsg("Clicking an element");
-    }
-
     private void LogOut() {
-        Log.d("LogOut", "Top of LogOut method");
         LoginModel.getInstance(getBaseContext()).setAuthenticated(false);
         LoginModel.getInstance(getBaseContext()).setApi_token("");
 
@@ -66,13 +61,10 @@ public class MainActivity extends AppCompatActivity {
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent1);
         finish();
-
-        Log.d("LogOut", LoginModel.getInstance(getBaseContext()).getApi_token());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("LogOut", "Top of 1");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
         return true;
@@ -80,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d("LogOut", "Top of 3");
         int id = item.getItemId();
         if (id == R.id.option_log_out_id) {
             LogOut();
