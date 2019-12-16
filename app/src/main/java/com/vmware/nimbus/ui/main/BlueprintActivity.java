@@ -2,8 +2,6 @@ package com.vmware.nimbus.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -51,9 +49,16 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
             @Override
             public void onClick(View v) {
                 DialogFragment dialog = new DeployFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("bp_name", blueprintItem.name);
+                dialog.setArguments(args);
                 dialog.show(getSupportFragmentManager(), "deploying");
             }
         });
+    }
+
+    public BlueprintItemModel.BlueprintItem getBlueprintItem() {
+        return blueprintItem;
     }
 
     @Override

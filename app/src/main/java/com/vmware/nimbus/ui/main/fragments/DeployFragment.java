@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.vmware.nimbus.R;
 
@@ -23,6 +24,9 @@ public class DeployFragment extends DialogFragment {
                 dismiss();
             }
         });
+        TextView title = rootView.findViewById(R.id.bp_title);
+        title.setText(getArguments().getString("bp_name"));
+
         return rootView;
     }
 
@@ -31,6 +35,7 @@ public class DeployFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         return dialog;
     }
 }
