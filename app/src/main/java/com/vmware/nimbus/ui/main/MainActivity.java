@@ -2,11 +2,9 @@ package com.vmware.nimbus.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
@@ -63,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    private void refreshLists() {
+        // Code that refreshes list of recycler view items
+        // based on which fragment is currently being displayed
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -76,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.option_log_out_id) {
             LogOut();
             return true;
+        }
+        else if (id == R.id.menu_refresh) {
+
         }
         return super.onOptionsItemSelected(item);
     }

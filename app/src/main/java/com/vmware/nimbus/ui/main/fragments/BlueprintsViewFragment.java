@@ -1,8 +1,7 @@
 package com.vmware.nimbus.ui.main.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,6 @@ import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.adapters.BlueprintsAdapter;
 import com.vmware.nimbus.ui.main.viewmodels.BlueprintsViewModel;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
-
-import org.json.JSONArray;
 
 import java.util.List;
 
@@ -81,24 +78,31 @@ public class BlueprintsViewFragment extends Fragment {
 
         // Lookup the swipe container view
         swipeContainer = view.findViewById(R.id.swipeContainer_blueprints);
+
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mViewModel.loadBlueprints(new BlueprintCallback() {
-                    @Override
-                    public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
-                        blueprintList = result;
-                        rvAdapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        mViewModel.loadBlueprints(new BlueprintCallback() {
+                            @Override
+                            public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
+                                rvAdapter.clear();
+                                blueprintList = result;
+                                rvAdapter.addAll(blueprintList);
+                                rvAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        swipeContainer.setRefreshing(false);
                     }
-                });
+                }, 5000);
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_blue_bright,
+                R.color.colorAccent);
 
         mViewModel.loadBlueprints(new BlueprintCallback() {
             @Override
