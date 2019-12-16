@@ -1,13 +1,19 @@
 package com.vmware.nimbus.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
+import com.vmware.nimbus.ui.main.fragments.DeployFragment;
 
 import java.io.Serializable;
 
@@ -32,7 +38,6 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
         TextView bpProjectName = findViewById(R.id.bp_project_name);
         TextView bpStatus = findViewById(R.id.bp_status);
 
-
         bpDescription.setText("Description: " + blueprintItem.description);
         bpId.setText("ID: " + blueprintItem.id);
         bpUpdated.setText("Updated At: " + blueprintItem.updatedAt);
@@ -40,6 +45,15 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
         bpOrgId.setText("Org ID: " + blueprintItem.orgId);
         bpProjectName.setText("Project: " + blueprintItem.projectName);
         bpStatus.setText("Status: " + blueprintItem.status);
+
+        final Button deployButton = findViewById(R.id.deployButton);
+        deployButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialog = new DeployFragment();
+                dialog.show(getSupportFragmentManager(), "deploying");
+            }
+        });
     }
 
     @Override
