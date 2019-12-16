@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +49,16 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
     public BlueprintsAdapter(Context ctx, List<BlueprintItemModel.BlueprintItem> blueprintsData) {
         this.blueprintsData = blueprintsData;
         this.c = ctx;
+    }
+
+    public void clear() {
+        blueprintsData.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<BlueprintItemModel.BlueprintItem> list) {
+        blueprintsData.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override

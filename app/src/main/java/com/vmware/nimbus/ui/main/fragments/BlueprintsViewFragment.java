@@ -1,7 +1,7 @@
 package com.vmware.nimbus.ui.main.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.BlueprintCallback;
@@ -34,6 +35,7 @@ public class BlueprintsViewFragment extends Fragment {
     private BlueprintsViewModel mViewModel;
 
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeContainer;
 
     private BlueprintsAdapter rvAdapter;
     private List<BlueprintItemModel.BlueprintItem> blueprintList;
@@ -73,6 +75,34 @@ public class BlueprintsViewFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragment_blueprints_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
+
+        // Lookup the swipe container view
+        swipeContainer = view.findViewById(R.id.swipeContainer_blueprints);
+
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        mViewModel.loadBlueprints(new BlueprintCallback() {
+                            @Override
+                            public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
+                                rvAdapter.clear();
+                                blueprintList = result;
+                                rvAdapter.addAll(blueprintList);
+                                rvAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        swipeContainer.setRefreshing(false);
+                    }
+                }, 5000);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_blue_bright,
+                R.color.colorAccent);
 
         mViewModel.loadBlueprints(new BlueprintCallback() {
             @Override

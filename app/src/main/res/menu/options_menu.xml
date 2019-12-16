@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--    No functionality yet-->
+    <item
+        android:id="@+id/menu_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:enabled="true"
+        android:title="@string/menu_refresh"
+        android:visible="true"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/option_log_out_id"
         android:layout_width="match_parent"
@@ -13,4 +23,5 @@
         android:title="@string/option_log_out"
         android:visible="true"
         app:showAsAction="never" />
+
 </menu>
