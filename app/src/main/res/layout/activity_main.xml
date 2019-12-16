@@ -25,19 +25,6 @@
             app:menu="@menu/options_menu" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="bottom|start"
-        android:minHeight="?actionBarSize"
-        android:padding="@dimen/appbar_padding"
-        android:text="@string/app_name"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-        android:textColor="#FFFFFF"
-        android:translationZ="100dp" />
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"

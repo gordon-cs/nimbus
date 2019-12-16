@@ -34,7 +34,7 @@ public class DeploymentsViewFragment extends Fragment {
     private PageViewModel pageViewModel;
     private DeploymentsViewModel mViewModel;
 
-    private RecyclerView recyclerView;
+    private RecyclerView mRecyclerView;
 
     private DeploymentsAdapter rvAdapter;
     private List<DeploymentItemModel.DeploymentItem> deploymentList;
@@ -65,23 +65,25 @@ public class DeploymentsViewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_deployments, container, false);
+        return inflater.inflate(R.layout.fragment_deployments, container, false);
+    }
 
-        recyclerView = root.findViewById(R.id.fragment_deployments_recycler);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mRecyclerView = view.findViewById(R.id.fragment_deployments_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(llm);
+        mRecyclerView.setLayoutManager(llm);
 
         mViewModel.loadDeployments(new DeploymentCallback() {
             @Override
             public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
                 deploymentList = result;
                 rvAdapter = new DeploymentsAdapter(getContext(), deploymentList);
-                recyclerView.setAdapter(rvAdapter);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                mRecyclerView.setAdapter(rvAdapter);
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
             }
         });
-
-        return recyclerView;
     }
-
 }
