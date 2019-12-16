@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -62,9 +63,14 @@ public class BlueprintsViewFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_blueprints, container, false);
+        return inflater.inflate(R.layout.fragment_blueprints, container, false);
+    }
 
-        recyclerView = root.findViewById(R.id.fragment_blueprints_recycler);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView = view.findViewById(R.id.fragment_blueprints_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
 
@@ -77,9 +83,6 @@ public class BlueprintsViewFragment extends Fragment {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
             }
         });
-
-        return recyclerView;
     }
-
 }
 
