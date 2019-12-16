@@ -1,8 +1,14 @@
 package com.vmware.nimbus.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -10,6 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.vmware.nimbus.R;
 import com.google.android.material.tabs.TabLayout;
+import com.vmware.nimbus.data.model.LoginModel;
+import com.vmware.nimbus.ui.login.LoginActivity;
 import com.vmware.nimbus.ui.main.adapters.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -46,8 +57,35 @@ public class MainActivity extends AppCompatActivity {
         toastMsg("Clicking an element");
     }
 
+    private void LogOut() {
+        Log.d("LogOut", "Top of LogOut method");
+        LoginModel.getInstance(getBaseContext()).setAuthenticated(false);
+        LoginModel.getInstance(getBaseContext()).setApi_token("");
 
-    public void displayToastMoreOptions(View v)  {
-        toastMsg("Clicking the 'Log Out' button");
+        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent1);
+        finish();
+
+        Log.d("LogOut", LoginModel.getInstance(getBaseContext()).getApi_token());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("LogOut", "Top of 1");
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("LogOut", "Top of 3");
+        int id = item.getItemId();
+        if (id == R.id.option_log_out_id) {
+            LogOut();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
