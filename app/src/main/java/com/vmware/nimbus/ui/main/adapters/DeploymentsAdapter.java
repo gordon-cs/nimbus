@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vmware.nimbus.R;
@@ -51,6 +49,16 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
     public DeploymentsAdapter(Context ctx, List<DeploymentItemModel.DeploymentItem> deploymentsData) {
         this.deploymentsData = deploymentsData;
         this.c = ctx;
+    }
+
+    public void clear() {
+        deploymentsData.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<DeploymentItemModel.DeploymentItem> list) {
+        deploymentsData.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override

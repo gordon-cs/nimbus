@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,7 @@ public class DeploymentsViewFragment extends Fragment {
     private DeploymentsViewModel mViewModel;
 
     private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout swipeContainer;
 
     private DeploymentsAdapter rvAdapter;
     private List<DeploymentItemModel.DeploymentItem> deploymentList;
@@ -75,6 +78,34 @@ public class DeploymentsViewFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.fragment_deployments_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(llm);
+
+        // Lookup the swipe container view
+        swipeContainer = view.findViewById(R.id.swipeContainer_blueprints);
+
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        mViewModel.loadDeployments(new DeploymentCallback() {
+                            @Override
+                            public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
+                                rvAdapter.clear();
+                                deploymentList = result;
+                                rvAdapter.addAll(deploymentList);
+                                rvAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        swipeContainer.setRefreshing(false);
+                    }
+                }, 5000);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_blue_bright,
+                R.color.colorAccent);
 
         mViewModel.loadDeployments(new DeploymentCallback() {
             @Override
