@@ -83,6 +83,7 @@ public class DeploymentActionsFragment extends DialogFragment {
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction( request);
+                    Toast.makeText(getContext(), "Powering On " + deploymentName, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -100,6 +101,7 @@ public class DeploymentActionsFragment extends DialogFragment {
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction(request);
+                    Toast.makeText(getContext(), "Powering Off " + deploymentName, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -117,6 +119,7 @@ public class DeploymentActionsFragment extends DialogFragment {
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction(request);
+                    Toast.makeText(getContext(), "Deleting " + deploymentName, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

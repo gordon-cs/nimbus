@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
             LogOut();
             return true;
         }
-        else if (id == R.id.menu_refresh) {
-
-        }
+//        else if (id == R.id.menu_refresh) {
+//
+//        }
         return super.onOptionsItemSelected(item);
     }
 }
