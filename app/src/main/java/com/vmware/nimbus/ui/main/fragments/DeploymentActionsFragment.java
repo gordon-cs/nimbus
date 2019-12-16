@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,21 +23,29 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.DeploymentActionResultCallback;
 import com.vmware.nimbus.api.SingletonRequest;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DeploymentActionsFragment extends DialogFragment {
+    final String LOG_TAG = "DeploymentActionsFragment";
 
-    private DeploymentItemModel.DeploymentItem deploymentItem;
+    private String deploymentName;
+    private String deploymentId;
     private DeploymentActionResult mDeploymentActionResult;
 
     @Override
@@ -50,63 +59,80 @@ public class DeploymentActionsFragment extends DialogFragment {
             }
         });
 
-        (rootView.findViewById(R.id.cancel_button)).setOnClickListener(new View.OnClickListener() {
+        final Button cancelButton = rootView.findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
 
-        deploymentItem = (DeploymentItemModel.DeploymentItem) getArguments().getSerializable("deploymentItem");
+        deploymentName = (String) getArguments().getSerializable("name");
+        deploymentId = (String) getArguments().getSerializable("id");
         TextView title = rootView.findViewById(R.id.deployment_title);
-        title.setText(deploymentItem.name);
+        title.setText(deploymentName);
 
-        (rootView.findViewById(R.id.power_on_button)).setOnClickListener(new View.OnClickListener() {
+        final Button powerOnButton = rootView.findViewById(R.id.power_on_button);
+        powerOnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String actionId = "Deployment.PowerOn";
+                Log.d(LOG_TAG, "Clicked power on");
                 Map<String, String> inputs = new HashMap<String, String>();
                 String reason = "CAStoff Test";
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
-                performDeploymentAction(new DeploymentActionResultCallback() {
-                    @Override
-                    public void onSuccess(DeploymentActionsFragment.DeploymentActionResult result) {
-                        mDeploymentActionResult = result;
-                    }
-                }, request);
+                try {
+                    performDeploymentAction( request);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        (rootView.findViewById(R.id.power_off_button)).setOnClickListener(new View.OnClickListener() {
+        final Button powerOffButton = rootView.findViewById(R.id.power_off_button);
+        powerOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String actionId = "Deployment.PowerOff";
+                Log.d(LOG_TAG, "Clicked power off");
                 Map<String, String> inputs = new HashMap<String, String>();
                 String reason = "CAStoff Test";
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
-                performDeploymentAction(new DeploymentActionResultCallback() {
-                    @Override
-                    public void onSuccess(DeploymentActionsFragment.DeploymentActionResult result) {
-                        mDeploymentActionResult = result;
-                    }
-                }, request);
+                try {
+                    performDeploymentAction(request);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        (rootView.findViewById(R.id.delete_button)).setOnClickListener(new View.OnClickListener() {
+        final Button deleteButton = rootView.findViewById(R.id.delete_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String actionId = "Deployment.Delete";
+                Log.d(LOG_TAG, "Clicked delete");
                 Map<String, String> inputs = new HashMap<String, String>();
                 String reason = "CAStoff Test";
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
-                performDeploymentAction(new DeploymentActionResultCallback() {
-                    @Override
-                    public void onSuccess(DeploymentActionsFragment.DeploymentActionResult result) {
-                        mDeploymentActionResult = result;
-                        Toast.makeText(getContext(), "Status: " + mDeploymentActionResult.status, Toast.LENGTH_LONG).show();
-                    }
-                }, request);
+                try {
+                    performDeploymentAction(request);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                try {
+//                    performDeploymentAction(new DeploymentActionResultCallback() {
+//                        @Override
+//                        public void onSuccess(DeploymentActionResult result) {
+//                            Log.d(LOG_TAG, "Delete successful");
+//                            mDeploymentActionResult = result;
+//                            Log.d(LOG_TAG, "Status: " + mDeploymentActionResult.status);
+//                        }
+//                    }, request);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
             }
         });
 
@@ -121,68 +147,60 @@ public class DeploymentActionsFragment extends DialogFragment {
         return dialog;
     }
 
-    private String baseUrl = "https://api.mgmt.cloud.vmware.com/";
+    private String baseUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments/";
 
-    public void performDeploymentAction(final DeploymentActionResultCallback callback, DeploymentActionRequest request) {
-        String requestUrl = "deployment/api/deployments/" + deploymentItem.id + "requests";
-        String urlString = baseUrl + requestUrl;
-        StringRequest stringRequest = new StringRequest(
+    public void performDeploymentAction(DeploymentActionRequest request) throws JSONException {
+        String requestUrl = baseUrl + deploymentId + "/requests";
+        Log.d(LOG_TAG, "Request URL: " + requestUrl);
+        Gson gson = new Gson();
+        String body = gson.toJson(request, DeploymentActionRequest.class);
+        Log.d(LOG_TAG, "Body of JSON request: " + body);
+        JSONObject jsonObject = new JSONObject(body);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                urlString,
-                new Response.Listener<String>() {
+                requestUrl,
+                jsonObject,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("deployment action response", response);
-                        Gson gson = new Gson();
-                        DeploymentActionResult deploymentActionResult = gson.fromJson(response, DeploymentActionResult.class);
-                        callback.onSuccess(deploymentActionResult);
+                    public void onResponse(JSONObject response) {
+                        Log.d(LOG_TAG, "Response: " + response.toString());
+                        dismiss();
+                        //Gson gson = new Gson();
+                        //DeploymentActionResult deploymentActionResult = gson.fromJson(request.toString(), DeploymentActionResult.class);
+                        //callback.onSuccess(deploymentActionResult);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("volley", "Error: " + error.getMessage());
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Log.d("Volley Error", "Timeout or NoConnectionError");
-                            Toast.makeText(getContext(),
-                                    "Error: Network Timeout",
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof AuthFailureError) {
-                            Log.d("Volley Error", "AuthFailureError");
-                        } else if (error instanceof ServerError) {
-                            Log.d("Volley Error", "ServerError");
-                        } else if (error instanceof NetworkError) {
-                            Log.d("Volley Error", "NetworkError");
-                        } else if (error instanceof ParseError) {
-                            Log.d("Volley Error", "ParseError");
-                        }
+                        Log.e(LOG_TAG, "Error: " + error.getMessage());
+//                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//                            Log.e(LOG_TAG, "Timeout or NoConnectionError");
+//                            Toast.makeText(getContext(),
+//                                    "Error: Network Timeout",
+//                                    Toast.LENGTH_LONG).show();
+//                        } else if (error instanceof AuthFailureError) {
+//                            Log.e(LOG_TAG, "AuthFailureError");
+//                        } else if (error instanceof ServerError) {
+//                            Log.e(LOG_TAG, "ServerError");
+//                        } else if (error instanceof NetworkError) {
+//                            Log.e(LOG_TAG, "NetworkError");
+//                        } else if (error instanceof ParseError) {
+//                            Log.e(LOG_TAG, "ParseError");
+//                        }
 
                         error.printStackTrace();
                     }
                 }) {
             @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-            @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
                 String bearerToken = "Bearer " + LoginModel.getInstance(getActivity().getApplicationContext()).getBearer_token();
                 headers.put("Authorization", bearerToken);
-                //headers.put("Content-Type", "application/json");
                 return headers;
             }
-
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                Gson gson = new Gson();
-                String body = gson.toJson(request, DeploymentActionRequest.class);
-                Log.d("Deployment body", body);
-                return body.getBytes();
-            }
         };
-
-        SingletonRequest.getInstance(getContext()).addToRequestQueue(stringRequest);
+        SingletonRequest.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     public class DeploymentActionRequest {

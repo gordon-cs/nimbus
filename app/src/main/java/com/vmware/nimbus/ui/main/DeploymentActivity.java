@@ -41,7 +41,8 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deployment);
-        deploymentItem = (DeploymentItemModel.DeploymentItem) getIntent().getSerializableExtra("DeploymentItemModel.DeploymentItem");
+        deploymentItem = (DeploymentItemModel.DeploymentItem) getIntent()
+                            .getSerializableExtra("DeploymentItemModel.DeploymentItem");
         Log.d("DeploymentActivity", deploymentItem.name);
 
         TextView deploymentName = findViewById(R.id.deployment_name);
@@ -60,7 +61,8 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
             public void onClick(View v) {
                 DialogFragment dialog = new DeploymentActionsFragment();
                 Bundle args = new Bundle();
-                args.putSerializable("deploymentItem", deploymentItem);
+                args.putSerializable("name", deploymentItem.name);
+                args.putSerializable("id", deploymentItem.id);
                 dialog.setArguments(args);
                 dialog.show(getSupportFragmentManager(), "Actions");
             }
