@@ -81,9 +81,6 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
             public void onItemClick(View v, int pos) {
                 Intent i = new Intent(c, DeploymentActivity.class);
                 i.putExtra("DeploymentItemModel.DeploymentItem", deploymentsData.get(pos));
-                Toast toast = Toast.makeText(c, "pos " + pos, Toast.LENGTH_SHORT);
-                toast.show();
-
                 c.startActivity(i);
             }
         });
