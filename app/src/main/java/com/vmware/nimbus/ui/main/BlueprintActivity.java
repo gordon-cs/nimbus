@@ -51,6 +51,8 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
                 DialogFragment dialog = new DeployFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("bp_name", blueprintItem.name);
+                args.putSerializable("project_id", blueprintItem.projectId);
+                args.putSerializable("bp_id", blueprintItem.id);
                 dialog.setArguments(args);
                 dialog.show(getSupportFragmentManager(), "deploying");
             }
