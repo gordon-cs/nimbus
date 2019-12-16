@@ -54,7 +54,6 @@
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:orientation="vertical">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,18 +61,14 @@
             android:textSize="20dp"
             android:layout_margin="16dp"
             android:text="Customize Deployment" />
-
         <EditText
+            android:id="@+id/dp_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:hint="Name"/>
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:hint="Description"/>
-        <EditText
+            android:id="@+id/dp_rsn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
