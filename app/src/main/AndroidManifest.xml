@@ -20,7 +20,6 @@
         <activity android:name=".ui.main.BlueprintActivity" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
