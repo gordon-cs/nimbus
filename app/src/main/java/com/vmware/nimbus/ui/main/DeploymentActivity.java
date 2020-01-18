@@ -16,23 +16,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.google.gson.Gson;
 import com.vmware.nimbus.R;
-import com.vmware.nimbus.api.DeploymentActionResultCallback;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
-import com.vmware.nimbus.data.model.LoginModel;
 import com.vmware.nimbus.ui.main.fragments.DeploymentActionsFragment;
 
 import java.io.Serializable;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
-
 public class DeploymentActivity extends AppCompatActivity implements Serializable {
 
     DeploymentItemModel.DeploymentItem deploymentItem;
