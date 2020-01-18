@@ -1,11 +1,11 @@
 package com.vmware.nimbus.ui.main;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,12 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    // Displays a toast so we can verify that the buttons work when clicked
-    public void toastMsg(String msg) {
-        Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
     private void LogOut() {
         LoginModel.getInstance(getBaseContext()).setAuthenticated(false);
         LoginModel.getInstance(getBaseContext()).setApi_token("");
@@ -61,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void refreshLists() {
-        // Code that refreshes list of recycler view items
-        // based on which fragment is currently being displayed
+    private void emailDev(){
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto","dev@ajabbot.com", null));
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 
     @Override
@@ -80,9 +75,10 @@ public class MainActivity extends AppCompatActivity {
             LogOut();
             return true;
         }
-//        else if (id == R.id.menu_refresh) {
-//
-//        }
+        else if (id == R.id.option_contact_id) {
+            emailDev();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

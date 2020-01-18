@@ -25,10 +25,7 @@
     <string name="day_two_actions">Day 2 Actions</string>
 
     <string name="card_details_arrow">Arrow indicating card can be clicked</string>
-    <string name="menu_refresh">Refresh</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_world_card">Hello world!</string>
-    <string name="hello">Hello</string>
     <string name="world">world</string>
+    <string name="contact_dev">Contact the Dev Team</string>
 </resources>
