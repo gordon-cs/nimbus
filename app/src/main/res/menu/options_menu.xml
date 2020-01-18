@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    No functionality yet-->
-<!--    <item-->
-<!--        android:id="@+id/menu_refresh"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:enabled="true"-->
-<!--        android:title="@string/menu_refresh"-->
-<!--        android:visible="true"-->
-<!--        app:showAsAction="never" />-->
+    <item
+        android:id="@+id/option_contact_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:enabled="true"
+        android:title="@string/contact_dev"
+        android:visible="true"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/option_log_out_id"
