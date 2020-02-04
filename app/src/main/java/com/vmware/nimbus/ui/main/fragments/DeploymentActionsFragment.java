@@ -1,6 +1,8 @@
 package com.vmware.nimbus.ui.main.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,9 +41,15 @@ import com.vmware.nimbus.data.model.LoginModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class DeploymentActionsFragment extends DialogFragment {
     final String LOG_TAG = "DeploymentActionsFragment";
@@ -79,7 +89,7 @@ public class DeploymentActionsFragment extends DialogFragment {
                 String actionId = "Deployment.PowerOn";
                 Log.d(LOG_TAG, "Clicked power on");
                 Map<String, String> inputs = new HashMap<String, String>();
-                String reason = "CAStoff Test";
+                String reason = "vRAC Companion";
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction( request);
@@ -97,7 +107,7 @@ public class DeploymentActionsFragment extends DialogFragment {
                 String actionId = "Deployment.PowerOff";
                 Log.d(LOG_TAG, "Clicked power off");
                 Map<String, String> inputs = new HashMap<String, String>();
-                String reason = "CAStoff Test";
+                String reason = "vRAC Companion";
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction(request);
@@ -115,7 +125,7 @@ public class DeploymentActionsFragment extends DialogFragment {
                 String actionId = "Deployment.Delete";
                 Log.d(LOG_TAG, "Clicked delete");
                 Map<String, String> inputs = new HashMap<String, String>();
-                String reason = "CAStoff Test";
+                String reason = "vRAC Companion";
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction(request);
@@ -139,7 +149,62 @@ public class DeploymentActionsFragment extends DialogFragment {
             }
         });
 
+        final Button leaseButton = rootView.findViewById(R.id.change_lease_button);
+        leaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                DatePickerDialog picker = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                showTimePicker(year, monthOfYear, dayOfMonth);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+
         return rootView;
+    }
+
+    protected void showTimePicker(int year, int monthOfYear, int dayOfMonth) {
+        final Calendar cldr = Calendar.getInstance();
+        int hour = cldr.get(Calendar.HOUR_OF_DAY);
+        int minutes = cldr.get(Calendar.MINUTE);
+        String actionId = "Deployment.ChangeLease";
+        // time picker dialog
+        TimePickerDialog picker = new TimePickerDialog(getContext(),
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                        final Calendar expireDate = Calendar.getInstance();
+                        expireDate.set(year, monthOfYear, dayOfMonth, sHour, sMinute, 0);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                        String expireTime = sdf.format(new Date());
+                        Log.d("formatted time", expireTime);
+
+                        Map<String, String> inputs = new HashMap<String, String>();
+                        inputs.put("Lease Expiration Date", expireTime);
+                        String reason = "vRAC Companion";
+                        DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
+
+
+                        try {
+                            performDeploymentAction(request);
+                            Toast.makeText(getContext(), "Changing lease of " + deploymentName, Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, hour, minutes, false);
+        picker.show();
     }
 
     @NonNull
