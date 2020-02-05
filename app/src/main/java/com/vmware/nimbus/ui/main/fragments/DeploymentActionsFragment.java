@@ -184,10 +184,11 @@ public class DeploymentActionsFragment extends DialogFragment {
                     public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                         final Calendar expireDate = Calendar.getInstance();
                         expireDate.set(year, monthOfYear, dayOfMonth, sHour, sMinute, 0);
+                        Log.d("unformatted time", expireDate.toString());
 
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-                        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-                        String expireTime = sdf.format(new Date());
+                        sdf.setTimeZone(expireDate.getTimeZone());
+                        String expireTime = sdf.format(expireDate.getTime());
                         Log.d("formatted time", expireTime);
 
                         Map<String, String> inputs = new HashMap<String, String>();
