@@ -14,11 +14,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.vmware.nimbus.R;
 import com.google.android.material.tabs.TabLayout;
-import com.vmware.nimbus.data.model.LoginModel;
+import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.ui.login.LoginActivity;
 import com.vmware.nimbus.ui.main.adapters.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
+
+    APIService service = new APIService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +47,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private void LogOut() {
-        LoginModel.getInstance(getBaseContext()).setAuthenticated(false);
-        LoginModel.getInstance(getBaseContext()).setApi_token("");
+    public void LogOut() {
+        service.LogOut(getBaseContext());
 
         Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
