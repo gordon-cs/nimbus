@@ -9,9 +9,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.LogInCallback;
