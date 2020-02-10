@@ -29,5 +29,5 @@
     <string name="world">world</string>
     <string name="contact_dev">Contact the Dev Team</string>
 
-    <string name="cps_URL">https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize</string>
+    <string name="csp_URL">https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize</string>
 </resources>
