@@ -15,10 +15,17 @@ import com.vmware.nimbus.ui.main.fragments.DeployFragment;
 
 import java.io.Serializable;
 
+/**
+ * A [Serializable] [AppCompatActivity] for the blueprints page.
+ */
 public class BlueprintActivity extends AppCompatActivity implements Serializable {
 
     BlueprintItemModel.BlueprintItem blueprintItem;
 
+    /**
+     * Called after the activity is created.
+     * @param savedInstanceState - the savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +66,10 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
         });
     }
 
+    /**
+     * Gets a single blueprint item.
+     * @return - a blueprint item.
+     */
     public BlueprintItemModel.BlueprintItem getBlueprintItem() {
         return blueprintItem;
     }

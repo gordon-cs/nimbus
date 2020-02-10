@@ -14,10 +14,18 @@ import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.fragments.DeploymentActionsFragment;
 
 import java.io.Serializable;
+
+/**
+ * A [Serializable] [AppCompatActivity] for the deployments page.
+ */
 public class DeploymentActivity extends AppCompatActivity implements Serializable {
 
     DeploymentItemModel.DeploymentItem deploymentItem;
 
+    /**
+     * Called after the activity is created.
+     * @param savedInstanceState - the savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

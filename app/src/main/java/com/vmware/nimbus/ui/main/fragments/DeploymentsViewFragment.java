@@ -27,7 +27,7 @@ import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 import java.util.List;
 
 /**
- * A fragment containing a list of deployment items.
+ * A [Fragment] containing a list of deployment items.
  */
 public class DeploymentsViewFragment extends Fragment {
 
@@ -42,6 +42,11 @@ public class DeploymentsViewFragment extends Fragment {
     private DeploymentsAdapter rvAdapter;
     private List<DeploymentItemModel.DeploymentItem> deploymentList;
 
+    /**
+     * Creates a new instance of the view fragment.
+     * @param index - index of the instance
+     * @return - a fragment
+     */
     public static DeploymentsViewFragment newInstance(int index) {
         DeploymentsViewFragment fragment = new DeploymentsViewFragment();
         Bundle bundle = new Bundle();
@@ -50,6 +55,10 @@ public class DeploymentsViewFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called when ViewFragment is created
+     * @param savedInstanceState - the savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +72,13 @@ public class DeploymentsViewFragment extends Fragment {
 
     }
 
-
+    /**
+     * Called when the View is created
+     * @param inflater - the LayoutInflater
+     * @param container - the ViewGroup
+     * @param savedInstanceState - the savedInstanceState
+     * @return - returns the inflated View
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -71,6 +86,11 @@ public class DeploymentsViewFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_deployments, container, false);
     }
 
+    /**
+     * Called after the View is created.
+     * @param view - the View
+     * @param savedInstanceState - the savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

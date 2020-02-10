@@ -21,16 +21,24 @@ import com.vmware.nimbus.data.model.LoginModel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An [AndroidViewModel] that defines the deployments view.
+ */
 public class DeploymentsViewModel extends AndroidViewModel {
 
     public DeploymentsViewModel(Application application) {
         super(application);
     }
 
+    //TODO: don't hardcode this string
     private String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100";
 
     private DeploymentItemModel.DeploymentItemPage deploymentItemPage;
 
+    /**
+     * Loads the deployments asynchronously
+     * @param callback - callback that watches for successful deployments data from the response
+     */
     public void loadDeployments(final DeploymentCallback callback) {
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
@@ -62,6 +70,7 @@ public class DeploymentsViewModel extends AndroidViewModel {
         SingletonRequest.getInstance(getApplication().getApplicationContext()).addToRequestQueue(jsonObjRequest);
     }
 
+    //TODO: fully implement this
     @TargetApi(26)
     public Color getPowerState(final DeploymentCallback callback, int index) {
         Color result = Color.valueOf(Color.GREEN);
