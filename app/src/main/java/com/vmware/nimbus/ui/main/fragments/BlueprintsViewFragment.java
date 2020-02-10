@@ -25,7 +25,7 @@ import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 import java.util.List;
 
 /**
- * A fragment containing a list of blueprint items.
+ * A [Fragment] containing a list of blueprint items.
  */
 public class BlueprintsViewFragment extends Fragment {
 
@@ -40,7 +40,11 @@ public class BlueprintsViewFragment extends Fragment {
     private BlueprintsAdapter rvAdapter;
     private List<BlueprintItemModel.BlueprintItem> blueprintList;
 
-
+    /**
+     * Creates a new instance of the view fragment.
+     * @param index - index of the instance
+     * @return - a fragment
+     */
     public static BlueprintsViewFragment newInstance(int index) {
         BlueprintsViewFragment fragment = new BlueprintsViewFragment();
         Bundle bundle = new Bundle();
@@ -49,6 +53,10 @@ public class BlueprintsViewFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Called when ViewFragment is created
+     * @param savedInstanceState - the savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +69,13 @@ public class BlueprintsViewFragment extends Fragment {
         pageViewModel.setIndex(index);
     }
 
+    /**
+     * Called when the View is created
+     * @param inflater - the LayoutInflater
+     * @param container - the ViewGroup
+     * @param savedInstanceState - the savedInstanceState
+     * @return - returns the inflated View
+     */
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -68,6 +83,11 @@ public class BlueprintsViewFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_blueprints, container, false);
     }
 
+    /**
+     * Called after the View is created.
+     * @param view - the View
+     * @param savedInstanceState - the savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

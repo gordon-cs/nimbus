@@ -18,8 +18,15 @@ import com.vmware.nimbus.data.model.LoginModel;
 import com.vmware.nimbus.ui.login.LoginActivity;
 import com.vmware.nimbus.ui.main.adapters.SectionsPagerAdapter;
 
+/**
+ * The main activity.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Called after the main activity is created.
+     * @param savedInstanceState - the savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    /**
+     * Logs out and returns to the login activity.
+     */
     private void LogOut() {
         LoginModel.getInstance(getBaseContext()).setAuthenticated(false);
         LoginModel.getInstance(getBaseContext()).setApi_token("");
@@ -55,12 +65,20 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Emails the developers with user feedback.
+     */
     private void emailDev(){
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto","dev@ajabbot.com", null));
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 
+    /**
+     * Called after the options menu is created.
+     * @param menu - the Menu
+     * @return - true after the menu is inflated
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -68,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Called when an option is selected in the options menu.
+     * @param item - the menu item that was selected
+     * @return - true if one of the items was selected
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

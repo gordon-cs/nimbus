@@ -32,10 +32,21 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * A [DialogFragment] for the deploy dialog box.
+ */
 public class DeployFragment extends DialogFragment {
 
+    // TODO: Change this string to a resource or something less hard-coded
     String bpRequestUrl = "https://api.mgmt.cloud.vmware.com/blueprint/api/blueprint-requests";
 
+    /**
+     * Called when the View is created.
+     * @param inflater - the LayoutInflater
+     * @param container - the ViewGroup
+     * @param savedInstanceState - the savedInstanceState
+     * @return - the root view of this fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.deploy_dialog, container, false);
@@ -70,6 +81,11 @@ public class DeployFragment extends DialogFragment {
         return rootView;
     }
 
+    /**
+     * Called when the Dialog box is created.
+     * @param savedInstanceState - the savedInstanceState
+     * @return - the dialog object
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -79,6 +95,14 @@ public class DeployFragment extends DialogFragment {
         return dialog;
     }
 
+    /**
+     * Deploys a blueprint.
+     * @param name - name of the deployment
+     * @param pId - project ID
+     * @param rsn - reason for deploying this blueprint
+     * @param bpId - blueprint ID
+     * @throws JSONException
+     */
     public void deployBlueprint(String name, String pId, String rsn, String bpId) throws JSONException {
         DeployBlueprintModel requestBody = new DeployBlueprintModel(name, pId, rsn, bpId);
         Gson gson = new Gson();
@@ -113,6 +137,10 @@ public class DeployFragment extends DialogFragment {
 
     }
 
+    /**
+     * Displays a toast!
+     * @param msg - the toast message
+     */
     public void toastMsg(String msg) {
         Toast toast = Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_LONG);
         toast.show();
