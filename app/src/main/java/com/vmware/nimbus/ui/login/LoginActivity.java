@@ -8,16 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.LogInCallback;
 import com.vmware.nimbus.ui.main.MainActivity;
-
-// import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
 
-                APIService.LogIn(getBaseContext(), getResources().getString(R.string.cps_URL),
+                APIService.LogIn(getBaseContext(), getResources().getString(R.string.csp_URL),
                         apiKeyEditText.getText().toString(), new LogInCallback() {
                             @Override
                             public void onSuccess(boolean result) {
