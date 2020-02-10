@@ -3,15 +3,12 @@ package com.vmware.nimbus.api;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.CspResult;
 import com.vmware.nimbus.data.model.LoginModel;
 
@@ -45,9 +42,6 @@ public class APIService {
 
                         // todo - Ask class
                         callback.onSuccess(true);
-//                        startActivity(mainIntent);
-//                        //Complete and destroy login activity once successful
-//                        finish();
                     }
                 },
                 new Response.ErrorListener() {
@@ -56,8 +50,6 @@ public class APIService {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
                         callback.onFailure(false);
-//                        loadingProgressBar.setVisibility(View.INVISIBLE);
-//                        toastMsg("Login Failed");
                     }
                 }) {
 
