@@ -36,6 +36,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A [DialogFragment] for the deployment actions.
+ */
 public class DeploymentActionsFragment extends DialogFragment {
     final String LOG_TAG = "DeploymentActionsFragment";
 
@@ -43,6 +46,13 @@ public class DeploymentActionsFragment extends DialogFragment {
     private String deploymentId;
     private DeploymentActionResult mDeploymentActionResult;
 
+    /**
+     * Called when the View is created.
+     * @param inflater - the LayoutInflater
+     * @param container - the ViewGroup
+     * @param savedInstanceState - the savedInstanceState
+     * @return - the root view of this fragment
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.deployment_actions_dialog, container, false);
@@ -157,6 +167,12 @@ public class DeploymentActionsFragment extends DialogFragment {
         return rootView;
     }
 
+    /**
+     * Shows the time picker when changing the lease of a deployment.
+     * @param year - the year for the lease to expire
+     * @param monthOfYear - the month of that year for the lease to expire
+     * @param dayOfMonth - the day of that month for the lease to expire
+     */
     protected void showTimePicker(int year, int monthOfYear, int dayOfMonth) {
         final Calendar cldr = Calendar.getInstance();
         int hour = cldr.get(Calendar.HOUR_OF_DAY);
@@ -193,6 +209,11 @@ public class DeploymentActionsFragment extends DialogFragment {
         picker.show();
     }
 
+    /**
+     * Called when the Dialog box is created.
+     * @param savedInstanceState - the savedInstanceState
+     * @return - the dialog object
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -201,6 +222,12 @@ public class DeploymentActionsFragment extends DialogFragment {
         return dialog;
     }
 
+
+    /**
+     * Performs a deployment action.
+     * @param request - a DeploymentActionRequest defining the deployment action
+     * @throws JSONException
+     */
     public void performDeploymentAction(DeploymentActionRequest request) throws JSONException {
         String requestUrl = getResources().getString(R.string.DAF_base_URL) + deploymentId + "/requests";
         Log.d(LOG_TAG, "Request URL: " + requestUrl);
@@ -255,6 +282,9 @@ public class DeploymentActionsFragment extends DialogFragment {
         SingletonRequest.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
+    /**
+     * Model for deployment actions
+     */
     public class DeploymentActionRequest {
         private String actionId;
         private Map<String, String> inputs;
@@ -267,6 +297,9 @@ public class DeploymentActionsFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Model for deployment action results
+     */
     public class DeploymentActionResult {
         public String id;
         public String name;

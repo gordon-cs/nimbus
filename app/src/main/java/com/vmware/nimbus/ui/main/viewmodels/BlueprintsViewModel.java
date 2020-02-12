@@ -19,6 +19,9 @@ import com.vmware.nimbus.data.model.LoginModel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An [AndroidViewModel] that defines the blueprints view.
+ */
 public class BlueprintsViewModel extends AndroidViewModel {
 
     public BlueprintsViewModel(Application application) {
@@ -30,6 +33,10 @@ public class BlueprintsViewModel extends AndroidViewModel {
 
     private BlueprintItemModel.BlueprintItemPage blueprintItemPage;
 
+    /**
+     * Loads the blueprints asynchronously
+     * @param callback - callback that watches for successful blueprint data from the response
+     */
     public void loadBlueprints(final BlueprintCallback callback) {
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
@@ -37,7 +44,7 @@ public class BlueprintsViewModel extends AndroidViewModel {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("deployments response", response);
+                        Log.d("blueprints response", response);
                         Gson gson = new Gson();
                         blueprintItemPage = gson.fromJson(response, BlueprintItemModel.BlueprintItemPage.class);
                         callback.onSuccess(blueprintItemPage.content);

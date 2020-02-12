@@ -1,5 +1,6 @@
 package com.vmware.nimbus.api;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.util.Log;
 import com.android.volley.AuthFailureError;
