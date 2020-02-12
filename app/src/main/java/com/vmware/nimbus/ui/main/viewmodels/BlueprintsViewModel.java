@@ -25,6 +25,7 @@ public class BlueprintsViewModel extends AndroidViewModel {
         super(application);
     }
 
+    // TODO - Refactor URL
     private String blueprintsUrl = "https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints";
 
     private BlueprintItemModel.BlueprintItemPage blueprintItemPage;

@@ -27,6 +27,7 @@ public class DeploymentsViewModel extends AndroidViewModel {
         super(application);
     }
 
+    // TODO - Refactor URL
     private String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100";
 
     private DeploymentItemModel.DeploymentItemPage deploymentItemPage;

@@ -34,8 +34,6 @@ import androidx.fragment.app.DialogFragment;
 
 public class DeployFragment extends DialogFragment {
 
-    String bpRequestUrl = "https://api.mgmt.cloud.vmware.com/blueprint/api/blueprint-requests";
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.deploy_dialog, container, false);
@@ -85,7 +83,7 @@ public class DeployFragment extends DialogFragment {
         String json = gson.toJson(requestBody);
         JSONObject jsonObject = new JSONObject(json);
 
-        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, bpRequestUrl, jsonObject,
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, getResources().getString(R.string.bp_Request_URL), jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

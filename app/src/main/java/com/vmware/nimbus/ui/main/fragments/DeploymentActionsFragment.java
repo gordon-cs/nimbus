@@ -19,37 +19,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.vmware.nimbus.R;
-import com.vmware.nimbus.api.DeploymentActionResultCallback;
 import com.vmware.nimbus.api.SingletonRequest;
-import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
 public class DeploymentActionsFragment extends DialogFragment {
     final String LOG_TAG = "DeploymentActionsFragment";
@@ -216,10 +201,8 @@ public class DeploymentActionsFragment extends DialogFragment {
         return dialog;
     }
 
-    private String baseUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments/";
-
     public void performDeploymentAction(DeploymentActionRequest request) throws JSONException {
-        String requestUrl = baseUrl + deploymentId + "/requests";
+        String requestUrl = getResources().getString(R.string.DAF_base_URL) + deploymentId + "/requests";
         Log.d(LOG_TAG, "Request URL: " + requestUrl);
         Gson gson = new Gson();
         String body = gson.toJson(request, DeploymentActionRequest.class);

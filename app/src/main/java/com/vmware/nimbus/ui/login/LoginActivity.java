@@ -2,22 +2,18 @@ package  com.vmware.nimbus.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.LogInCallback;
 import com.vmware.nimbus.ui.main.MainActivity;
-
-// import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
