@@ -18,10 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.vmware.nimbus.R;
+import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.DeploymentCallback;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.adapters.DeploymentsAdapter;
-import com.vmware.nimbus.ui.main.viewmodels.DeploymentsViewModel;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
 import java.util.List;
@@ -34,7 +34,6 @@ public class DeploymentsViewFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
-    private DeploymentsViewModel mViewModel;
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout swipeContainer;
@@ -62,7 +61,6 @@ public class DeploymentsViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(DeploymentsViewModel.class);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
@@ -108,7 +106,7 @@ public class DeploymentsViewFragment extends Fragment {
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
-                        mViewModel.loadDeployments(new DeploymentCallback() {
+                        APIService.loadDeployments(new DeploymentCallback() {
                             @Override
                             public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
                                 rvAdapter.clear();
@@ -116,7 +114,7 @@ public class DeploymentsViewFragment extends Fragment {
                                 rvAdapter.addAll(deploymentList);
                                 rvAdapter.notifyDataSetChanged();
                             }
-                        });
+                        }, getContext());
                         swipeContainer.setRefreshing(false);
                     }
                 }, 5000);
@@ -127,7 +125,7 @@ public class DeploymentsViewFragment extends Fragment {
                 android.R.color.holo_blue_bright,
                 R.color.colorAccent);
 
-        mViewModel.loadDeployments(new DeploymentCallback() {
+        APIService.loadDeployments(new DeploymentCallback() {
             @Override
             public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
                 deploymentList = result;
@@ -135,6 +133,6 @@ public class DeploymentsViewFragment extends Fragment {
                 mRecyclerView.setAdapter(rvAdapter);
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
             }
-        });
+        }, getContext());
     }
 }
