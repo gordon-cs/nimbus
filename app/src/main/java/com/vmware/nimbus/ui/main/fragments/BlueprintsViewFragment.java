@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.vmware.nimbus.R;
+import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.BlueprintCallback;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.adapters.BlueprintsAdapter;
-import com.vmware.nimbus.ui.main.viewmodels.BlueprintsViewModel;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
 import java.util.List;
@@ -32,7 +32,6 @@ public class BlueprintsViewFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
-    private BlueprintsViewModel mViewModel;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeContainer;
@@ -60,7 +59,6 @@ public class BlueprintsViewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(BlueprintsViewModel.class);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
@@ -105,7 +103,7 @@ public class BlueprintsViewFragment extends Fragment {
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
-                        mViewModel.loadBlueprints(new BlueprintCallback() {
+                        APIService.loadBlueprints(new BlueprintCallback() {
                             @Override
                             public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
                                 rvAdapter.clear();
@@ -113,7 +111,7 @@ public class BlueprintsViewFragment extends Fragment {
                                 rvAdapter.addAll(blueprintList);
                                 rvAdapter.notifyDataSetChanged();
                             }
-                        });
+                        }, getContext());
                         swipeContainer.setRefreshing(false);
                     }
                 }, 5000);
@@ -124,7 +122,8 @@ public class BlueprintsViewFragment extends Fragment {
                 android.R.color.holo_blue_bright,
                 R.color.colorAccent);
 
-        mViewModel.loadBlueprints(new BlueprintCallback() {
+
+        APIService.loadBlueprints(new BlueprintCallback() {
             @Override
             public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
                 blueprintList = result;
@@ -132,7 +131,7 @@ public class BlueprintsViewFragment extends Fragment {
                 recyclerView.setAdapter(rvAdapter);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
             }
-        });
+        }, getContext());
     }
 }
 
