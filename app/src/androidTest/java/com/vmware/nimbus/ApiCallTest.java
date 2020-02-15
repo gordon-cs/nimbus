@@ -3,17 +3,22 @@ package com.vmware.nimbus;
 import android.content.Context;
 
 import com.vmware.nimbus.api.APIService;
+import com.vmware.nimbus.api.BlueprintCallback;
 import com.vmware.nimbus.api.LogInCallback;
+import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -66,6 +71,18 @@ public class ApiCallTest {
 
             }
         });
+    }
+
+    @Test
+    public void testLoadBlueprints() {
+        Context appContext = getInstrumentation().getTargetContext();
+
+        service.loadBlueprints(new BlueprintCallback() {
+            @Override
+            public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
+                assertNotNull(result);
+            }
+        }, appContext);
     }
 
     @Test
