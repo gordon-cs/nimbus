@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.BlueprintCallback;
+import com.vmware.nimbus.api.DeploymentCallback;
 import com.vmware.nimbus.api.LogInCallback;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
+import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
 
 import org.junit.Before;
@@ -45,13 +47,11 @@ public class ApiCallTest {
 
         service.LogIn(appContext, url, BAD_API_KEY, new LogInCallback() {
             @Override
-            public void onSuccess(boolean result) {
-                assertEquals(false, result);
-            }
+            public void onSuccess(boolean result) {            }
 
             @Override
             public void onFailure(boolean result) {
-
+                assertEquals(false, result);
             }
         });
     }
@@ -67,9 +67,7 @@ public class ApiCallTest {
             }
 
             @Override
-            public void onFailure(boolean result) {
-
-            }
+            public void onFailure(boolean result) {            }
         });
     }
 
@@ -80,6 +78,18 @@ public class ApiCallTest {
         service.loadBlueprints(new BlueprintCallback() {
             @Override
             public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
+                assertNotNull(result);
+            }
+        }, appContext);
+    }
+
+    @Test
+    public void testLoadDeployments() {
+        Context appContext = getInstrumentation().getTargetContext();
+
+        service.loadDeployments(new DeploymentCallback() {
+            @Override
+            public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
                 assertNotNull(result);
             }
         }, appContext);

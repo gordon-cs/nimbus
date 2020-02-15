@@ -1,6 +1,9 @@
 package com.vmware.nimbus.api;
 
+import android.annotation.TargetApi;
+import android.app.Application;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -10,6 +13,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.data.model.CspResult;
+import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
 
 import java.util.HashMap;
@@ -104,5 +108,58 @@ public class APIService {
             }
         };
         SingletonRequest.getInstance(c).addToRequestQueue(jsonObjRequest);
+    }
+
+    //TODO: don't hardcode this string
+    private static String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100";
+
+    private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
+
+    /**
+     * Loads the deployments asynchronously
+     * @param callback - callback that watches for successful deployments data from the response
+     */
+    public static void loadDeployments(final DeploymentCallback callback, Context c) {
+        StringRequest jsonObjRequest = new StringRequest(
+                Request.Method.GET,
+                deploymentsUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("deployments response", response);
+                        Gson gson = new Gson();
+                        deploymentItemPage = gson.fromJson(response, DeploymentItemModel.DeploymentItemPage.class);
+                        callback.onSuccess(deploymentItemPage.content);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("volley", "Error: " + error.getMessage());
+                        error.printStackTrace();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                String bearerToken = "Bearer " + LoginModel.getInstance(c).getBearer_token();
+                params.put("Authorization", bearerToken);
+                return params;
+            }
+        };
+        SingletonRequest.getInstance(c).addToRequestQueue(jsonObjRequest);
+    }
+
+    //TODO: fully implement this
+    @TargetApi(26)
+    public Color getPowerState(final DeploymentCallback callback, int index) {
+        Color result = Color.valueOf(Color.GREEN);
+        if (deploymentItemPage.content.get(index).resources == null) {
+            return Color.valueOf(Color.GRAY);
+        }
+        else {
+
+        }
+        return null;
     }
 }
