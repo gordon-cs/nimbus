@@ -42,8 +42,9 @@ public class DeployFragment extends DialogFragment {
 
     /**
      * Called when the View is created.
-     * @param inflater - the LayoutInflater
-     * @param container - the ViewGroup
+     *
+     * @param inflater           - the LayoutInflater
+     * @param container          - the ViewGroup
      * @param savedInstanceState - the savedInstanceState
      * @return - the root view of this fragment
      */
@@ -83,6 +84,7 @@ public class DeployFragment extends DialogFragment {
 
     /**
      * Called when the Dialog box is created.
+     *
      * @param savedInstanceState - the savedInstanceState
      * @return - the dialog object
      */
@@ -97,9 +99,10 @@ public class DeployFragment extends DialogFragment {
 
     /**
      * Deploys a blueprint.
+     *
      * @param name - name of the deployment
-     * @param pId - project ID
-     * @param rsn - reason for deploying this blueprint
+     * @param pId  - project ID
+     * @param rsn  - reason for deploying this blueprint
      * @param bpId - blueprint ID
      * @throws JSONException
      */
@@ -139,6 +142,7 @@ public class DeployFragment extends DialogFragment {
 
     /**
      * Displays a toast!
+     *
      * @param msg - the toast message
      */
     public void toastMsg(String msg) {

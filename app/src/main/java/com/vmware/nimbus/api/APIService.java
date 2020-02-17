@@ -1,10 +1,10 @@
 package com.vmware.nimbus.api;
 
 import android.annotation.TargetApi;
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,12 +21,19 @@ import java.util.Map;
 
 public class APIService {
 
+    //TODO: don't hardcode this string
+    private static String blueprintsUrl = "https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints";
+
+//    public void RequestAPI(Request.Method method, String URL, )
+    private static BlueprintItemModel.BlueprintItemPage blueprintItemPage;
+    //TODO: don't hardcode this string
+    private static String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100";
+    private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
+
     public static void LogOut(Context c) {
         LoginModel.getInstance(c).setAuthenticated(false);
         LoginModel.getInstance(c).setApi_token("");
     }
-
-//    public void RequestAPI(Request.Method method, String URL, )
 
     public static void LogIn(Context c, String URL, String APIKey, final LogInCallback callback) {
         final String LOG_TAG = "API_SERVICE.LOG_IN";
@@ -74,11 +81,6 @@ public class APIService {
         Log.d(LOG_TAG, "Added request to queue.");
     }
 
-    //TODO: don't hardcode this string
-    private static String blueprintsUrl = "https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints";
-
-    private static BlueprintItemModel.BlueprintItemPage blueprintItemPage;
-
     public static void loadBlueprints(final BlueprintCallback callback, Context c) {
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
@@ -110,13 +112,9 @@ public class APIService {
         SingletonRequest.getInstance(c).addToRequestQueue(jsonObjRequest);
     }
 
-    //TODO: don't hardcode this string
-    private static String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100";
-
-    private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
-
     /**
      * Loads the deployments asynchronously
+     *
      * @param callback - callback that watches for successful deployments data from the response
      */
     public static void loadDeployments(final DeploymentCallback callback, Context c) {
@@ -156,8 +154,7 @@ public class APIService {
         Color result = Color.valueOf(Color.GREEN);
         if (deploymentItemPage.content.get(index).resources == null) {
             return Color.valueOf(Color.GRAY);
-        }
-        else {
+        } else {
 
         }
         return null;

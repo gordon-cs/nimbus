@@ -12,21 +12,23 @@ import com.android.volley.toolbox.Volley;
  */
 public class SingletonRequest {
     private static SingletonRequest instance;
-    private RequestQueue requestQueue;
     private static Context ctx;
+    private RequestQueue requestQueue;
 
     /**
      * Singleton constructor for the class. Only one instance can exist at a time.
+     *
      * @param context - the context of the app
      */
     private SingletonRequest(Context context) {
-        this.ctx = context;
+        ctx = context;
         this.requestQueue = getRequestQueue();
 
     }
 
     /**
      * Gets the instance of the SingletonRequest object.
+     *
      * @param context - the context of the app
      * @return - the instance of SingletonRequest
      */
@@ -39,6 +41,7 @@ public class SingletonRequest {
 
     /**
      * Gets the Volley RequestQueue associated with the object.
+     *
      * @return - the Volley RequestQueue
      */
     public RequestQueue getRequestQueue() {
@@ -50,6 +53,7 @@ public class SingletonRequest {
 
     /**
      * Adds a Request to the Volley RequestQueue
+     *
      * @param req<T> - the Request to add of type T
      */
     public <T> void addToRequestQueue(Request<T> req) {

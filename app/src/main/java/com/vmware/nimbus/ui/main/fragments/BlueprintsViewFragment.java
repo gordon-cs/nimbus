@@ -6,15 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.BlueprintCallback;
@@ -23,6 +14,15 @@ import com.vmware.nimbus.ui.main.adapters.BlueprintsAdapter;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * A [Fragment] containing a list of blueprint items.
@@ -41,6 +41,7 @@ public class BlueprintsViewFragment extends Fragment {
 
     /**
      * Creates a new instance of the view fragment.
+     *
      * @param index - index of the instance
      * @return - a fragment
      */
@@ -54,6 +55,7 @@ public class BlueprintsViewFragment extends Fragment {
 
     /**
      * Called when ViewFragment is created
+     *
      * @param savedInstanceState - the savedInstanceState
      */
     @Override
@@ -69,8 +71,9 @@ public class BlueprintsViewFragment extends Fragment {
 
     /**
      * Called when the View is created
-     * @param inflater - the LayoutInflater
-     * @param container - the ViewGroup
+     *
+     * @param inflater           - the LayoutInflater
+     * @param container          - the ViewGroup
      * @param savedInstanceState - the savedInstanceState
      * @return - returns the inflated View
      */
@@ -83,7 +86,8 @@ public class BlueprintsViewFragment extends Fragment {
 
     /**
      * Called after the View is created.
-     * @param view - the View
+     *
+     * @param view               - the View
      * @param savedInstanceState - the savedInstanceState
      */
     @Override
@@ -102,7 +106,8 @@ public class BlueprintsViewFragment extends Fragment {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
-                    @Override public void run() {
+                    @Override
+                    public void run() {
                         APIService.loadBlueprints(new BlueprintCallback() {
                             @Override
                             public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {

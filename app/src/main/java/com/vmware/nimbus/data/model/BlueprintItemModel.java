@@ -27,7 +27,7 @@ public class BlueprintItemModel {
         public ArrayList<String> contentSourceSyncMessages;
     }
 
-    public class BlueprintItemPage implements Serializable{
+    public class BlueprintItemPage implements Serializable {
         public List<BlueprintItem> content;
         public Boolean last;
         public int totalElements;
