@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
+import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.data.model.CspResult;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
@@ -21,13 +22,9 @@ import java.util.Map;
 
 public class APIService {
 
-    //TODO: don't hardcode this string
-    private static String blueprintsUrl = "https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints";
-
-//    public void RequestAPI(Request.Method method, String URL, )
+    private static String blueprintsUrl;
     private static BlueprintItemModel.BlueprintItemPage blueprintItemPage;
-    //TODO: don't hardcode this string
-    private static String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100";
+    private static String deploymentsUrl;
     private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
 
     public static void LogOut(Context c) {
@@ -82,6 +79,7 @@ public class APIService {
     }
 
     public static void loadBlueprints(final BlueprintCallback callback, Context c) {
+        blueprintsUrl = c.getApplicationContext().getResources().getString(R.string.blueprints_url);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 blueprintsUrl,
@@ -118,6 +116,7 @@ public class APIService {
      * @param callback - callback that watches for successful deployments data from the response
      */
     public static void loadDeployments(final DeploymentCallback callback, Context c) {
+        deploymentsUrl = c.getApplicationContext().getResources().getString(R.string.deployments_url);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 deploymentsUrl,

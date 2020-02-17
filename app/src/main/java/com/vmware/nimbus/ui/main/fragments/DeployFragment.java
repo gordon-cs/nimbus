@@ -1,6 +1,7 @@
 package com.vmware.nimbus.ui.main.fragments;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,8 +38,8 @@ import androidx.fragment.app.DialogFragment;
  */
 public class DeployFragment extends DialogFragment {
 
-    // TODO: Change this string to a resource or something less hard-coded
-    String bpRequestUrl = "https://api.mgmt.cloud.vmware.com/blueprint/api/blueprint-requests";
+    private Context c;
+    private String bpRequestUrl;
 
     /**
      * Called when the View is created.
@@ -51,6 +52,7 @@ public class DeployFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.deploy_dialog, container, false);
+        c = getContext();
         (rootView.findViewById(R.id.button_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +113,7 @@ public class DeployFragment extends DialogFragment {
         Gson gson = new Gson();
         String json = gson.toJson(requestBody);
         JSONObject jsonObject = new JSONObject(json);
-
+        bpRequestUrl = c.getApplicationContext().getResources().getString(R.string.bp_request_url);
         JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, bpRequestUrl, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
