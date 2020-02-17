@@ -30,4 +30,8 @@
     <string name="contact_dev">Contact the Dev Team</string>
 
     <string name="csp_URL">https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize</string>
+    <string name="blueprints_url">https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints</string>
+    <string name="deployments_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100</string>
+    <string name="bp_request_url">https://api.mgmt.cloud.vmware.com/blueprint/api/blueprint-requests</string>
+    <string name="deployments_base_url"></string>
 </resources>

@@ -3,6 +3,7 @@ package com.vmware.nimbus.ui.main.fragments;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +46,8 @@ public class DeploymentActionsFragment extends DialogFragment {
     private String deploymentName;
     private String deploymentId;
     private DeploymentActionResult mDeploymentActionResult;
-    private String baseUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments/";
+    private String baseUrl;
+    private Context c;
 
     /**
      * Called when the View is created.
@@ -58,7 +60,7 @@ public class DeploymentActionsFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.deployment_actions_dialog, container, false);
-
+        c = getContext();
         (rootView.findViewById(R.id.button_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,6 +222,7 @@ public class DeploymentActionsFragment extends DialogFragment {
      * @throws JSONException
      */
     public void performDeploymentAction(DeploymentActionRequest request) throws JSONException {
+        baseUrl = c.getApplicationContext().getResources().getString(R.string.deployments_base_url);
         String requestUrl = baseUrl + deploymentId + "/requests";
         Log.d(LOG_TAG, "Request URL: " + requestUrl);
         Gson gson = new Gson();
