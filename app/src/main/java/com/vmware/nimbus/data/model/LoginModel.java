@@ -4,15 +4,15 @@ import android.content.Context;
 
 public class LoginModel {
 
+    private static LoginModel instance;
+    private static Context ctx;
     private String api_token;
     private String bearer_token;
     private boolean isAuthenticated;
-    private static LoginModel instance;
-    private static Context ctx;
 
 
     private LoginModel(Context context) {
-        this.ctx = context;
+        ctx = context;
         this.api_token = "";
         this.isAuthenticated = false;
     }
@@ -32,9 +32,13 @@ public class LoginModel {
         this.api_token = api_token;
     }
 
-    public void setBearer_token(String bearer_token) { this.bearer_token = bearer_token; }
+    public String getBearer_token() {
+        return bearer_token;
+    }
 
-    public String getBearer_token() { return bearer_token; }
+    public void setBearer_token(String bearer_token) {
+        this.bearer_token = bearer_token;
+    }
 
     public boolean isAuthenticated() {
         return isAuthenticated;

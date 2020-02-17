@@ -1,7 +1,5 @@
 package com.vmware.nimbus.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +13,9 @@ import com.vmware.nimbus.ui.main.fragments.DeploymentActionsFragment;
 
 import java.io.Serializable;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
 /**
  * A [Serializable] [AppCompatActivity] for the deployments page.
  */
@@ -24,6 +25,7 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
 
     /**
      * Called after the activity is created.
+     *
      * @param savedInstanceState - the savedInstanceState
      */
     @Override
@@ -31,7 +33,7 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deployment);
         deploymentItem = (DeploymentItemModel.DeploymentItem) getIntent()
-                            .getSerializableExtra("DeploymentItemModel.DeploymentItem");
+                .getSerializableExtra("DeploymentItemModel.DeploymentItem");
         Log.d("DeploymentActivity", deploymentItem.name);
 
         TextView deploymentName = findViewById(R.id.deployment_name);
@@ -65,8 +67,6 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
 }

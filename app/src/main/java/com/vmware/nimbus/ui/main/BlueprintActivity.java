@@ -1,8 +1,5 @@
 package com.vmware.nimbus.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +12,9 @@ import com.vmware.nimbus.ui.main.fragments.DeployFragment;
 
 import java.io.Serializable;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
 /**
  * A [Serializable] [AppCompatActivity] for the blueprints page.
  */
@@ -24,6 +24,7 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
 
     /**
      * Called after the activity is created.
+     *
      * @param savedInstanceState - the savedInstanceState
      */
     @Override
@@ -68,6 +69,7 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
 
     /**
      * Gets a single blueprint item.
+     *
      * @return - a blueprint item.
      */
     public BlueprintItemModel.BlueprintItem getBlueprintItem() {

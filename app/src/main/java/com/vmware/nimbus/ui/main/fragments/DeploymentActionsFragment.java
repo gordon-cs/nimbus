@@ -15,41 +15,26 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.vmware.nimbus.R;
-import com.vmware.nimbus.api.DeploymentActionResultCallback;
 import com.vmware.nimbus.api.SingletonRequest;
-import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 
 /**
  * A [DialogFragment] for the deployment actions.
@@ -60,11 +45,13 @@ public class DeploymentActionsFragment extends DialogFragment {
     private String deploymentName;
     private String deploymentId;
     private DeploymentActionResult mDeploymentActionResult;
+    private String baseUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments/";
 
     /**
      * Called when the View is created.
-     * @param inflater - the LayoutInflater
-     * @param container - the ViewGroup
+     *
+     * @param inflater           - the LayoutInflater
+     * @param container          - the ViewGroup
      * @param savedInstanceState - the savedInstanceState
      * @return - the root view of this fragment
      */
@@ -102,7 +89,7 @@ public class DeploymentActionsFragment extends DialogFragment {
                 String reason = "vRAC Companion";
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
-                    performDeploymentAction( request);
+                    performDeploymentAction(request);
                     Toast.makeText(getContext(), "Powering On " + deploymentName, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -143,19 +130,6 @@ public class DeploymentActionsFragment extends DialogFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                try {
-//                    performDeploymentAction(new DeploymentActionResultCallback() {
-//                        @Override
-//                        public void onSuccess(DeploymentActionResult result) {
-//                            Log.d(LOG_TAG, "Delete successful");
-//                            mDeploymentActionResult = result;
-//                            Log.d(LOG_TAG, "Status: " + mDeploymentActionResult.status);
-//                        }
-//                    }, request);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-
             }
         });
 
@@ -184,9 +158,10 @@ public class DeploymentActionsFragment extends DialogFragment {
 
     /**
      * Shows the time picker when changing the lease of a deployment.
-     * @param year - the year for the lease to expire
+     *
+     * @param year        - the year for the lease to expire
      * @param monthOfYear - the month of that year for the lease to expire
-     * @param dayOfMonth - the day of that month for the lease to expire
+     * @param dayOfMonth  - the day of that month for the lease to expire
      */
     protected void showTimePicker(int year, int monthOfYear, int dayOfMonth) {
         final Calendar cldr = Calendar.getInstance();
@@ -226,6 +201,7 @@ public class DeploymentActionsFragment extends DialogFragment {
 
     /**
      * Called when the Dialog box is created.
+     *
      * @param savedInstanceState - the savedInstanceState
      * @return - the dialog object
      */
@@ -237,10 +213,9 @@ public class DeploymentActionsFragment extends DialogFragment {
         return dialog;
     }
 
-    private String baseUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments/";
-
     /**
      * Performs a deployment action.
+     *
      * @param request - a DeploymentActionRequest defining the deployment action
      * @throws JSONException
      */

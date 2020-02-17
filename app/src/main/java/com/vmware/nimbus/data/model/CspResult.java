@@ -9,20 +9,15 @@ public class CspResult {
     private String refresh_token;
 
     private int expires_in;
-    //private boolean isAuthenticated = false;
-    //private static CspResult loginModelInstance;
 
-//    public boolean isAuthenticated() {
-//        return isAuthenticated;
-//    }
-//
-//    public void setAuthenticated(boolean authenticated) {
-//        isAuthenticated = authenticated;
-//    }
-//
-//    public static CspResult getInstance(){
-//        return loginModelInstance;
-//    }
+    public CspResult(String id_token, String token_type, String scope, String access_token, String refresh_token, int expires_in) {
+        this.id_token = id_token;
+        this.token_type = token_type;
+        this.scope = scope;
+        this.access_token = access_token;
+        this.refresh_token = refresh_token;
+        this.expires_in = expires_in;
+    }
 
     public String getId_token() {
         return id_token;
@@ -46,14 +41,5 @@ public class CspResult {
 
     public int getExpires_in() {
         return expires_in;
-    }
-
-    public CspResult(String id_token, String token_type, String scope, String access_token, String refresh_token, int expires_in) {
-        this.id_token = id_token;
-        this.token_type = token_type;
-        this.scope = scope;
-        this.access_token = access_token;
-        this.refresh_token = refresh_token;
-        this.expires_in = expires_in;
     }
 }

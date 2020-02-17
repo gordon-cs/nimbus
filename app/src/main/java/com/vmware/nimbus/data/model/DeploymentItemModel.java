@@ -3,7 +3,6 @@ package com.vmware.nimbus.data.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class DeploymentItemModel implements Serializable {
 
@@ -23,10 +22,6 @@ public class DeploymentItemModel implements Serializable {
         public ArrayList<DeploymentResource> resources;
         public ArrayList<DeploymentAction> actions;
     }
-//    public DeploymentItemModel(String id, String blueprintId) {
-//        this.id = id;
-//        this.blueprintId = blueprintId;
-//    }
 
     public class DeploymentItemPage implements Serializable {
         public List<DeploymentItem> content;
