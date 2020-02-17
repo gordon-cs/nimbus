@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -58,6 +59,7 @@ public class APIService {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
                         callback.onFailure(false);
+//                        toastMsg("API SERVICE - log in failed", c);
                     }
                 }) {
 
@@ -97,6 +99,7 @@ public class APIService {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
+                        toastMsg("API SERVICE - load blueprints failed", c);
                     }
                 }) {
             @Override
@@ -134,6 +137,7 @@ public class APIService {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
+                        toastMsg("API SERVICE - load deployments failed", c);
                     }
                 }) {
             @Override
@@ -157,5 +161,11 @@ public class APIService {
 
         }
         return null;
+    }
+
+    // Displays a toast so we can verify that the buttons work when clicked
+    public static void toastMsg(String msg, Context c) {
+        Toast toast = Toast.makeText(c, msg, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
