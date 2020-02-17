@@ -59,7 +59,6 @@ public class APIService {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
                         callback.onFailure(false);
-//                        toastMsg("API SERVICE - log in failed", c);
                     }
                 }) {
 
@@ -99,7 +98,7 @@ public class APIService {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
-                        toastMsg("API SERVICE - load blueprints failed", c);
+                        toastMsg("The blueprints were unable to load properly", c);
                     }
                 }) {
             @Override
@@ -137,7 +136,7 @@ public class APIService {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
-                        toastMsg("API SERVICE - load deployments failed", c);
+                        toastMsg("The deployments were unable to load properly.", c);
                     }
                 }) {
             @Override
@@ -165,7 +164,7 @@ public class APIService {
 
     // Displays a toast so we can verify that the buttons work when clicked
     public static void toastMsg(String msg, Context c) {
-        Toast toast = Toast.makeText(c, msg, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(c, msg, Toast.LENGTH_LONG);
         toast.show();
     }
 }
