@@ -27,7 +27,7 @@ public class APIService {
 //    public void RequestAPI(Request.Method method, String URL, )
     private static BlueprintItemModel.BlueprintItemPage blueprintItemPage;
     //TODO: don't hardcode this string
-    private static String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?size=100";
+    private static String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?expandResources=true";
     private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
 
     public static void LogOut(Context c) {
@@ -150,13 +150,33 @@ public class APIService {
 
     //TODO: fully implement this
     @TargetApi(26)
-    public Color getPowerState(final DeploymentCallback callback, int index) {
-        Color result = Color.valueOf(Color.GREEN);
-        if (deploymentItemPage.content.get(index).resources == null) {
-            return Color.valueOf(Color.GRAY);
-        } else {
+    public static int getPowerState(DeploymentItemModel.DeploymentItem deploymentItem) {
+        //Unknown status if null or empty resources
+        Log.d("color", "resources: " + deploymentItem.resources);
 
+        if (deploymentItem.resources == null || deploymentItem.resources.size() == 0) {
+            return Color.GRAY;
         }
-        return null;
+        int result = Color.GRAY;
+        for(int i = 0; i < deploymentItem.resources.size(); i++){
+            if(deploymentItem.resources.get(i).properties == null || deploymentItem.resources.get(i).properties.powerState == null){
+                Log.d("color", "grey: ");
+                result = Color.GRAY;
+            }
+            else if (deploymentItem.resources.get(i).properties.powerState.contains("OFF")){
+                Log.d("color", "red: ");
+                result = Color.RED;
+            }
+            else if (!deploymentItem.resources.get(i).properties.powerState.contains("ON")){
+                Log.d("color", "yellow: ");
+                result = Color.YELLOW;
+            }
+            else if (deploymentItem.resources.get(i).properties.powerState.contains("ON")){
+                Log.d("color", "green: ");
+                result = Color.GREEN;
+            }
+        }
+
+        return result;
     }
 }

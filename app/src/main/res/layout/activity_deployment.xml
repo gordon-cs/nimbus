@@ -15,27 +15,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:id="@+id/deployment_card"
         app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
         app:contentPadding="4dp">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/deployment_name"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center|top"
-                android:layoutDirection="ltr"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:text="DeploymentName"
-                android:textAlignment="center"
-                android:textSize="36sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+<!--                <Button-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/powerstate"-->
+<!--                    android:id="@+id/pwr">-->
+<!--                </Button>-->
+
+                <TextView
+                    android:id="@+id/deployment_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center|top"
+                    android:layoutDirection="ltr"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text="DeploymentName"
+                    android:textAlignment="center"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
+
+
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/deployment_created_at"
