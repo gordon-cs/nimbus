@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,13 +23,10 @@ import java.util.Map;
 
 public class APIService {
 
-    //TODO: don't hardcode this string
-    private static String blueprintsUrl = "https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints";
-
-//    public void RequestAPI(Request.Method method, String URL, )
+    private static String blueprintsUrl;
     private static BlueprintItemModel.BlueprintItemPage blueprintItemPage;
-    //TODO: don't hardcode this string
-    private static String deploymentsUrl = "https://api.mgmt.cloud.vmware.com/deployment/api/deployments?expandResources=true";
+
+    private static String deploymentsUrl;
     private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
 
     public static void LogOut(Context c) {
@@ -83,6 +81,7 @@ public class APIService {
     }
 
     public static void loadBlueprints(final BlueprintCallback callback, Context c) {
+        blueprintsUrl = c.getApplicationContext().getResources().getString(R.string.blueprints_url);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 blueprintsUrl,
@@ -100,6 +99,7 @@ public class APIService {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
+                        toastMsg("The blueprints were unable to load properly", c);
                     }
                 }) {
             @Override
@@ -119,6 +119,7 @@ public class APIService {
      * @param callback - callback that watches for successful deployments data from the response
      */
     public static void loadDeployments(final DeploymentCallback callback, Context c) {
+        deploymentsUrl = c.getApplicationContext().getResources().getString(R.string.deployments_url);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 deploymentsUrl,
@@ -136,6 +137,7 @@ public class APIService {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
+                        toastMsg("The deployments were unable to load properly.", c);
                     }
                 }) {
             @Override
@@ -180,5 +182,11 @@ public class APIService {
         }
 
         return result;
+    }
+
+    // Displays a toast so we can verify that the buttons work when clicked
+    public static void toastMsg(String msg, Context c) {
+        Toast toast = Toast.makeText(c, msg, Toast.LENGTH_LONG);
+        toast.show();
     }
 }
