@@ -25,6 +25,7 @@ public class APIService {
 
     private static String blueprintsUrl;
     private static BlueprintItemModel.BlueprintItemPage blueprintItemPage;
+
     private static String deploymentsUrl;
     private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
 
@@ -152,14 +153,35 @@ public class APIService {
 
     //TODO: fully implement this
     @TargetApi(26)
-    public Color getPowerState(final DeploymentCallback callback, int index) {
-        Color result = Color.valueOf(Color.GREEN);
-        if (deploymentItemPage.content.get(index).resources == null) {
-            return Color.valueOf(Color.GRAY);
-        } else {
+    public static int getPowerState(DeploymentItemModel.DeploymentItem deploymentItem) {
+        //Unknown status if null or empty resources
 
+        if (deploymentItem.resources == null || deploymentItem.resources.size() == 0) {
+            //light grey
+            return Color.parseColor("#a4a9ac");
         }
-        return null;
+        int result = Color.parseColor("#a4a9ac");
+        for(int i = 0; i < deploymentItem.resources.size(); i++){
+            if(deploymentItem.resources.get(i).properties == null || deploymentItem.resources.get(i).properties.powerState == null){
+                Log.d("color", "grey: ");
+                result = Color.parseColor("#a4a9ac");
+            }
+            else if (deploymentItem.resources.get(i).properties.powerState.contains("OFF")){
+                Log.d("color", "red: ");
+                result = Color.parseColor("#ffcccb");
+            }
+            else if (!deploymentItem.resources.get(i).properties.powerState.contains("ON")){
+                Log.d("color", "yellow: ");
+                result = Color.parseColor("#ffffe0");
+
+            }
+            else if (deploymentItem.resources.get(i).properties.powerState.contains("ON")){
+                Log.d("color", "green: ");
+                result = Color.parseColor("#90ee90");
+            }
+        }
+
+        return result;
     }
 
     // Displays a toast so we can verify that the buttons work when clicked
