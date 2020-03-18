@@ -26,7 +26,6 @@
 
     <string name="card_details_arrow">Arrow indicating card can be clicked</string>
 
-    <string name="world">world</string>
     <string name="contact_dev">Contact the Dev Team</string>
 
     <string name="csp_URL">https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize</string>

@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
+import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.data.model.CspResult;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
@@ -152,28 +153,29 @@ public class APIService {
     @TargetApi(26)
     public static int getPowerState(DeploymentItemModel.DeploymentItem deploymentItem) {
         //Unknown status if null or empty resources
-        Log.d("color", "resources: " + deploymentItem.resources);
 
         if (deploymentItem.resources == null || deploymentItem.resources.size() == 0) {
-            return Color.GRAY;
+            //light grey
+            return Color.parseColor("#a4a9ac");
         }
-        int result = Color.GRAY;
+        int result = Color.parseColor("#a4a9ac");
         for(int i = 0; i < deploymentItem.resources.size(); i++){
             if(deploymentItem.resources.get(i).properties == null || deploymentItem.resources.get(i).properties.powerState == null){
                 Log.d("color", "grey: ");
-                result = Color.GRAY;
+                result = Color.parseColor("#a4a9ac");
             }
             else if (deploymentItem.resources.get(i).properties.powerState.contains("OFF")){
                 Log.d("color", "red: ");
-                result = Color.RED;
+                result = Color.parseColor("#ffcccb");
             }
             else if (!deploymentItem.resources.get(i).properties.powerState.contains("ON")){
                 Log.d("color", "yellow: ");
-                result = Color.YELLOW;
+                result = Color.parseColor("#ffffe0");
+
             }
             else if (deploymentItem.resources.get(i).properties.powerState.contains("ON")){
                 Log.d("color", "green: ");
-                result = Color.GREEN;
+                result = Color.parseColor("#90ee90");
             }
         }
 
