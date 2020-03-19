@@ -52,9 +52,27 @@
                     android:textSize="36sp"
                     android:textStyle="bold" />
 
-
-
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/deployment_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:text="DeploymentDescription"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/deployment_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:text="PowerStatus"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/deployment_created_at"
@@ -63,9 +81,60 @@
                 android:foregroundGravity="center"
                 android:gravity="center"
                 android:layoutDirection="ltr"
-                android:paddingBottom="30dp"
                 android:text="DeploymentCreatedAt"
                 android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/deployment_created_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:text="DeploymentCreatedBy"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/deployment_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:text="DeploymentID"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/deployment_updated_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:text="DeploymentUpdatedAt"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/deployment_updated_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:text="DeploymentUpdatedBy"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/deployment_project_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:paddingBottom="30dp"
+                android:text="ProjectID"
+                android:textSize="12sp" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

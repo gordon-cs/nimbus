@@ -42,14 +42,36 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
 
         TextView deploymentName = findViewById(R.id.deployment_name);
         TextView deploymentCreatedAt = findViewById(R.id.deployment_created_at);
+        TextView deploymentDescription = findViewById(R.id.deployment_description);
+        TextView deploymentCreatedBy = findViewById(R.id.deployment_created_by);
+        TextView deploymentId = findViewById(R.id.deployment_id);
+        TextView deploymentUpdatedAt = findViewById(R.id.deployment_updated_at);
+        TextView deploymentUpdatedBy = findViewById(R.id.deployment_updated_by);
+        TextView deploymentProjectId = findViewById(R.id.deployment_project_id);
+        TextView deploymentStatus = findViewById(R.id.deployment_status);
 
-        int status = APIService.getPowerState(deploymentItem);
-
+        String status = APIService.getPowerState(deploymentItem);
         CardView deploymentCard = findViewById(R.id.deployment_card);
-        deploymentCard.setCardBackgroundColor(status);
+
+        if (status.equals("Unknown")){
+            deploymentCard.setCardBackgroundColor(Color.parseColor("#a4a9ac"));
+        }
+        else if (status.equals("Off")) {
+            deploymentCard.setCardBackgroundColor(Color.parseColor("#ffcccb"));
+        }
+        else if (status.equals("On")) {
+            deploymentCard.setCardBackgroundColor(Color.parseColor("#90ee90"));
+        }
 
         deploymentName.setText(deploymentItem.name);
+        deploymentStatus.setText("Status: " + status);
         deploymentCreatedAt.setText("Created At: " + deploymentItem.createdAt);
+        deploymentDescription.setText("Description: " + deploymentItem.description);
+        deploymentCreatedBy.setText("Created By: " + deploymentItem.createdBy);
+        deploymentId.setText("ID: " + deploymentItem.id);
+        deploymentUpdatedAt.setText("Updated At: " + deploymentItem.lastUpdatedAt);
+        deploymentUpdatedBy.setText("Updated By: " + deploymentItem.lastUpdatedBy);
+        deploymentProjectId.setText("Project ID: " + deploymentItem.projectId);
 
         getSupportActionBar().setTitle(deploymentItem.name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
