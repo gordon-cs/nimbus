@@ -153,31 +153,21 @@ public class APIService {
 
     //TODO: fully implement this
     @TargetApi(26)
-    public static int getPowerState(DeploymentItemModel.DeploymentItem deploymentItem) {
+    public static String getPowerState(DeploymentItemModel.DeploymentItem deploymentItem) {
         //Unknown status if null or empty resources
-
         if (deploymentItem.resources == null || deploymentItem.resources.size() == 0) {
-            //light grey
-            return Color.parseColor("#a4a9ac");
+            return "Unknown";
         }
-        int result = Color.parseColor("#a4a9ac");
+        String result = "Unknown";
         for(int i = 0; i < deploymentItem.resources.size(); i++){
             if(deploymentItem.resources.get(i).properties == null || deploymentItem.resources.get(i).properties.powerState == null){
-                Log.d("color", "grey: ");
-                result = Color.parseColor("#a4a9ac");
+                result = "Unknown";
             }
             else if (deploymentItem.resources.get(i).properties.powerState.contains("OFF")){
-                Log.d("color", "red: ");
-                result = Color.parseColor("#ffcccb");
-            }
-            else if (!deploymentItem.resources.get(i).properties.powerState.contains("ON")){
-                Log.d("color", "yellow: ");
-                result = Color.parseColor("#ffffe0");
-
+                result = "Off";
             }
             else if (deploymentItem.resources.get(i).properties.powerState.contains("ON")){
-                Log.d("color", "green: ");
-                result = Color.parseColor("#90ee90");
+                result = "On";
             }
         }
 
