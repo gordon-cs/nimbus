@@ -151,6 +151,9 @@ public class DeploymentActionsFragment extends DialogFragment {
                                 showTimePicker(year, monthOfYear, dayOfMonth);
                             }
                         }, year, month, day);
+                picker.getDatePicker().setMinDate(cldr.getTimeInMillis());
+                cldr.add(Calendar.DATE, getResources().getInteger(R.integer.lease_limit));
+                picker.getDatePicker().setMaxDate(cldr.getTimeInMillis());
                 picker.show();
             }
         });
