@@ -120,13 +120,14 @@ public class DeployFragment extends DialogFragment {
                     public void onResponse(JSONObject response) {
                         Log.d("dp request", response.toString());
                         dismiss();
-                        toastMsg("Blueprint deployed");
+                        toastMsg("Blueprint deployed successfully.");
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("dp request", "error in deploying: " + error.getMessage());
+                        toastMsg("Blueprint failed to deploy.");
                     }
                 }) {
             @Override
