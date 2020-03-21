@@ -64,14 +64,14 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         }
 
         deploymentName.setText(deploymentItem.name);
-        deploymentStatus.setText("Status: " + status);
-        deploymentCreatedAt.setText("Created At: " + deploymentItem.createdAt);
-        deploymentDescription.setText("Description: " + deploymentItem.description);
-        deploymentCreatedBy.setText("Created By: " + deploymentItem.createdBy);
-        deploymentId.setText("ID: " + deploymentItem.id);
-        deploymentUpdatedAt.setText("Updated At: " + deploymentItem.lastUpdatedAt);
-        deploymentUpdatedBy.setText("Updated By: " + deploymentItem.lastUpdatedBy);
-        deploymentProjectId.setText("Project ID: " + deploymentItem.projectId);
+        deploymentDescription.setText(deploymentItem.description);
+        deploymentStatus.setText(status);
+        deploymentCreatedAt.setText(deploymentItem.createdAt);
+        deploymentCreatedBy.setText(deploymentItem.createdBy);
+        deploymentId.setText(deploymentItem.id);
+        deploymentUpdatedAt.setText(deploymentItem.lastUpdatedAt);
+        deploymentUpdatedBy.setText(deploymentItem.lastUpdatedBy);
+        deploymentProjectId.setText(deploymentItem.projectId);
 
         getSupportActionBar().setTitle(deploymentItem.name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
