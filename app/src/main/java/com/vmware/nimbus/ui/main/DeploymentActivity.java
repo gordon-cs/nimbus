@@ -49,6 +49,7 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         TextView deploymentUpdatedBy = findViewById(R.id.deployment_updated_by);
         TextView deploymentProjectId = findViewById(R.id.deployment_project_id);
         TextView deploymentStatus = findViewById(R.id.deployment_status);
+        TextView deploymentExpiration = findViewById(R.id.deployment_expires_at);
 
         String status = APIService.getPowerState(deploymentItem);
         CardView deploymentCard = findViewById(R.id.deployment_card);
@@ -72,6 +73,7 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         deploymentUpdatedAt.setText(deploymentItem.lastUpdatedAt);
         deploymentUpdatedBy.setText(deploymentItem.lastUpdatedBy);
         deploymentProjectId.setText(deploymentItem.projectId);
+        deploymentExpiration.setText(deploymentItem.leaseExpireAt);
 
         getSupportActionBar().setTitle(deploymentItem.name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
