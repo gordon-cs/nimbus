@@ -193,6 +193,27 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/deployment_expires_at_heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expires At: "
+                        android:textStyle="bold"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/deployment_expires_at"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DeploymentExpiresAt"
+                        android:textSize="12sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
                         android:id="@+id/deployment_project_id_heading"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
