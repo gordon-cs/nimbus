@@ -21,6 +21,10 @@ import com.vmware.nimbus.data.model.LoginModel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A service to interact with the Cloud Assembly API.
+ *
+ */
 public class APIService {
 
     private static String blueprintsUrl;
@@ -29,11 +33,24 @@ public class APIService {
     private static String deploymentsUrl;
     private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
 
+    /**
+     * Changes the state of the LoginModel to logged out.
+     *
+     * @param c - the Context
+     */
     public static void LogOut(Context c) {
         LoginModel.getInstance(c).setAuthenticated(false);
         LoginModel.getInstance(c).setApi_token("");
     }
 
+    /**
+     * Makes a login request to the API
+     *
+     * @param c - the Context
+     * @param URL - The url to make the request to
+     * @param APIKey - the API key to use
+     * @param callback - the callback object to return the data to
+     */
     public static void LogIn(Context c, String URL, String APIKey, final LogInCallback callback) {
         final String LOG_TAG = "API_SERVICE.LOG_IN";
         StringRequest jsonObjRequest = new StringRequest(
@@ -80,6 +97,12 @@ public class APIService {
         Log.d(LOG_TAG, "Added request to queue.");
     }
 
+    /**
+     * Loads the blueprint data asynchronously.
+     *
+     * @param callback - callback object to return the data to on success
+     * @param c - the Context
+     */
     public static void loadBlueprints(final BlueprintCallback callback, Context c) {
         blueprintsUrl = c.getApplicationContext().getResources().getString(R.string.blueprints_url);
         StringRequest jsonObjRequest = new StringRequest(
@@ -151,7 +174,12 @@ public class APIService {
         SingletonRequest.getInstance(c).addToRequestQueue(jsonObjRequest);
     }
 
-    //TODO: fully implement this
+    /**
+     * Gets the power state of a given deployment.
+     *
+     * @param deploymentItem - the deploymentItem associated with the desired deployment
+     * @return - the PowerState as a String
+     */
     @TargetApi(26)
     public static String getPowerState(DeploymentItemModel.DeploymentItem deploymentItem) {
         //Unknown status if null or empty resources
@@ -174,7 +202,12 @@ public class APIService {
         return result;
     }
 
-    // Displays a toast so we can verify that the buttons work when clicked
+    /**
+     * Toast message wrapper.
+     *
+     * @param msg - the message to Toast
+     * @param c - the Context
+     */
     public static void toastMsg(String msg, Context c) {
         Toast toast = Toast.makeText(c, msg, Toast.LENGTH_LONG);
         toast.show();
