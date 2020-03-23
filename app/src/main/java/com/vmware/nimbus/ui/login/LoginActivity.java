@@ -15,10 +15,18 @@ import com.vmware.nimbus.ui.main.MainActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * The login activity.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     String LOG_TAG = "LoginActivity";
 
+    /**
+     * Called after the login activity is created.
+     *
+     * @param savedInstanceState - the savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +63,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Displays a toast so we can verify that the buttons work when clicked
+    /**
+     * Wrapper for Toast class.
+     *
+     * @param msg - the message to Toast
+     */
     public void toastMsg(String msg) {
         Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
         toast.show();
