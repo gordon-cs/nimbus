@@ -43,14 +43,16 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
         TextView bpOrgId = findViewById(R.id.bp_org_id);
         TextView bpProjectName = findViewById(R.id.bp_project_name);
         TextView bpStatus = findViewById(R.id.bp_status);
+        TextView bpName = findViewById(R.id.blueprint_name);
 
-        bpDescription.setText("Description: " + blueprintItem.description);
-        bpId.setText("ID: " + blueprintItem.id);
-        bpUpdated.setText("Updated At: " + blueprintItem.updatedAt);
-        bpUpdatedBy.setText("Updated by: " + blueprintItem.updatedBy);
-        bpOrgId.setText("Org ID: " + blueprintItem.orgId);
-        bpProjectName.setText("Project: " + blueprintItem.projectName);
-        bpStatus.setText("Status: " + blueprintItem.status);
+        bpName.setText(blueprintItem.name);
+        bpDescription.setText(blueprintItem.description);
+        bpId.setText(blueprintItem.id);
+        bpUpdated.setText(blueprintItem.updatedAt);
+        bpUpdatedBy.setText(blueprintItem.updatedBy);
+        bpOrgId.setText(blueprintItem.orgId);
+        bpProjectName.setText(blueprintItem.projectName);
+        bpStatus.setText(blueprintItem.status);
 
         final Button deployButton = findViewById(R.id.deployButton);
         deployButton.setOnClickListener(new View.OnClickListener() {
