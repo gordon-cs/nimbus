@@ -15,6 +15,9 @@ import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.fragments.DeploymentActionsFragment;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,16 +67,38 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
             deploymentCard.setCardBackgroundColor(Color.parseColor("#90ee90"));
         }
 
+        SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat sdfOut = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+
+        Date createDate;
+        String goodCreatedAt = null;
+        Date updatedDate;
+        String goodUpdatedAt = null;
+        Date expireDate;
+        String goodExpiresAt = null;
+        try {
+            createDate = sdfIn.parse(deploymentItem.createdAt);
+            goodCreatedAt = sdfOut.format(createDate);
+
+            updatedDate = sdfIn.parse(deploymentItem.lastUpdatedAt);
+            goodUpdatedAt = sdfOut.format(updatedDate);
+
+            expireDate = sdfIn.parse(deploymentItem.leaseExpireAt);
+            goodExpiresAt = sdfOut.format(expireDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         deploymentName.setText(deploymentItem.name);
         deploymentDescription.setText(deploymentItem.description);
         deploymentStatus.setText(status);
-        deploymentCreatedAt.setText(deploymentItem.createdAt);
+        deploymentCreatedAt.setText(goodCreatedAt);
         deploymentCreatedBy.setText(deploymentItem.createdBy);
         deploymentId.setText(deploymentItem.id);
-        deploymentUpdatedAt.setText(deploymentItem.lastUpdatedAt);
+        deploymentUpdatedAt.setText(goodUpdatedAt);
         deploymentUpdatedBy.setText(deploymentItem.lastUpdatedBy);
         deploymentProjectId.setText(deploymentItem.projectId);
-        deploymentExpiration.setText(deploymentItem.leaseExpireAt);
+        deploymentExpiration.setText(goodExpiresAt);
 
         getSupportActionBar().setTitle(deploymentItem.name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
