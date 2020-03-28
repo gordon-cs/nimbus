@@ -11,6 +11,12 @@ import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.fragments.DeployFragment;
 
 import java.io.Serializable;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -44,9 +50,21 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
         TextView bpProjectName = findViewById(R.id.bp_project_name);
         TextView bpStatus = findViewById(R.id.bp_status);
 
+        SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat sdfOut = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+
+        Date date;
+        String goodUpdatedAt = null;
+        try {
+            date = sdfIn.parse(blueprintItem.updatedAt);
+            goodUpdatedAt = sdfOut.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         bpDescription.setText("Description: " + blueprintItem.description);
         bpId.setText("ID: " + blueprintItem.id);
-        bpUpdated.setText("Updated At: " + blueprintItem.updatedAt);
+        bpUpdated.setText("Updated At: " + goodUpdatedAt);
         bpUpdatedBy.setText("Updated by: " + blueprintItem.updatedBy);
         bpOrgId.setText("Org ID: " + blueprintItem.orgId);
         bpProjectName.setText("Project: " + blueprintItem.projectName);

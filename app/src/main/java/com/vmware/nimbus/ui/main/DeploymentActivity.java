@@ -15,6 +15,9 @@ import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.fragments.DeploymentActionsFragment;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,7 +52,19 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         deploymentCard.setCardBackgroundColor(status);
 
         deploymentName.setText(deploymentItem.name);
-        deploymentCreatedAt.setText("Created At: " + deploymentItem.createdAt);
+
+        SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat sdfOut = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+
+        Date date;
+        String goodCreatedAt = null;
+        try {
+            date = sdfIn.parse(deploymentItem.createdAt);
+            goodCreatedAt = sdfOut.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        deploymentCreatedAt.setText("Created At: " + goodCreatedAt);
 
         getSupportActionBar().setTitle(deploymentItem.name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
