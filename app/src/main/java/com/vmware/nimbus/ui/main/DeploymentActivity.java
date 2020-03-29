@@ -68,6 +68,7 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         }
 
         SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat sdfInExpiration = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         SimpleDateFormat sdfOut = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
 
         Date createDate;
@@ -83,7 +84,7 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
             updatedDate = sdfIn.parse(deploymentItem.lastUpdatedAt);
             goodUpdatedAt = sdfOut.format(updatedDate);
 
-            expireDate = sdfIn.parse(deploymentItem.leaseExpireAt);
+            expireDate = sdfInExpiration.parse(deploymentItem.leaseExpireAt);
             goodExpiresAt = sdfOut.format(expireDate);
         } catch (ParseException e) {
             e.printStackTrace();
