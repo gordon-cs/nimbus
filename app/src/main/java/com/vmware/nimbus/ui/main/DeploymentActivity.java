@@ -2,7 +2,6 @@ package com.vmware.nimbus.ui.main;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
-import com.vmware.nimbus.api.DeploymentCallback;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.fragments.DeploymentActionsFragment;
 
@@ -18,7 +16,6 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -54,16 +51,16 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         TextView deploymentStatus = findViewById(R.id.deployment_status);
         TextView deploymentExpiration = findViewById(R.id.deployment_expires_at);
 
-        String status = APIService.getPowerState(deploymentItem);
+        APIService.PowerState status = APIService.getPowerState(deploymentItem);
         CardView deploymentCard = findViewById(R.id.deployment_card);
 
-        if (status.equals("Unknown")){
+        if (status == APIService.PowerState.UNKNOWN){
             deploymentCard.setCardBackgroundColor(Color.parseColor("#a4a9ac"));
         }
-        else if (status.equals("Off")) {
+        else if (status == APIService.PowerState.OFF) {
             deploymentCard.setCardBackgroundColor(Color.parseColor("#ffcccb"));
         }
-        else if (status.equals("On")) {
+        else if (status == APIService.PowerState.ON) {
             deploymentCard.setCardBackgroundColor(Color.parseColor("#90ee90"));
         }
 
@@ -92,7 +89,7 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
 
         deploymentName.setText(deploymentItem.name);
         deploymentDescription.setText(deploymentItem.description);
-        deploymentStatus.setText(status);
+        deploymentStatus.setText(status.toString());
         deploymentCreatedAt.setText(goodCreatedAt);
         deploymentCreatedBy.setText(deploymentItem.createdBy);
         deploymentId.setText(deploymentItem.id);

@@ -32,5 +32,5 @@
     <string name="blueprints_url">https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints</string>
     <string name="deployments_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments?expandResources=true</string>
     <string name="bp_request_url">https://api.mgmt.cloud.vmware.com/blueprint/api/blueprint-requests</string>
-    <string name="deployments_base_url"></string>
+    <string name="deployments_base_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments/</string>
 </resources>

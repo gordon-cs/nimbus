@@ -2,7 +2,6 @@ package com.vmware.nimbus.api;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,6 +31,7 @@ public class APIService {
 
     private static String deploymentsUrl;
     private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
+    public enum PowerState {UNKNOWN, ON, OFF, MIXED};
 
     /**
      * Changes the state of the LoginModel to logged out.
@@ -181,22 +181,42 @@ public class APIService {
      * @return - the PowerState as a String
      */
     @TargetApi(26)
-    public static String getPowerState(DeploymentItemModel.DeploymentItem deploymentItem) {
-        //Unknown status if null or empty resources
+    public static PowerState getPowerState(DeploymentItemModel.DeploymentItem deploymentItem) {
+
+//        if all null: unknown or N/A
+//        if none off and >=1 on: mark on
+//        if none on and >=1 off: mark off
+//        if some on some off: mixed?
+        boolean anyOff = false;
+        boolean anyOn = false;
+        PowerState result;
+
         if (deploymentItem.resources == null || deploymentItem.resources.size() == 0) {
-            return "Unknown";
+            result = PowerState.UNKNOWN;
         }
-        String result = "Unknown";
+        result = PowerState.UNKNOWN;
         for(int i = 0; i < deploymentItem.resources.size(); i++){
             if(deploymentItem.resources.get(i).properties == null || deploymentItem.resources.get(i).properties.powerState == null){
-                result = "Unknown";
             }
             else if (deploymentItem.resources.get(i).properties.powerState.contains("OFF")){
-                result = "Off";
+                anyOff = true;
             }
             else if (deploymentItem.resources.get(i).properties.powerState.contains("ON")){
-                result = "On";
+                anyOn = true;
             }
+        }
+
+        if(anyOff == false && anyOn == false) {
+            result = PowerState.UNKNOWN;
+        }
+        else if(anyOff == false && anyOn == true) {
+            result = PowerState.ON;
+        }
+        else if(anyOff == true && anyOn == false) {
+            result = PowerState.OFF;
+        }
+        else if(anyOff == true && anyOn == true) {
+            result = PowerState.MIXED;
         }
 
         return result;
