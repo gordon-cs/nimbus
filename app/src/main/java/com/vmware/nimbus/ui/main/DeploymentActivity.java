@@ -1,10 +1,14 @@
 package com.vmware.nimbus.ui.main;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.vmware.nimbus.R;
@@ -27,6 +31,7 @@ import androidx.fragment.app.DialogFragment;
 public class DeploymentActivity extends AppCompatActivity implements Serializable {
 
     DeploymentItemModel.DeploymentItem deploymentItem;
+    TableLayout resourcesLayout;
 
     /**
      * Called after the activity is created.
@@ -39,6 +44,46 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
         setContentView(R.layout.activity_deployment);
         deploymentItem = (DeploymentItemModel.DeploymentItem) getIntent()
                 .getSerializableExtra("DeploymentItemModel.DeploymentItem");
+
+        resourcesLayout = findViewById(R.id.resources_layout);
+        for (int i = 0; i < deploymentItem.resources.size(); i++) {
+            TableRow typeRow = new TableRow(this);
+            TextView resourceTypeHeading = new TextView(this);
+            resourceTypeHeading.setText("Type: ");
+            resourceTypeHeading.setTextSize(12);
+            resourceTypeHeading.setTypeface(resourceTypeHeading.getTypeface(), Typeface.BOLD);
+            TextView resourceType = new TextView(this);
+            resourceType.setText(deploymentItem.resources.get(i).name);
+            resourceType.setTextSize(12);
+            typeRow.addView(resourceTypeHeading);
+            typeRow.addView(resourceType);
+            resourcesLayout.addView(typeRow);
+
+            TableRow nameRow = new TableRow(this);
+            TextView resourceNameHeading = new TextView(this);
+            resourceNameHeading.setText("Name: ");
+            resourceNameHeading.setTextSize(12);
+            resourceNameHeading.setTypeface(resourceNameHeading.getTypeface(), Typeface.BOLD);
+            TextView resourceName = new TextView(this);
+            resourceName.setText(deploymentItem.resources.get(i).name);
+            resourceName.setTextSize(12);
+            nameRow.addView(resourceNameHeading);
+            nameRow.addView(resourceName);
+            resourcesLayout.addView(nameRow);
+
+            TableRow statusRow = new TableRow(this);
+            TextView resourceStateHeading = new TextView(this);
+            resourceStateHeading.setText("Status: ");
+            resourceStateHeading.setTextSize(12);
+            resourceStateHeading.setTypeface(resourceStateHeading.getTypeface(), Typeface.BOLD);
+            TextView resourceState = new TextView(this);
+            resourceState.setText(deploymentItem.resources.get(i).properties.powerState);
+            resourceState.setTextSize(12);
+            statusRow.addView(resourceStateHeading);
+            statusRow.addView(resourceState);
+            statusRow.setPadding(0, 0, 0, 20);
+            resourcesLayout.addView(statusRow);
+        }
 
         TextView deploymentName = findViewById(R.id.deployment_name);
         TextView deploymentCreatedAt = findViewById(R.id.deployment_created_at);
