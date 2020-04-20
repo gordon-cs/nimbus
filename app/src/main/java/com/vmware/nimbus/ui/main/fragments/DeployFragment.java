@@ -127,7 +127,11 @@ public class DeployFragment extends DialogFragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("dp request", "error in deploying: " + error.getMessage());
-                        toastMsg("Blueprint failed to deploy.");
+                        String check = error.getMessage();
+                        if (check.contains(""))
+                            toastMsg("Blueprint failed to deploy; blueprint requires input");
+                        else
+                            toastMsg("Blueprint failed to deploy.");
                     }
                 }) {
             @Override
