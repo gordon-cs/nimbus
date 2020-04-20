@@ -20,7 +20,6 @@ public class BlueprintItemModel {
         public String description;
         public String status;
         public String valid;
-        public ArrayList<String> validationMessages;
         public int totalVersions;
         public int totalReleasedVersions;
         public boolean requestScopeOrg;
