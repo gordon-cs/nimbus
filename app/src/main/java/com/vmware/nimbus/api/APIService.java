@@ -152,6 +152,9 @@ public class APIService {
                         Log.d("deployments response", response);
                         Gson gson = new Gson();
                         deploymentItemPage = gson.fromJson(response, DeploymentItemModel.DeploymentItemPage.class);
+                        for(int i  = 0; i < deploymentItemPage.content.size(); i++){
+                            deploymentItemPage.content.get(i).powerState = getPowerState(deploymentItemPage.content.get(i));
+                        }
                         callback.onSuccess(deploymentItemPage.content);
                     }
                 },
