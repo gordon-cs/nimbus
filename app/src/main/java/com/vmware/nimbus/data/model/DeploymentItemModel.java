@@ -1,5 +1,7 @@
 package com.vmware.nimbus.data.model;
 
+import com.vmware.nimbus.api.APIService;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class DeploymentItemModel implements Serializable {
         public String leaseExpireAt;
         public String name;
         public String projectId;
+        public APIService.PowerState powerState;
         public Boolean simulated;
         public ArrayList<DeploymentResource> resources;
         public ArrayList<DeploymentAction> actions;

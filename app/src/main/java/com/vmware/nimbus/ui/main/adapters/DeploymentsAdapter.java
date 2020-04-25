@@ -86,6 +86,8 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
     @Override
     public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
         cardViewHolder.bpid_deployments_text.setText("Blueprint: " + deploymentsData.get(i).id);
+        cardViewHolder.status_deployments_text.setText("Status: " + deploymentsData.get(i).powerState);
+
         cardViewHolder.name_deployments_text.setText(deploymentsData.get(i).name);
 
         cardViewHolder.setItemClickListener(new ItemClickListener() {
@@ -115,6 +117,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
     public static class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView bpid_deployments_text;
         TextView name_deployments_text;
+        TextView status_deployments_text;
         private ItemClickListener itemClickListener;
 
         /**
@@ -126,6 +129,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
             super(itemView);
             bpid_deployments_text = itemView.findViewById(R.id.bpid_deployments_text);
             name_deployments_text = itemView.findViewById(R.id.name_deployments_text);
+            status_deployments_text = itemView.findViewById(R.id.status_deployments_text);
 
             itemView.setOnClickListener(this);
         }
