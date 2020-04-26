@@ -6,10 +6,13 @@ public class DeployBlueprintModel {
     public String projectId;
     public String reason;
     public String blueprintId;
-    public DeployBlueprintModel(String name, String pId, String rsn, String bpId) {
+    public String description;
+
+    public DeployBlueprintModel(String name, String pId, String rsn, String bpId, String desc) {
         deploymentName = name;
         projectId = pId;
         reason = rsn;
         blueprintId = bpId;
+        description = desc;
     }
 }
