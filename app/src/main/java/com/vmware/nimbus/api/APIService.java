@@ -9,13 +9,18 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.data.model.CspResult;
+import com.vmware.nimbus.data.model.DeployBlueprintModel;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +36,7 @@ public class APIService {
 
     private static String deploymentsUrl;
     private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
+    private static String bpRequestUrl;
     public enum PowerState {UNKNOWN, ON, OFF, MIXED};
 
     /**
@@ -175,6 +181,49 @@ public class APIService {
             }
         };
         SingletonRequest.getInstance(c).addToRequestQueue(jsonObjRequest);
+    }
+
+    /**
+     * Deploys a blueprint.
+     *
+     * @param name - name of the deployment
+     * @param pId  - project ID
+     * @param rsn  - reason for deploying this blueprint
+     * @param bpId - blueprint ID
+     * @throws JSONException
+     */
+    public static void deployBlueprint(String name, String pId, String rsn, String bpId, String desc, Context c) throws JSONException {
+        DeployBlueprintModel requestBody = new DeployBlueprintModel(name, pId, rsn, bpId, desc);
+        Gson gson = new Gson();
+        String json = gson.toJson(requestBody);
+        JSONObject jsonObject = new JSONObject(json);
+        bpRequestUrl = c.getApplicationContext().getResources().getString(R.string.bp_request_url);
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, bpRequestUrl, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("dp request", response.toString());
+                        toastMsg("Blueprint deployed successfully.", c);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("dp request", "error in deploying: " + error.getMessage());
+                        toastMsg("Blueprint failed to deploy.", c);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                String bearerToken = "Bearer " + LoginModel.getInstance(c).getBearer_token();
+                params.put("Authorization", bearerToken);
+                return params;
+            }
+        };
+
+        SingletonRequest.getInstance(c).addToRequestQueue(jsonObjRequest);
+
     }
 
     /**
