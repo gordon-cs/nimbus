@@ -22,6 +22,8 @@ import com.vmware.nimbus.data.model.LoginModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -209,8 +211,20 @@ public class APIService {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        String responseBody = null;
+                        try {
+                            responseBody = new String(error.networkResponse.data, "utf-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        if (responseBody.contains("Value is mandatory")) {
+                            toastMsg("Blueprint requires input and is unsupported by this application.", c);
+                        }
+                        else {
+                            toastMsg("Blueprint failed to deploy.", c);
+                        }
                         Log.d("dp request", "error in deploying: " + error.getMessage());
-                        toastMsg("Blueprint failed to deploy.", c);
+
                     }
                 }) {
             @Override
