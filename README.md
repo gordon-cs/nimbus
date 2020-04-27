@@ -3,7 +3,7 @@
 
 [Handoff Document](https://docs.google.com/document/d/1Bu1i-rRUlzmKqpDJdNWhol64u49c6dMTqTzAZ_nW2oM/edit?usp=sharing)
 
-[Final Presentation] (https://gordonedu-my.sharepoint.com/:p:/g/personal/addison_abbot_gordon_edu/EXeUmhVc5HZLuHEivy3TiN8B5kGh2E6a1phtpX4qt501kQ?e=NBERLN)
+[Final Presentation](https://gordonedu-my.sharepoint.com/:p:/g/personal/addison_abbot_gordon_edu/EXeUmhVc5HZLuHEivy3TiN8B5kGh2E6a1phtpX4qt501kQ?e=NBERLN)
 
 **Overview**
 
