@@ -3,6 +3,8 @@
 
 [Handoff Document](https://docs.google.com/document/d/1Bu1i-rRUlzmKqpDJdNWhol64u49c6dMTqTzAZ_nW2oM/edit?usp=sharing)
 
+[Final Presentation] (https://gordonedu-my.sharepoint.com/:p:/g/personal/addison_abbot_gordon_edu/EXeUmhVc5HZLuHEivy3TiN8B5kGh2E6a1phtpX4qt501kQ?e=NBERLN)
+
 **Overview**
 
 Our system is a native Android application that attempts to bridge the gap between sysadmin and Day 0/2 operations for Android mobile devices (a parallel iOS version is in active development as well). It interfaces with vRealize Automation Cloud, a VMware product, and is aptly named the vRAC Companion app. The app can perform a limited number of actions to interact with the VMware Cloud Assembly environment, allowing sysadmins to perform some Day 2 operations while they are away from their computer. Day 0 operations involve deploying already defined blueprints, and Day 2 operations involve powering on/off, deleting, or changing the lease of deployments.
