@@ -22,9 +22,7 @@ import com.vmware.nimbus.data.model.LoginModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Console;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,19 +60,27 @@ public class APIService {
      */
     public static void LogIn(Context c, String URL, String APIKey, final LogInCallback callback) {
         final String LOG_TAG = "API_SERVICE.LOG_IN";
-        StringRequest jsonObjRequest = new StringRequest(
 
-                Request.Method.POST,
+        JSONObject jsonBody;
+        try {
+             jsonBody = new JSONObject("{\"refreshToken\":\"" + APIKey + "\"}");
+        } catch (JSONException jsonException) {
+            callback.onFailure(true);
+            return;
+        }
+        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(
+
                 URL,
-                new Response.Listener<String>() {
+                jsonBody,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("volley response", response);
+                    public void onResponse(JSONObject response) {
+                        Log.d("volley response", response.toString());
                         Gson gson = new Gson();
-                        CspResult cspResult = gson.fromJson(response, CspResult.class);
+                        CspResult cspResult = gson.fromJson(response.toString(), CspResult.class);
                         LoginModel.getInstance(c).setAuthenticated(true);
                         LoginModel.getInstance(c).setApi_token(APIKey);
-                        LoginModel.getInstance(c).setBearer_token(cspResult.getAccess_token());
+                        LoginModel.getInstance(c).setBearer_token(cspResult.getToken());
 
                         // todo - Ask class
                         callback.onSuccess(true);
@@ -84,6 +90,7 @@ public class APIService {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
+                        Log.d("volley", new String(error.networkResponse.data));
                         error.printStackTrace();
                         callback.onFailure(false);
                     }
@@ -91,14 +98,7 @@ public class APIService {
 
             @Override
             public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("refresh_token", APIKey);
-                return params;
+                return "application/json";
             }
         };
 
