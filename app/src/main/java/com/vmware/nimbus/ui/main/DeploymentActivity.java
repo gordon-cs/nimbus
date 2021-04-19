@@ -88,8 +88,20 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
                 resourceState.setTextSize(12);
                 statusRow.addView(resourceStateHeading);
                 statusRow.addView(resourceState);
-                statusRow.setPadding(0, 0, 0, 20);
                 resourcesLayout.addView(statusRow);
+
+                TableRow ipRow = new TableRow(this);
+                TextView resourceIpHeading = new TextView(this);
+                resourceIpHeading.setText("IP: ");
+                resourceIpHeading.setTextSize(12);
+                resourceIpHeading.setTypeface(resourceIpHeading.getTypeface(), Typeface.BOLD);
+                TextView resourceIP = new TextView(this);
+                resourceIP.setText(deploymentItem.resources.get(i).properties.address);
+                resourceIP.setTextSize(12);
+                ipRow.addView(resourceIpHeading);
+                ipRow.addView(resourceIP);
+                ipRow.setPadding(0, 0, 0, 20);
+                resourcesLayout.addView(ipRow);
             }
         }
 
