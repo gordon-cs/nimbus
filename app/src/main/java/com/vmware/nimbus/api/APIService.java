@@ -22,6 +22,7 @@ import com.vmware.nimbus.data.model.LoginModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -261,14 +262,16 @@ public class APIService {
             result = PowerState.UNKNOWN;
         }
         result = PowerState.UNKNOWN;
-        for(int i = 0; i < deploymentItem.resources.size(); i++){
-            if(deploymentItem.resources.get(i).properties == null || deploymentItem.resources.get(i).properties.powerState == null){
-            }
-            else if (deploymentItem.resources.get(i).properties.powerState.contains("OFF")){
-                anyOff = true;
-            }
-            else if (deploymentItem.resources.get(i).properties.powerState.contains("ON")){
-                anyOn = true;
+        if (deploymentItem.resources != null) {
+            for(int i = 0; i < deploymentItem.resources.size(); i++){
+                if(deploymentItem.resources.get(i).properties == null || deploymentItem.resources.get(i).properties.powerState == null){
+                }
+                else if (deploymentItem.resources.get(i).properties.powerState.contains("OFF")){
+                    anyOff = true;
+                }
+                else if (deploymentItem.resources.get(i).properties.powerState.contains("ON")){
+                    anyOn = true;
+                }
             }
         }
 

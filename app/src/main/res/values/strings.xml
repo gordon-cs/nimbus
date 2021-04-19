@@ -4,6 +4,7 @@
     <string name="prompt_password">API Token</string>
     <string name="action_sign_in">Log in</string>
     <string name="action_sign_in_short">Log in</string>
+    <string name="action_options">Options</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>

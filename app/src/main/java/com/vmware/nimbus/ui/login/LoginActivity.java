@@ -12,6 +12,7 @@ import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.LogInCallback;
 import com.vmware.nimbus.ui.main.MainActivity;
+import com.vmware.nimbus.ui.main.OptionsActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,9 +33,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent optionsIntent = new Intent(this, OptionsActivity.class);
         final EditText apiKeyEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
+        final Button optionsButton = findViewById(R.id.options);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        optionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(optionsIntent);
+            }
+        });
 
         //todo - verify input
         loginButton.setEnabled(true);
