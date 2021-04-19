@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
 
-                APIService.LogIn(getBaseContext(), getResources().getString(R.string.csp_URL),
+                APIService.LogIn(getBaseContext(), APIService.getBaseEndpointURL(getBaseContext()) + getResources().getString(R.string.login_uri),
                         apiKeyEditText.getText().toString(), new LogInCallback() {
                             @Override
                             public void onSuccess(boolean result) {

@@ -29,9 +29,10 @@
 
     <string name="contact_dev">Contact the Dev Team</string>
 
-    <string name="csp_URL">https://api.mgmt.cloud.vmware.com/iaas/login</string>
-    <string name="blueprints_url">https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints</string>
-    <string name="deployments_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments?expand=resources</string>
-    <string name="bp_request_url">https://api.mgmt.cloud.vmware.com/blueprint/api/blueprint-requests</string>
-    <string name="deployments_base_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments/</string>
+    <string name="base_url">https://api.mgmt.cloud.vmware.com</string>
+    <string name="login_uri">/iaas/login</string>
+    <string name="blueprints_uri">/blueprint/api/blueprints</string>
+    <string name="deployments_uri">/deployment/api/deployments?expand=resources</string>
+    <string name="bp_request_uri">/blueprint/api/blueprint-requests</string>
+    <string name="deployments_base_uri">/deployment/api/deployments/</string>
 </resources>
