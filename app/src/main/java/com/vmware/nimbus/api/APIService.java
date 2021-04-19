@@ -2,6 +2,8 @@ package com.vmware.nimbus.api;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -113,7 +115,7 @@ public class APIService {
      * @param c - the Context
      */
     public static void loadBlueprints(final BlueprintCallback callback, Context c) {
-        blueprintsUrl = c.getApplicationContext().getResources().getString(R.string.blueprints_url);
+        blueprintsUrl = getBaseEndpointURL(c) + c.getApplicationContext().getResources().getString(R.string.blueprints_uri);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 blueprintsUrl,
@@ -151,7 +153,7 @@ public class APIService {
      * @param callback - callback that watches for successful deployments data from the response
      */
     public static void loadDeployments(final DeploymentCallback callback, Context c) {
-        deploymentsUrl = c.getApplicationContext().getResources().getString(R.string.deployments_url);
+        deploymentsUrl = getBaseEndpointURL(c) + c.getApplicationContext().getResources().getString(R.string.deployments_uri);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 deploymentsUrl,
@@ -200,7 +202,7 @@ public class APIService {
         Gson gson = new Gson();
         String json = gson.toJson(requestBody);
         JSONObject jsonObject = new JSONObject(json);
-        bpRequestUrl = c.getApplicationContext().getResources().getString(R.string.bp_request_url);
+        bpRequestUrl = getBaseEndpointURL(c) + c.getApplicationContext().getResources().getString(R.string.bp_request_uri);
         JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.POST, bpRequestUrl, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -300,5 +302,15 @@ public class APIService {
     public static void toastMsg(String msg, Context c) {
         Toast toast = Toast.makeText(c, msg, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    /**
+     * Get the base endpoint URL from the application's settings or get the default if not present
+     * @param context Application Context
+     * @return The base URL without the trailing slash
+     */
+    public static String getBaseEndpointURL(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return settings.getString("base_url", context.getApplicationContext().getResources().getString(R.string.base_url));
     }
 }

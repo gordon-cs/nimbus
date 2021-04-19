@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.vmware.nimbus.R;
+import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.SingletonRequest;
 import com.vmware.nimbus.data.model.LoginModel;
 
@@ -225,7 +226,7 @@ public class DeploymentActionsFragment extends DialogFragment {
      * @throws JSONException
      */
     public void performDeploymentAction(DeploymentActionRequest request) throws JSONException {
-        baseUrl = c.getApplicationContext().getResources().getString(R.string.deployments_base_url);
+        baseUrl = APIService.getBaseEndpointURL(c) + c.getApplicationContext().getResources().getString(R.string.deployments_base_uri);
         String requestUrl = baseUrl + deploymentId + "/requests";
         Log.d(LOG_TAG, "Request URL: " + requestUrl);
         Gson gson = new Gson();
