@@ -62,6 +62,7 @@ public class DeploymentItemModel implements Serializable {
     }
 
     public class DeploymentProperties implements Serializable {
+        public String address;
         public String powerState;
         public ArrayList<NetworkCard> networks;
     }

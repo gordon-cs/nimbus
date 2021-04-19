@@ -89,6 +89,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
         cardViewHolder.status_deployments_text.setText("Status: " + deploymentsData.get(i).powerState);
 
         cardViewHolder.name_deployments_text.setText(deploymentsData.get(i).name);
+        cardViewHolder.ip_deployments_text.setText("IP: " + deploymentsData.get(i).resources.get(0).properties.address);
 
         cardViewHolder.setItemClickListener(new ItemClickListener() {
             @Override
@@ -118,6 +119,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
         TextView bpid_deployments_text;
         TextView name_deployments_text;
         TextView status_deployments_text;
+        TextView ip_deployments_text;
         private ItemClickListener itemClickListener;
 
         /**
@@ -130,7 +132,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
             bpid_deployments_text = itemView.findViewById(R.id.bpid_deployments_text);
             name_deployments_text = itemView.findViewById(R.id.name_deployments_text);
             status_deployments_text = itemView.findViewById(R.id.status_deployments_text);
-
+            ip_deployments_text = itemView.findViewById(R.id.ip_deployments_text);
             itemView.setOnClickListener(this);
         }
 
