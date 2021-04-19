@@ -6,4 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.OptionsActivity">
 
+    <TextView
+        android:id="@+id/rootUriLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Root URI"
+        app:layout_constraintBottom_toTopOf="@+id/rootUri"
+        app:layout_constraintEnd_toEndOf="@+id/rootUri"
+        app:layout_constraintStart_toStartOf="@+id/rootUri" />
+
+    <EditText
+        android:id="@+id/rootUri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textUri"
+        android:text="@string/base_url"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.185" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rootUri"
+        app:layout_constraintStart_toStartOf="@+id/rootUri"
+        app:layout_constraintTop_toBottomOf="@+id/rootUri"
+        app:layout_constraintVertical_bias="0.05" />
+
+    <Button
+        android:id="@+id/restore"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restore Defaults"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save"
+        app:layout_constraintVertical_bias="0.95" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             android:clickable="true"
             android:focusable="true"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+            app:popupTheme="@style/AppTheme"
             app:menu="@menu/options_menu" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            app:tabTextColor="@android:color/background_light">
+            app:tabTextColor="@android:color/background_light"
+            app:tabIndicatorColor="@color/colorAccent">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/blueprints"
