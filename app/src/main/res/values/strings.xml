@@ -34,7 +34,7 @@
     <string name="base_url_english_name">Endpoint Base URL</string>
 
     <string name="base_url">https://api.mgmt.cloud.vmware.com</string>
-    <string name="login_uri">/iaas/login</string>
+    <string name="login_uri">/iaas/api/login</string>
     <string name="blueprints_uri">/blueprint/api/blueprints</string>
     <string name="deployments_uri">/deployment/api/deployments?expand=resources</string>
     <string name="bp_request_uri">/blueprint/api/blueprint-requests</string>
