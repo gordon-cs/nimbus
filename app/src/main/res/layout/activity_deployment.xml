@@ -236,56 +236,63 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/resources_card"
-        app:cardElevation="6dp">
-
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/resources_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
-            android:orientation="vertical">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="100"
+            android:layout_marginRight="10dp"
+            app:cardElevation="6dp">
+            <!-- android:minHeight="100dp" -->
 
-            <TextView
-                android:id="@+id/resources_heading"
-                android:layout_marginBottom="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Resources"
-                android:textStyle="bold" />
-
-            <androidx.core.widget.NestedScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
 
-                <TableLayout
-                    android:id="@+id/resources_layout"
+                <TextView
+                    android:id="@+id/resources_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:text="Resources"
+                    android:textStyle="bold" />
+
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center">
+                    android:layout_height="match_parent">
 
-                </TableLayout>
-            </androidx.core.widget.NestedScrollView>
-        </LinearLayout>
+                    <TableLayout
+                        android:id="@+id/resources_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
 
-    </androidx.cardview.widget.CardView>
+                    </TableLayout>
+                </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
 
-    <Button
+        </androidx.cardview.widget.CardView>
+
+        <Button
         android:id="@+id/actions_button"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:text="Actions"
+        android:layout_weight="0"
         android:visibility="visible" />
-
+    </LinearLayout>
 </LinearLayout>
