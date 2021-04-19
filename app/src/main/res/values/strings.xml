@@ -8,7 +8,7 @@
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="blueprints_tab">Blueprints</string>
+    <string name="blueprints_tab">Catalog</string>
     <string name="deployments_tab">Deployments</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="settings_button_desc">Settings Button</string>
@@ -31,7 +31,7 @@
 
     <string name="csp_URL">https://console.cloud.vmware.com/csp/gateway/am/api/auth/api-tokens/authorize</string>
     <string name="blueprints_url">https://api.mgmt.cloud.vmware.com/blueprint/api/blueprints</string>
-    <string name="deployments_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments?expandResources=true</string>
+    <string name="deployments_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments?expand=resources</string>
     <string name="bp_request_url">https://api.mgmt.cloud.vmware.com/blueprint/api/blueprint-requests</string>
     <string name="deployments_base_url">https://api.mgmt.cloud.vmware.com/deployment/api/deployments/</string>
 </resources>
