@@ -92,7 +92,9 @@ public class APIService {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
-                        Log.d("volley", new String(error.networkResponse.data));
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            Log.d("volley", new String(error.networkResponse.data));
+                        }
                         error.printStackTrace();
                         callback.onFailure(false);
                     }
