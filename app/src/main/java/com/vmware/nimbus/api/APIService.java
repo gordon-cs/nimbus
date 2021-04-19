@@ -311,6 +311,8 @@ public class APIService {
      */
     public static String getBaseEndpointURL(Context context) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        return settings.getString("base_url", context.getApplicationContext().getResources().getString(R.string.base_url));
+        return settings.getString(
+                context.getApplicationContext().getResources().getString(R.string.base_url_shared_property_name),
+                context.getApplicationContext().getResources().getString(R.string.base_url));
     }
 }

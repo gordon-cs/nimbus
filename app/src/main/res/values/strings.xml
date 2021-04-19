@@ -17,6 +17,7 @@
     <string name="blueprints_click_icon">\></string>
     <string name="option_log_out">Log Out</string>
     <string name="vertical_ellipsis_desc">Vertical ellipsis for more options</string>
+    <string name="options_apply_changes">Apply Changes</string>
 
     <string name="power_on_button">Power On</string>
     <string name="power_off_button">Power Off</string>
@@ -28,6 +29,9 @@
     <string name="card_details_arrow">Arrow indicating card can be clicked</string>
 
     <string name="contact_dev">Contact the Dev Team</string>
+
+    <string name="base_url_shared_property_name">base_url</string>
+    <string name="base_url_english_name">Endpoint Base URL</string>
 
     <string name="base_url">https://api.mgmt.cloud.vmware.com</string>
     <string name="login_uri">/iaas/login</string>
