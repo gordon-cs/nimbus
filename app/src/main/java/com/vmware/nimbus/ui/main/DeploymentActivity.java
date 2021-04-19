@@ -134,8 +134,10 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
             updatedDate = sdfIn.parse(deploymentItem.lastUpdatedAt);
             goodUpdatedAt = sdfOut.format(updatedDate);
 
-            expireDate = sdfInExpiration.parse(deploymentItem.leaseExpireAt);
-            goodExpiresAt = sdfOut.format(expireDate);
+            if (deploymentItem.leaseExpireAt != null) {
+                expireDate = sdfInExpiration.parse(deploymentItem.leaseExpireAt);
+                goodExpiresAt = sdfOut.format(expireDate);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
