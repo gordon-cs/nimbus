@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.ClientError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -93,7 +94,6 @@ public class DeploymentActionsFragment extends DialogFragment {
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction(request);
-                    Toast.makeText(getContext(), "Powering On " + deploymentName, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -111,7 +111,6 @@ public class DeploymentActionsFragment extends DialogFragment {
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction(request);
-                    Toast.makeText(getContext(), "Powering Off " + deploymentName, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -129,7 +128,6 @@ public class DeploymentActionsFragment extends DialogFragment {
                 DeploymentActionRequest request = new DeploymentActionRequest(actionId, inputs, reason);
                 try {
                     performDeploymentAction(request);
-                    Toast.makeText(getContext(), "Deleting " + deploymentName, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -196,7 +194,6 @@ public class DeploymentActionsFragment extends DialogFragment {
 
                         try {
                             performDeploymentAction(request);
-                            Toast.makeText(getContext(), "Changing lease of " + deploymentName, Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -241,6 +238,8 @@ public class DeploymentActionsFragment extends DialogFragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(LOG_TAG, "Response: " + response.toString());
+                        String action = request.actionId.substring(request.actionId.indexOf('.') + 1) + " ";
+                        Toast.makeText(getContext(), action + deploymentName, Toast.LENGTH_LONG).show();
                         dismiss();
                         //Gson gson = new Gson();
                         //DeploymentActionResult deploymentActionResult = gson.fromJson(request.toString(), DeploymentActionResult.class);
@@ -265,7 +264,10 @@ public class DeploymentActionsFragment extends DialogFragment {
 //                        } else if (error instanceof ParseError) {
 //                            Log.e(LOG_TAG, "ParseError");
 //                        }
-
+                        if (error instanceof ClientError && error.networkResponse.statusCode == 409) {
+                            Toast.makeText(getContext(), "Previous request in progress for " + deploymentName, Toast.LENGTH_LONG).show();
+                            dismiss();
+                        }
                         error.printStackTrace();
                     }
                 }) {
