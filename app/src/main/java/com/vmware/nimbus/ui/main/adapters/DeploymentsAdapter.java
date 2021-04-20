@@ -14,6 +14,7 @@ import com.vmware.nimbus.ui.main.DeploymentActivity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,7 +90,13 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
         cardViewHolder.status_deployments_text.setText("Status: " + deploymentsData.get(i).powerState);
 
         cardViewHolder.name_deployments_text.setText(deploymentsData.get(i).name);
-        cardViewHolder.ip_deployments_text.setText("IP: " + deploymentsData.get(i).resources.get(0).properties.address);
+        List<String> addresses = deploymentsData.get(i).resources.stream()
+                .filter(deploymentResource -> deploymentResource.properties.address != null)
+                .map(deploymentResource -> deploymentResource.properties.address)
+                .collect(Collectors.toList());
+        if (!addresses.isEmpty()) {
+            cardViewHolder.ip_deployments_text.setText("IP: " + addresses.get(0));
+        }
 
         cardViewHolder.setItemClickListener(new ItemClickListener() {
             @Override
