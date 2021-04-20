@@ -12,8 +12,6 @@
     <string name="deployments_tab">Deployments</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="settings_button_desc">Settings Button</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
     <string name="blueprints_click_icon">\></string>
     <string name="option_log_out">Log Out</string>
     <string name="vertical_ellipsis_desc">Vertical ellipsis for more options</string>
@@ -29,13 +27,18 @@
     <string name="card_details_arrow">Arrow indicating card can be clicked</string>
 
     <string name="contact_dev">Contact the Dev Team</string>
+    <string name="options">Options</string>
 
     <string name="base_url_shared_property_name">base_url</string>
     <string name="base_url_english_name">Endpoint Base URL</string>
 
+    <string name="catalog_source_property_name">catalog_source</string>
+    <string name="catalog_source_text">Only source published catalog items</string>
+
     <string name="base_url">https://api.mgmt.cloud.vmware.com</string>
     <string name="login_uri">/iaas/api/login</string>
     <string name="blueprints_uri">/blueprint/api/blueprints</string>
+    <string name="catalog_uri">/catalog/api/items</string>
     <string name="deployments_uri">/deployment/api/deployments?expand=resources</string>
     <string name="bp_request_uri">/blueprint/api/blueprint-requests</string>
     <string name="deployments_base_uri">/deployment/api/deployments/</string>

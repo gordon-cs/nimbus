@@ -117,7 +117,7 @@ public class APIService {
      * @param c - the Context
      */
     public static void loadBlueprints(final BlueprintCallback callback, Context c) {
-        blueprintsUrl = getBaseEndpointURL(c) + c.getApplicationContext().getResources().getString(R.string.blueprints_uri);
+        blueprintsUrl = getBaseEndpointURL(c) + getCatalogSourceURI(c);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 blueprintsUrl,
@@ -316,5 +316,19 @@ public class APIService {
         return settings.getString(
                 context.getApplicationContext().getResources().getString(R.string.base_url_shared_property_name),
                 context.getApplicationContext().getResources().getString(R.string.base_url));
+    }
+
+    /**
+     * Get the catalog source based on switch set in options
+     * @param context Application Context
+     * @return catalog item or blueprints uri
+     */
+    public static String getCatalogSourceURI(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        if( settings.getBoolean(context.getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
+                false)) {
+            return context.getApplicationContext().getResources().getString(R.string.catalog_uri);
+        }
+        return context.getApplicationContext().getResources().getString(R.string.blueprints_uri);
     }
 }

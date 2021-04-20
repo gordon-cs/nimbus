@@ -10,7 +10,7 @@
         android:id="@+id/rootUriLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Root URI"
+        android:text="Root URI:"
         app:layout_constraintBottom_toTopOf="@+id/rootUri"
         app:layout_constraintEnd_toEndOf="@+id/rootUri"
         app:layout_constraintStart_toStartOf="@+id/rootUri" />
@@ -27,6 +27,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.185" />
 
+    <Switch
+        android:id="@+id/catalogSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/catalog_source_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rootUri"
+        app:layout_constraintStart_toStartOf="@+id/rootUri"
+        app:layout_constraintTop_toBottomOf="@+id/rootUri"
+        app:layout_constraintVertical_bias="0.0" />
+
     <Button
         android:id="@+id/save"
         android:layout_width="wrap_content"
@@ -35,7 +47,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rootUri"
         app:layout_constraintStart_toStartOf="@+id/rootUri"
-        app:layout_constraintTop_toBottomOf="@+id/rootUri"
+        app:layout_constraintTop_toBottomOf="@+id/catalogSwitch"
         app:layout_constraintVertical_bias="0.05" />
 
     <Button
