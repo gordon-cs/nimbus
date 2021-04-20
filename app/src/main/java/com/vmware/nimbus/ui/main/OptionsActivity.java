@@ -10,7 +10,9 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.vmware.nimbus.R;
@@ -27,6 +29,23 @@ public class OptionsActivity extends AppCompatActivity {
         if (currentBaseUrl != null && !currentBaseUrl.equals("")) {
             ((EditText)findViewById(R.id.rootUri)).setText(currentBaseUrl);
         }
+
+        final Switch catalogSource = findViewById(R.id.catalogSwitch);
+
+        catalogSource.setChecked(settings.getBoolean(
+                getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
+                false
+        ));
+
+        catalogSource.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                settings.edit().putBoolean(
+                        getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
+                        isChecked
+                ).apply();
+            }
+        });
 
         final Button saveButton = findViewById(R.id.save);
 

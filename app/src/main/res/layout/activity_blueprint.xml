@@ -31,7 +31,6 @@
                 android:layoutDirection="ltr"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="BlueprintName"
                 android:textAlignment="center"
                 android:textSize="36sp"
                 android:textStyle="bold" />
@@ -109,7 +108,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/bp_updated_org_id_heading"
+                        android:id="@+id/bp_org_id_heading"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:text="Org ID:"
@@ -127,7 +126,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/bp_updated_project_name_heading"
+                        android:id="@+id/bp_project_name_heading"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:text="Project:"
@@ -145,7 +144,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/bp_updated_status_heading"
+                        android:id="@+id/bp_status_heading"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:text="Status:"

@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(boolean result) {
                                 loadingProgressBar.setVisibility(View.INVISIBLE);
-                                toastMsg("Login Failed");
+                                toastMsg("Login failed, is root URI set?");
                             }
                         });
             }

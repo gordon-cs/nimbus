@@ -100,7 +100,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.option_log_out_id) {
             LogOut();
             return true;
-        } else if (id == R.id.option_contact_id) {
+        } else if (id == R.id.option_options) {
+            Intent intent = new Intent(MainActivity.this, OptionsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.option_contact_id) {
             emailDev();
             return true;
         }

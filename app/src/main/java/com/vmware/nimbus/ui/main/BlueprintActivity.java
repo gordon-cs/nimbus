@@ -1,6 +1,8 @@
 package com.vmware.nimbus.ui.main;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -51,10 +53,24 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
         SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         SimpleDateFormat sdfOut = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
 
+        // Certain properties are dependent on whether source is set to catalog or blueprints
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean isCatalog = settings.getBoolean(getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
+                false);
+        if (isCatalog) {
+            TextView bpOrdIdHeader = findViewById(R.id.bp_org_id_heading);
+            TextView bpStatusHeader = findViewById(R.id.bp_status_heading);
+            TextView bpProjectHeader = findViewById(R.id.bp_project_name_heading);
+
+            bpOrdIdHeader.setVisibility(View.INVISIBLE);
+            bpStatusHeader.setVisibility(View.INVISIBLE);
+            bpProjectHeader.setVisibility(View.INVISIBLE);
+        }
+
         Date date;
         String goodUpdatedAt = null;
         try {
-            date = sdfIn.parse(blueprintItem.updatedAt);
+            date = blueprintItem.updatedAt != null ? sdfIn.parse(blueprintItem.updatedAt) : sdfIn.parse(blueprintItem.lastUpdatedAt);
             goodUpdatedAt = sdfOut.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -64,7 +80,7 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
         bpDescription.setText(blueprintItem.description);
         bpId.setText(blueprintItem.id);
         bpUpdated.setText(goodUpdatedAt);
-        bpUpdatedBy.setText(blueprintItem.updatedBy);
+        bpUpdatedBy.setText(blueprintItem.updatedBy != null ? blueprintItem.updatedBy : blueprintItem.lastUpdatedBy);
         bpOrgId.setText(blueprintItem.orgId);
         bpProjectName.setText(blueprintItem.projectName);
         bpStatus.setText(blueprintItem.status);

@@ -76,6 +76,4 @@ public class DeploymentItemModel implements Serializable {
         public String displayName;
         public Boolean valid;
     }
-
-
 }
