@@ -5,40 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/button_close"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="issa x"
-                android:tint="@android:color/white"
-                app:srcCompat="@drawable/ic_close_black_24dp" />
-
-            <TextView
-                android:id="@+id/deployment_title"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="51dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

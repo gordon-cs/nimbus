@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.Gson;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
@@ -41,7 +42,7 @@ import androidx.fragment.app.DialogFragment;
 /**
  * A [DialogFragment] for the deployment actions.
  */
-public class DeploymentActionsFragment extends DialogFragment {
+public class DeploymentActionsFragment extends BottomSheetDialogFragment {
     final String LOG_TAG = "DeploymentActionsFragment";
 
     private String deploymentName;
@@ -62,25 +63,9 @@ public class DeploymentActionsFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.deployment_actions_dialog, container, false);
         c = getContext();
-        (rootView.findViewById(R.id.button_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
-        final Button cancelButton = rootView.findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
 
         deploymentName = (String) getArguments().getSerializable("name");
         deploymentId = (String) getArguments().getSerializable("id");
-        TextView title = rootView.findViewById(R.id.deployment_title);
-        title.setText(deploymentName);
 
         final Button powerOnButton = rootView.findViewById(R.id.power_on_button);
         powerOnButton.setOnClickListener(new View.OnClickListener() {

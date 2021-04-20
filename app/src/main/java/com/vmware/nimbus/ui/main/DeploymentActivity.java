@@ -125,10 +125,10 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
             deploymentCard.setCardBackgroundColor(Color.parseColor("#a4a9ac"));
         }
         else if (status == APIService.PowerState.OFF) {
-            deploymentCard.setCardBackgroundColor(Color.parseColor("#ffcccb"));
+            deploymentCard.setCardBackgroundColor(Color.parseColor("#e53935"));
         }
         else if (status == APIService.PowerState.ON) {
-            deploymentCard.setCardBackgroundColor(Color.parseColor("#90ee90"));
+            deploymentCard.setCardBackgroundColor(Color.parseColor("#4caf50"));
         }
 
         SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
