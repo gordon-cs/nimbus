@@ -2,12 +2,17 @@ package com.vmware.nimbus.ui.main.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.vmware.nimbus.R;
+import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.ItemClickListener;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.DeploymentActivity;
@@ -15,8 +20,6 @@ import com.vmware.nimbus.ui.main.DeploymentActivity;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A [Serializable] [RecyclerView.Adapter] that connects the DeploymentItemModel to the RecyclerView
@@ -98,6 +101,9 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
             cardViewHolder.ip_deployments_text.setText("IP: " + addresses.get(0));
         }
 
+        System.out.println(cardViewHolder.powerStateIndicator);
+        cardViewHolder.powerStateIndicator.getDrawable().mutate().setColorFilter(getColorFromDeployment(deploymentsData.get(i)), PorterDuff.Mode.SRC_ATOP);
+
         cardViewHolder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
@@ -127,6 +133,9 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
         TextView name_deployments_text;
         TextView status_deployments_text;
         TextView ip_deployments_text;
+
+        ImageView powerStateIndicator;
+
         private ItemClickListener itemClickListener;
 
         /**
@@ -140,6 +149,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
             name_deployments_text = itemView.findViewById(R.id.name_deployments_text);
             status_deployments_text = itemView.findViewById(R.id.status_deployments_text);
             ip_deployments_text = itemView.findViewById(R.id.ip_deployments_text);
+            powerStateIndicator = itemView.findViewById(R.id.powerStateIndicator);
             itemView.setOnClickListener(this);
         }
 
@@ -160,6 +170,26 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
          */
         public void setItemClickListener(ItemClickListener ic) {
             this.itemClickListener = ic;
+        }
+    }
+
+    private Integer getColorFromDeployment(DeploymentItemModel.DeploymentItem deploymentItem) {
+        if (deploymentItem.lastRequest != null && deploymentItem.lastRequest.status.equals("INPROGRESS"))
+            return c.getResources().getColor(R.color.powerState_inprogress, null);
+
+        APIService.PowerState powerState = deploymentItem.powerState;
+        if (powerState == null)
+            return c.getResources().getColor(R.color.powerState_unknown, null);
+
+        switch (powerState){
+            case UNKNOWN:
+                return c.getResources().getColor(R.color.powerState_unknown, null);
+            case OFF:
+                return c.getResources().getColor(R.color.powerState_off, null);
+            case ON:
+                return c.getResources().getColor(R.color.powerState_on, null);
+            default:
+                return c.getResources().getColor(R.color.powerState_ambiguous, null);
         }
     }
 
