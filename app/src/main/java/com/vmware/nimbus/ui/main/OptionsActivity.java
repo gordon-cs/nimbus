@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,10 +55,22 @@ public class OptionsActivity extends AppCompatActivity {
                 toastMsg("Restored Settings", getApplicationContext());
             }
         });
+
+        getSupportActionBar().setTitle("Options");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     public static void toastMsg(String msg, Context c) {
         Toast toast = Toast.makeText(c, msg, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

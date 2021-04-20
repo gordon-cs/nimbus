@@ -60,7 +60,7 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
                 resourceTypeHeading.setTextSize(12);
                 resourceTypeHeading.setTypeface(resourceTypeHeading.getTypeface(), Typeface.BOLD);
                 TextView resourceType = new TextView(this);
-                resourceType.setText(deploymentItem.resources.get(i).name);
+                resourceType.setText(deploymentItem.resources.get(i).type);
                 resourceType.setTextSize(12);
                 typeRow.addView(resourceTypeHeading);
                 typeRow.addView(resourceType);
