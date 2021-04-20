@@ -11,10 +11,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.fragments.DeploymentActionsFragment;
+import com.vmware.nimbus.ui.main.fragments.ExpandedDetailsFragment;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -179,6 +181,20 @@ public class DeploymentActivity extends AppCompatActivity implements Serializabl
                 args.putSerializable("id", deploymentItem.id);
                 dialog.setArguments(args);
                 dialog.show(getSupportFragmentManager(), "Actions");
+            }
+        });
+
+        final View detailsCard = findViewById(R.id.deployment_card);
+        detailsCard.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Gson gson = new Gson();
+                DialogFragment expandedDetails = new ExpandedDetailsFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("raw_json", gson.toJson(deploymentItem));
+                expandedDetails.setArguments(args);
+                expandedDetails.show(getSupportFragmentManager(), "displaying expanded details");
+                return true;
             }
         });
     }
