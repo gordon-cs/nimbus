@@ -4,6 +4,7 @@ import com.vmware.nimbus.api.APIService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DeploymentItemModel implements Serializable {
@@ -24,6 +25,7 @@ public class DeploymentItemModel implements Serializable {
         public Boolean simulated;
         public ArrayList<DeploymentResource> resources;
         public ArrayList<DeploymentAction> actions;
+        public DeploymentRequestStatus lastRequest;
     }
 
     public class DeploymentItemPage implements Serializable {
@@ -75,5 +77,19 @@ public class DeploymentItemModel implements Serializable {
         public String id;
         public String displayName;
         public Boolean valid;
+    }
+
+    public class DeploymentRequestStatus implements Serializable {
+        public String id;
+        public String name;
+        public String requestedBy;
+        public String actionId;
+        public String deploymentId;
+        public String status;
+        public String details;
+        public Date createdAt;
+        public Date updatedAt;
+        public Integer totalTasks;
+        public Integer completedTasks;
     }
 }

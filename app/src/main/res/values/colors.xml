@@ -5,4 +5,9 @@
     <color name="colorAccent">#60B515</color>
     <color name="ic_launcher_background">#E0F1FA</color>
     <color name="appBarText">#FFFF</color>
+    <color name="powerState_off">#FF0000</color>
+    <color name="powerState_on">#18C618</color>
+    <color name="powerState_unknown">#C8C8C8</color>
+    <color name="powerState_ambiguous">#F4C330</color>
+    <color name="powerState_inprogress">#D900FF</color>
 </resources>
