@@ -1,5 +1,6 @@
 package com.vmware.nimbus.ui.main;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -7,10 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.fragments.DeployFragment;
+import com.vmware.nimbus.ui.main.fragments.ExpandedDetailsFragment;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -96,6 +100,20 @@ public class BlueprintActivity extends AppCompatActivity implements Serializable
                 args.putSerializable("bp_id", blueprintItem.id);
                 dialog.setArguments(args);
                 dialog.show(getSupportFragmentManager(), "deploying");
+            }
+        });
+
+        final View detailsCard = findViewById(R.id.blueprint_details_card);
+        detailsCard.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Gson gson = new Gson();
+                DialogFragment expandedDetails = new ExpandedDetailsFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("raw_json", gson.toJson(blueprintItem));
+                expandedDetails.setArguments(args);
+                expandedDetails.show(getSupportFragmentManager(), "displaying expanded details");
+                return true;
             }
         });
     }

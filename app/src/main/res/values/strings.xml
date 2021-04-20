@@ -42,4 +42,5 @@
     <string name="deployments_uri">/deployment/api/deployments?expand=resources</string>
     <string name="bp_request_uri">/blueprint/api/blueprint-requests</string>
     <string name="deployments_base_uri">/deployment/api/deployments/</string>
+    <string name="expanded_details">There was an issue displaying additional details</string>
 </resources>
