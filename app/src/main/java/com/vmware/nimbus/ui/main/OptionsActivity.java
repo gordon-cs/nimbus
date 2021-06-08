@@ -32,8 +32,16 @@ public class OptionsActivity extends AppCompatActivity {
 
         final Switch catalogSource = findViewById(R.id.catalogSwitch);
 
+        final Switch loginSource = findViewById(R.id.loginSwitch);
+
+
         catalogSource.setChecked(settings.getBoolean(
                 getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
+                false
+        ));
+
+        loginSource.setChecked(settings.getBoolean(
+                getApplicationContext().getResources().getString(R.string.login_source_property_name),
                 false
         ));
 
@@ -42,6 +50,16 @@ public class OptionsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 settings.edit().putBoolean(
                         getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
+                        isChecked
+                ).apply();
+            }
+        });
+
+        loginSource.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                settings.edit().putBoolean(
+                        getApplicationContext().getResources().getString(R.string.login_source_property_name),
                         isChecked
                 ).apply();
             }

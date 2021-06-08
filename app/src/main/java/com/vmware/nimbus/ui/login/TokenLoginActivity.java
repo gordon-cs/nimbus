@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 /**
  * The login activity.
  */
-public class LoginActivity extends AppCompatActivity {
+public class TokenLoginActivity extends AppCompatActivity {
 
     String LOG_TAG = "LoginActivity";
 
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_tokenlogin);
         Intent mainIntent = new Intent(this, MainActivity.class);
         Intent optionsIntent = new Intent(this, OptionsActivity.class);
         final EditText apiKeyEditText = findViewById(R.id.password);

@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.OptionsActivity">
 
+    <Switch
+        android:id="@+id/loginSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use API Token Authentication"
+        app:layout_constraintBottom_toTopOf="@+id/rootUriLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <TextView
         android:id="@+id/rootUriLabel"
         android:layout_width="wrap_content"

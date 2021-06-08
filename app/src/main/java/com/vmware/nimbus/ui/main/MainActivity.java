@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import com.google.android.material.tabs.TabLayout;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
-import com.vmware.nimbus.ui.login.LoginActivity;
+import com.vmware.nimbus.ui.login.TokenLoginActivity;
 import com.vmware.nimbus.ui.main.adapters.SectionsPagerAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public void LogOut() {
         APIService.LogOut(getBaseContext());
 
-        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+        Intent intent1 = new Intent(MainActivity.this, TokenLoginActivity.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent1);
         finish();
