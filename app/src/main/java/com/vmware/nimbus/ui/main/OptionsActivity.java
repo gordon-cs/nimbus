@@ -23,17 +23,17 @@ public class OptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+
+        final Switch catalogSource = findViewById(R.id.catalogSwitch);
+        final Switch loginSource = findViewById(R.id.loginSwitch);
+        final Button saveButton = findViewById(R.id.save);
+        final EditText rootUri = findViewById(R.id.rootUri);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         String currentBaseUrl = settings.getString(getApplicationContext().getResources().getString(R.string.base_url_shared_property_name), null);
         if (currentBaseUrl != null && !currentBaseUrl.equals("")) {
-            ((EditText)findViewById(R.id.rootUri)).setText(currentBaseUrl);
+            rootUri.setText(currentBaseUrl);
         }
-
-        final Switch catalogSource = findViewById(R.id.catalogSwitch);
-
-        final Switch loginSource = findViewById(R.id.loginSwitch);
-
 
         catalogSource.setChecked(settings.getBoolean(
                 getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
@@ -62,10 +62,25 @@ public class OptionsActivity extends AppCompatActivity {
                         getApplicationContext().getResources().getString(R.string.login_source_property_name),
                         isChecked
                 ).apply();
+
+                if(isChecked) {
+                    saveButton.setEnabled(true);
+                    rootUri.setEnabled(true);
+                } else {
+                    saveButton.setEnabled(false);
+                    rootUri.setEnabled(false);
+                }
             }
         });
 
-        final Button saveButton = findViewById(R.id.save);
+        if(!settings.getBoolean(getApplicationContext().getResources().getString(R.string.login_source_property_name),
+                false)) {
+            saveButton.setEnabled(false);
+            rootUri.setEnabled(false);
+        } else {
+            saveButton.setEnabled(true);
+            rootUri.setEnabled(true);
+        }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +88,7 @@ public class OptionsActivity extends AppCompatActivity {
 
                 settings.edit().putString(
                         getApplicationContext().getResources().getString(R.string.base_url_shared_property_name),
-                        ((EditText)findViewById(R.id.rootUri)).getText().toString()
+                        rootUri.getText().toString()
                 ).apply();
                 toastMsg("Saved Settings", getApplicationContext());
             }
@@ -88,7 +103,7 @@ public class OptionsActivity extends AppCompatActivity {
                 settings.edit().remove(
                         getApplicationContext().getResources().getString(R.string.base_url_shared_property_name)
                 ).apply();
-                ((EditText)findViewById(R.id.rootUri)).setText(getApplicationContext().getResources().getString(R.string.base_url));
+                rootUri.setText(getApplicationContext().getResources().getString(R.string.base_url));
                 toastMsg("Restored Settings", getApplicationContext());
             }
         });
