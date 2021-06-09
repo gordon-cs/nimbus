@@ -13,7 +13,20 @@
         android:text="Use API Token Authentication"
         app:layout_constraintBottom_toTopOf="@+id/rootUriLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/catalogSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/catalog_source_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/loginSwitch"
+        app:layout_constraintStart_toStartOf="@+id/loginSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/loginSwitch"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/rootUriLabel"
@@ -32,21 +45,9 @@
         android:text="@string/base_url"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/catalogSwitch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.185" />
-
-    <Switch
-        android:id="@+id/catalogSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/catalog_source_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/rootUri"
-        app:layout_constraintStart_toStartOf="@+id/rootUri"
-        app:layout_constraintTop_toBottomOf="@+id/rootUri"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.2" />
 
     <Button
         android:id="@+id/save"
@@ -56,7 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rootUri"
         app:layout_constraintStart_toStartOf="@+id/rootUri"
-        app:layout_constraintTop_toBottomOf="@+id/catalogSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/rootUri"
         app:layout_constraintVertical_bias="0.05" />
 
     <Button

@@ -27,7 +27,7 @@ public class CSPLoginActivity extends AppCompatActivity {
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Intent tokenIntent = new Intent(this, TokenLoginActivity.class);
-        if(settings.getBoolean(getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
+        if(settings.getBoolean(getApplicationContext().getResources().getString(R.string.login_source_property_name),
                 false)) {
             startActivity(tokenIntent);
             finish();
