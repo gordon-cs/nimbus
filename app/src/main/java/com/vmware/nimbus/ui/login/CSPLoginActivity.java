@@ -22,16 +22,10 @@ public class CSPLoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        switchToTokenLoginIfSet();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_csplogin);
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Intent tokenIntent = new Intent(this, TokenLoginActivity.class);
-        if(settings.getBoolean(getApplicationContext().getResources().getString(R.string.login_source_property_name),
-                false)) {
-            startActivity(tokenIntent);
-            finish();
-        }
 
         WebView cspLoginPage = (WebView) findViewById(R.id.webview);
         cspLoginPage.loadUrl("https://www.mgmt.cloud.vmware.com/catalog/#/library");
@@ -47,8 +41,19 @@ public class CSPLoginActivity extends AppCompatActivity {
         });
     }
 
-    public static void toastMsg(String msg, Context c) {
-        Toast toast = Toast.makeText(c, msg, Toast.LENGTH_LONG);
-        toast.show();
+    @Override
+    protected void onResume() {
+        switchToTokenLoginIfSet();
+        super.onResume();
+    }
+
+    private void switchToTokenLoginIfSet() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Intent tokenIntent = new Intent(this, TokenLoginActivity.class);
+        if(settings.getBoolean(getApplicationContext().getResources().getString(R.string.login_source_property_name),
+                false)) {
+            startActivity(tokenIntent);
+            finish();
+        }
     }
 }
