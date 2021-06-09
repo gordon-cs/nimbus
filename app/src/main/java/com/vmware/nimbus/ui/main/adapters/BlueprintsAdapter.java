@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.vmware.nimbus.R;
@@ -12,7 +14,7 @@ import com.vmware.nimbus.api.ItemClickListener;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.BlueprintActivity;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,17 +23,19 @@ import androidx.recyclerview.widget.RecyclerView;
  * A [Serializable] [RecyclerView.Adapter] that connects the BlueprintItemModel to the RecyclerView
  * for the Blueprints page of the app.
  */
-public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.CardViewHolder> implements Serializable {
+public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.CardViewHolder> implements Filterable {
     Context c;
-    List<BlueprintItemModel.BlueprintItem> blueprintsData;
+    List<BlueprintItemModel.BlueprintItem> allBlueprintsData;
+    List<BlueprintItemModel.BlueprintItem> blueprintsSearchData;
     /**
      * Constructor for this adapter.
      *
      * @param ctx            - the context
-     * @param blueprintsData - List of items from the model for the RecyclerView to consume
+     * @param allBlueprintsData - List of items from the model for the RecyclerView to consume
      */
-    public BlueprintsAdapter(Context ctx, List<BlueprintItemModel.BlueprintItem> blueprintsData) {
-        this.blueprintsData = blueprintsData;
+    public BlueprintsAdapter(Context ctx, List<BlueprintItemModel.BlueprintItem> blueprintsSearchData) {
+        this.blueprintsSearchData = blueprintsSearchData;
+        this.allBlueprintsData = new ArrayList<>(blueprintsSearchData);
         this.c = ctx;
     }
 
@@ -39,7 +43,7 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      * Clears the data associated with the RecyclerView
      */
     public void clear() {
-        blueprintsData.clear();
+        allBlueprintsData.clear();
         notifyDataSetChanged();
     }
 
@@ -49,7 +53,7 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      * @param list - the List of BlueprintItems
      */
     public void addAll(List<BlueprintItemModel.BlueprintItem> list) {
-        blueprintsData.addAll(list);
+        allBlueprintsData.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -60,7 +64,7 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      */
     @Override
     public int getItemCount() {
-        return this.blueprintsData.size();
+        return this.blueprintsSearchData.size();
     }
 
     /**
@@ -85,15 +89,15 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      */
     @Override
     public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
-        cardViewHolder.name_blueprints_text.setText(blueprintsData.get(i).name);
-        cardViewHolder.id_blueprints_text.setText(blueprintsData.get(i).id);
-        cardViewHolder.createdby_blueprints_text.setText(blueprintsData.get(i).createdBy);
+        cardViewHolder.name_blueprints_text.setText(blueprintsSearchData.get(i).name);
+        cardViewHolder.id_blueprints_text.setText(blueprintsSearchData.get(i).id);
+        cardViewHolder.createdby_blueprints_text.setText(blueprintsSearchData.get(i).createdBy);
 
         cardViewHolder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 Intent i = new Intent(c, BlueprintActivity.class);
-                i.putExtra("BlueprintItemModel.BlueprintItem", blueprintsData.get(pos));
+                i.putExtra("BlueprintItemModel.BlueprintItem", blueprintsSearchData.get(pos));
 
                 c.startActivity(i);
             }
@@ -153,4 +157,38 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
             this.itemClickListener = ic;
         }
     }
+
+    @Override
+    public Filter getFilter() {
+        return searchFilter;
+    }
+
+    private Filter searchFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<BlueprintItemModel.BlueprintItem> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(allBlueprintsData);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (BlueprintItemModel.BlueprintItem bp : allBlueprintsData) {
+                    if (bp.name.toLowerCase().startsWith(filterPattern)) {
+                        filteredList.add(bp);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            blueprintsSearchData.clear();
+            blueprintsSearchData.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }
