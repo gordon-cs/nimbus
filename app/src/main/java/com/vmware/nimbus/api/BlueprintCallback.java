@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BlueprintCallback {
     void onSuccess(List<BlueprintItemModel.BlueprintItem> result);
+    void onError(Throwable error);
 }

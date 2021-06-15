@@ -37,8 +37,8 @@
 
     <string name="base_url">https://api.mgmt.cloud.vmware.com</string>
     <string name="login_uri">/iaas/api/login</string>
-    <string name="blueprints_uri">/blueprint/api/blueprints?size=1000</string>
-    <string name="catalog_uri">/catalog/api/items?size=1000</string>
+    <string name="blueprints_uri">/blueprint/api/blueprints</string>
+    <string name="catalog_uri">/catalog/api/items</string>
     <string name="deployments_uri">/deployment/api/deployments?expand=resources,lastRequest</string>
     <string name="bp_request_uri">/blueprint/api/blueprint-requests</string>
     <string name="deployments_base_uri">/deployment/api/deployments/</string>

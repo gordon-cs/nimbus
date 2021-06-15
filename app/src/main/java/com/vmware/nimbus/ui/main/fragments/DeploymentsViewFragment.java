@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ProgressBar;
 
+import com.vmware.nimbus.ui.main.EndlessRecyclerOnScrollListener;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.DeploymentCallback;
@@ -19,6 +21,7 @@ import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.adapters.DeploymentsAdapter;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -48,6 +51,10 @@ public class DeploymentsViewFragment extends Fragment {
 
     private SearchView.OnQueryTextListener queryTextListener;
     private SearchView searchView = null;
+
+    private ProgressBar loadingPB;
+
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     /**
      * Creates a new instance of the view fragment.
@@ -109,6 +116,13 @@ public class DeploymentsViewFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(llm);
 
+        loadingPB = view.findViewById(R.id.idPBLoading);
+        loadingPB.setVisibility(View.GONE);
+
+        rvAdapter = new DeploymentsAdapter(getContext(), new ArrayList<>(), new ArrayList<>());
+        mRecyclerView.setAdapter(rvAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         // Lookup the swipe container view
         swipeContainer = view.findViewById(R.id.swipeContainer_blueprints);
 
@@ -126,8 +140,14 @@ public class DeploymentsViewFragment extends Fragment {
                                 deploymentList = result;
                                 rvAdapter.addAll(deploymentList);
                                 rvAdapter.notifyDataSetChanged();
+                                endlessRecyclerOnScrollListener.resetState();
                             }
-                        }, getContext());
+
+                            @Override
+                            public void onError(Throwable error) {
+
+                            }
+                        }, getContext(), 0);
                         swipeContainer.setRefreshing(false);
                     }
                 }, 5000);
@@ -138,15 +158,35 @@ public class DeploymentsViewFragment extends Fragment {
                 android.R.color.holo_blue_bright,
                 R.color.colorAccent);
 
+        //Initial call for populating the recycler view for blueprints
+        loadNextDataFromApi(0);
+
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(llm) {
+            @Override
+            public void onLoadMore(int current_page) {
+                loadingPB.setVisibility(View.VISIBLE);
+                loadNextDataFromApi(current_page);
+            }
+        };
+        mRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+
+    }
+
+    public void loadNextDataFromApi(int offset) {
+
         APIService.loadDeployments(new DeploymentCallback() {
             @Override
             public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
-                deploymentList = result;
-                rvAdapter = new DeploymentsAdapter(getContext(), deploymentList);
-                mRecyclerView.setAdapter(rvAdapter);
-                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                rvAdapter.addAll(result);
+                rvAdapter.notifyDataSetChanged();
+                loadingPB.setVisibility(View.GONE);
             }
-        }, getContext());
+
+            @Override
+            public void onError(Throwable error) {
+                loadingPB.setVisibility(View.GONE);
+            }
+        }, getContext(), offset);
     }
 
     @Override

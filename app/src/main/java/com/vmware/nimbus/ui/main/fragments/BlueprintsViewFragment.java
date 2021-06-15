@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ProgressBar;
 
+import com.vmware.nimbus.ui.main.EndlessRecyclerOnScrollListener;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.BlueprintCallback;
@@ -19,6 +21,7 @@ import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.adapters.BlueprintsAdapter;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -48,6 +51,10 @@ public class BlueprintsViewFragment extends Fragment {
 
     private SearchView.OnQueryTextListener queryTextListener;
     private SearchView searchView = null;
+
+    private ProgressBar loadingPB;
+
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     /**
      * Creates a new instance of the view fragment.
@@ -104,10 +111,16 @@ public class BlueprintsViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         recyclerView = view.findViewById(R.id.fragment_blueprints_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
+
+        loadingPB = view.findViewById(R.id.idPBLoading);
+        loadingPB.setVisibility(View.GONE);
+
+        rvAdapter = new BlueprintsAdapter(getContext(), new ArrayList<>(), new ArrayList<>());
+        recyclerView.setAdapter(rvAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Lookup the swipe container view
         swipeContainer = view.findViewById(R.id.swipeContainer_blueprints);
@@ -126,8 +139,14 @@ public class BlueprintsViewFragment extends Fragment {
                                 blueprintList = result;
                                 rvAdapter.addAll(blueprintList);
                                 rvAdapter.notifyDataSetChanged();
+                                endlessRecyclerOnScrollListener.resetState();
                             }
-                        }, getContext());
+
+                            @Override
+                            public void onError(Throwable error) {
+
+                            }
+                        }, getContext(), 0);
                         swipeContainer.setRefreshing(false);
                     }
                 }, 5000);
@@ -138,16 +157,34 @@ public class BlueprintsViewFragment extends Fragment {
                 android.R.color.holo_blue_bright,
                 R.color.colorAccent);
 
+        //Initial call for populating the recycler view for blueprints
+        loadNextDataFromApi(0);
+
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(llm) {
+            @Override
+            public void onLoadMore(int current_page) {
+                loadingPB.setVisibility(View.VISIBLE);
+                loadNextDataFromApi(current_page);
+            }
+        };
+        recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+    }
+
+    public void loadNextDataFromApi(int offset) {
 
         APIService.loadBlueprints(new BlueprintCallback() {
             @Override
             public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
-                blueprintList = result;
-                rvAdapter = new BlueprintsAdapter(getContext(), blueprintList);
-                recyclerView.setAdapter(rvAdapter);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                rvAdapter.addAll(result);
+                rvAdapter.notifyDataSetChanged();
+                loadingPB.setVisibility(View.GONE);
             }
-        }, getContext());
+
+            @Override
+            public void onError(Throwable error) {
+                loadingPB.setVisibility(View.GONE);
+            }
+        }, getContext(), offset);
     }
 
     @Override
