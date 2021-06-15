@@ -19,6 +19,7 @@ import com.vmware.nimbus.api.ItemClickListener;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.DeploymentActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
  * A [Serializable] [RecyclerView.Adapter] that connects the DeploymentItemModel to the RecyclerView
  * for the Deployments page of the app.
  */
-public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.CardViewHolder> implements Filterable {
+public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.CardViewHolder> implements Filterable, Serializable {
     Context c;
     List<DeploymentItemModel.DeploymentItem> allDeploymentsData;
     List<DeploymentItemModel.DeploymentItem> deploymentsSearchData;
@@ -38,9 +39,9 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
      * @param ctx             - the context
      * @param allDeploymentsData - List of items from the model for the RecyclerView to consume
      */
-    public DeploymentsAdapter(Context ctx, List<DeploymentItemModel.DeploymentItem> deploymentsSearchData) {
+    public DeploymentsAdapter(Context ctx, List<DeploymentItemModel.DeploymentItem> allDeploymentsData, List<DeploymentItemModel.DeploymentItem> deploymentsSearchData) {
         this.deploymentsSearchData = deploymentsSearchData;
-        this.allDeploymentsData = new ArrayList<>(deploymentsSearchData);
+        this.allDeploymentsData = allDeploymentsData;
         this.c = ctx;
     }
 
@@ -49,6 +50,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
      */
     public void clear() {
         allDeploymentsData.clear();
+        deploymentsSearchData.clear();
         notifyDataSetChanged();
     }
 
@@ -59,6 +61,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
      */
     public void addAll(List<DeploymentItemModel.DeploymentItem> list) {
         allDeploymentsData.addAll(list);
+        deploymentsSearchData.addAll(list);
         notifyDataSetChanged();
     }
 

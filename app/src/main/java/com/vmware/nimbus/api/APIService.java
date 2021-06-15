@@ -116,8 +116,8 @@ public class APIService {
      * @param callback - callback object to return the data to on success
      * @param c - the Context
      */
-    public static void loadBlueprints(final BlueprintCallback callback, Context c) {
-        blueprintsUrl = getBaseEndpointURL(c) + getCatalogSourceURI(c);
+    public static void loadBlueprints(final BlueprintCallback callback, Context c, int pageNumber) {
+        blueprintsUrl = getBaseEndpointURL(c) + getCatalogSourceURIPaginated(c, pageNumber);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 blueprintsUrl,
@@ -136,6 +136,7 @@ public class APIService {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
                         toastMsg("The blueprints were unable to load properly", c);
+                        callback.onError(error.getCause());
                     }
                 }) {
             @Override
@@ -154,8 +155,8 @@ public class APIService {
      *
      * @param callback - callback that watches for successful deployments data from the response
      */
-    public static void loadDeployments(final DeploymentCallback callback, Context c) {
-        deploymentsUrl = getBaseEndpointURL(c) + c.getApplicationContext().getResources().getString(R.string.deployments_uri);
+    public static void loadDeployments(final DeploymentCallback callback, Context c, int pageNumber) {
+        deploymentsUrl = getBaseEndpointURL(c) + c.getApplicationContext().getResources().getString(R.string.deployments_uri).concat("&page=" + pageNumber);
         StringRequest jsonObjRequest = new StringRequest(
                 Request.Method.GET,
                 deploymentsUrl,
@@ -177,6 +178,7 @@ public class APIService {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
                         toastMsg("The deployments were unable to load properly.", c);
+                        callback.onError(error.getCause());
                     }
                 }) {
             @Override
@@ -330,5 +332,14 @@ public class APIService {
             return context.getApplicationContext().getResources().getString(R.string.catalog_uri);
         }
         return context.getApplicationContext().getResources().getString(R.string.blueprints_uri);
+    }
+
+    public static String getCatalogSourceURIPaginated(Context context, int pageNumber) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        if( settings.getBoolean(context.getApplicationContext().getResources().getString(R.string.catalog_source_property_name),
+                false)) {
+            return context.getApplicationContext().getResources().getString(R.string.catalog_uri).concat("?page=" + pageNumber);
+        }
+        return context.getApplicationContext().getResources().getString(R.string.blueprints_uri).concat("?page=" + pageNumber);
     }
 }

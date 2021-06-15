@@ -14,6 +14,7 @@ import com.vmware.nimbus.api.ItemClickListener;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.BlueprintActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,19 +24,20 @@ import androidx.recyclerview.widget.RecyclerView;
  * A [Serializable] [RecyclerView.Adapter] that connects the BlueprintItemModel to the RecyclerView
  * for the Blueprints page of the app.
  */
-public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.CardViewHolder> implements Filterable {
+public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.CardViewHolder> implements Filterable, Serializable {
     Context c;
-    List<BlueprintItemModel.BlueprintItem> allBlueprintsData;
-    List<BlueprintItemModel.BlueprintItem> blueprintsSearchData;
+    private List<BlueprintItemModel.BlueprintItem> allBlueprintsData;
+    private List<BlueprintItemModel.BlueprintItem> blueprintsSearchData;
+
     /**
      * Constructor for this adapter.
      *
      * @param ctx            - the context
      * @param allBlueprintsData - List of items from the model for the RecyclerView to consume
      */
-    public BlueprintsAdapter(Context ctx, List<BlueprintItemModel.BlueprintItem> blueprintsSearchData) {
+    public BlueprintsAdapter(Context ctx, List<BlueprintItemModel.BlueprintItem> allBlueprintsData, List<BlueprintItemModel.BlueprintItem> blueprintsSearchData) {
+        this.allBlueprintsData = allBlueprintsData;
         this.blueprintsSearchData = blueprintsSearchData;
-        this.allBlueprintsData = new ArrayList<>(blueprintsSearchData);
         this.c = ctx;
     }
 
@@ -44,6 +46,7 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      */
     public void clear() {
         allBlueprintsData.clear();
+        blueprintsSearchData.clear();
         notifyDataSetChanged();
     }
 
@@ -54,6 +57,7 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      */
     public void addAll(List<BlueprintItemModel.BlueprintItem> list) {
         allBlueprintsData.addAll(list);
+        blueprintsSearchData.addAll(list);
         notifyDataSetChanged();
     }
 
