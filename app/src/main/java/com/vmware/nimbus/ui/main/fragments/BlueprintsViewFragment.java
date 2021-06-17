@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,9 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ProgressBar;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.vmware.nimbus.ui.main.EndlessRecyclerOnScrollListener;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.BlueprintCallback;
@@ -21,8 +23,8 @@ import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.ui.main.adapters.BlueprintsAdapter;
 import com.vmware.nimbus.ui.main.viewmodels.PageViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +39,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 /**
  * A [Fragment] containing a list of blueprint items.
  */
-public class BlueprintsViewFragment extends Fragment {
+public class BlueprintsViewFragment extends Fragment implements BlueprintsAdapter.BlueprintsAdapterCallback {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -52,9 +54,17 @@ public class BlueprintsViewFragment extends Fragment {
     private SearchView.OnQueryTextListener queryTextListener;
     private SearchView searchView = null;
 
-    private ProgressBar loadingPB;
+    private LinearLayout showErrorLayout;
+    private Button btnRetry;
 
-    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
+    private int previousTotal = 0;
+    private boolean loading = true;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+    private int current_page = 0;
+
+    private OnLoadMoreListener onLoadMoreListener;
+
+    TextView txtError;
 
     /**
      * Creates a new instance of the view fragment.
@@ -114,16 +124,21 @@ public class BlueprintsViewFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragment_blueprints_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(llm);
-
-        loadingPB = view.findViewById(R.id.idPBLoading);
-        loadingPB.setVisibility(View.GONE);
-
-        rvAdapter = new BlueprintsAdapter(getContext(), new ArrayList<>(), new ArrayList<>());
+        rvAdapter = new BlueprintsAdapter(getContext(), this);
         recyclerView.setAdapter(rvAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        showErrorLayout = view.findViewById(R.id.error_layout);
+        txtError = view.findViewById(R.id.error_txt_cause);
+        btnRetry = view.findViewById(R.id.error_btn_retry);
         // Lookup the swipe container view
         swipeContainer = view.findViewById(R.id.swipeContainer_blueprints);
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadNextDataFromApi(0);
+            }
+        });
 
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -135,16 +150,17 @@ public class BlueprintsViewFragment extends Fragment {
                         APIService.loadBlueprints(new BlueprintCallback() {
                             @Override
                             public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
+                                hideErrorView();
                                 rvAdapter.clear();
                                 blueprintList = result;
                                 rvAdapter.addAll(blueprintList);
-                                rvAdapter.notifyDataSetChanged();
-                                endlessRecyclerOnScrollListener.resetState();
+                                resetState();
                             }
 
                             @Override
                             public void onError(Throwable error) {
-
+                                rvAdapter.clear();
+                                showErrorMessage(error);
                             }
                         }, getContext(), 0);
                         swipeContainer.setRefreshing(false);
@@ -160,31 +176,75 @@ public class BlueprintsViewFragment extends Fragment {
         //Initial call for populating the recycler view for blueprints
         loadNextDataFromApi(0);
 
-        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(llm) {
+        onLoadMoreListener = new OnLoadMoreListener() {
             @Override
-            public void onLoadMore(int current_page) {
-                loadingPB.setVisibility(View.VISIBLE);
+            public void onLoadMore() {
                 loadNextDataFromApi(current_page);
             }
         };
-        recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = llm.getItemCount();
+                firstVisibleItem = llm.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                // Handling the scenario where item count is referring to the searched
+                // items which will always be less or equal than the previous total
+                if (!loading && (totalItemCount < previousTotal)) {
+                    totalItemCount = previousTotal;
+                    return;
+                }
+
+                if (!loading && (totalItemCount)
+                        <= (firstVisibleItem + visibleItemCount)) {
+                    current_page++;
+                    if (onLoadMoreListener != null) {
+                        onLoadMoreListener.onLoadMore();
+                    }
+                    loading = true;
+                }
+            }
+        });
+
     }
 
     public void loadNextDataFromApi(int offset) {
-
-        APIService.loadBlueprints(new BlueprintCallback() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
-            public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
-                rvAdapter.addAll(result);
-                rvAdapter.notifyDataSetChanged();
-                loadingPB.setVisibility(View.GONE);
-            }
+            public void run() {
+                APIService.loadBlueprints(new BlueprintCallback() {
+                    @Override
+                    public void onSuccess(List<BlueprintItemModel.BlueprintItem> result) {
+                        hideErrorView();
+                        if (offset != 0) {
+                            rvAdapter.removeNull();
+                        }
+                        rvAdapter.addAll(result);
+                        rvAdapter.addNull();
+                    }
 
-            @Override
-            public void onError(Throwable error) {
-                loadingPB.setVisibility(View.GONE);
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                        if (current_page == 0) {
+                            showErrorMessage(error);
+                        } else {
+                            rvAdapter.showRetry(true, fetchErrorMessage(error));
+                        }
+                    }
+                }, getContext(), offset);
             }
-        }, getContext(), offset);
+        }, 1000);
     }
 
     @Override
@@ -216,5 +276,42 @@ public class BlueprintsViewFragment extends Fragment {
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+    @Override
+    public void retryPageLoad() {
+        loadNextDataFromApi(current_page);
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
+
+    public void resetState() {
+        this.current_page = 0;
+        this.previousTotal = 0;
+        this.loading = true;
+    }
+
+    private void showErrorMessage (Throwable th) {
+        if (showErrorLayout.getVisibility() == View.GONE) {
+            showErrorLayout.setVisibility(View.VISIBLE);
+            txtError.setText(fetchErrorMessage(th));
+        }
+    }
+
+    private void hideErrorView() {
+        if (showErrorLayout.getVisibility() == View.VISIBLE) {
+            showErrorLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private String fetchErrorMessage(Throwable throwable) {
+        String errorMsg = getResources().getString(R.string.error_msg_unknown);
+        if (throwable instanceof TimeoutException) {
+            errorMsg = getResources().getString(R.string.error_msg_timeout);
+        }
+        return errorMsg;
+    }
+
 }
 

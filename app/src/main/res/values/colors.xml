@@ -10,4 +10,6 @@
     <color name="powerState_unknown">#C8C8C8</color>
     <color name="powerState_ambiguous">#F4C330</color>
     <color name="powerState_inprogress">#D900FF</color>
+    <color name="placeholder_grey">#AAADC4</color>
+    <color name="placeholder_grey_20">#33AAADC4</color>
 </resources>

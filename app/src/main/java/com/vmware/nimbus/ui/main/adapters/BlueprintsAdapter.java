@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.vmware.nimbus.R;
@@ -18,16 +21,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A [Serializable] [RecyclerView.Adapter] that connects the BlueprintItemModel to the RecyclerView
  * for the Blueprints page of the app.
  */
-public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.CardViewHolder> implements Filterable, Serializable {
+public class BlueprintsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable, Serializable {
+
+    private static final int BP = 0;
+    private static final int LOADING = 1;
+    private boolean retryPageLoad = false;
+    private String errorMsg;
+
     Context c;
     private List<BlueprintItemModel.BlueprintItem> allBlueprintsData;
     private List<BlueprintItemModel.BlueprintItem> blueprintsSearchData;
+    private BlueprintsAdapterCallback callback;
+
+    public interface BlueprintsAdapterCallback {
+        void retryPageLoad();
+    }
 
     /**
      * Constructor for this adapter.
@@ -35,10 +51,11 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      * @param ctx            - the context
      * @param allBlueprintsData - List of items from the model for the RecyclerView to consume
      */
-    public BlueprintsAdapter(Context ctx, List<BlueprintItemModel.BlueprintItem> allBlueprintsData, List<BlueprintItemModel.BlueprintItem> blueprintsSearchData) {
-        this.allBlueprintsData = allBlueprintsData;
-        this.blueprintsSearchData = blueprintsSearchData;
+    public BlueprintsAdapter(Context ctx, BlueprintsAdapterCallback callback) {
+        this.allBlueprintsData = new ArrayList<>();
+        this.blueprintsSearchData = new ArrayList<>();
         this.c = ctx;
+        this.callback = callback;
     }
 
     /**
@@ -61,6 +78,16 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
         notifyDataSetChanged();
     }
 
+    public void addNull() {
+        blueprintsSearchData.add(null);
+        notifyItemInserted(blueprintsSearchData.size() - 1);
+    }
+
+    public void removeNull() {
+        blueprintsSearchData.remove(blueprintsSearchData.size()-1);
+        notifyItemRemoved(blueprintsSearchData.size());
+    }
+
     /**
      * Gets the size of the list associated with the RecyclerView.
      *
@@ -79,10 +106,21 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      * @return - a CardViewHolder for this card.
      */
     @Override
-    public CardViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.blueprints_card_view, viewGroup, false);
-        CardViewHolder cvh = new CardViewHolder(v);
-        return cvh;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        RecyclerView.ViewHolder viewHolder = null;
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+
+        switch (i) {
+            case BP:
+                View v1 = inflater.inflate(R.layout.blueprints_card_view, viewGroup, false);
+                viewHolder = new CardViewHolder(v1);
+                break;
+            case LOADING:
+                View v2 = inflater.inflate(R.layout.item_progress, viewGroup, false);
+                viewHolder = new LoadingViewholder(v2);
+                break;
+        }
+        return viewHolder;
     }
 
     /**
@@ -92,20 +130,41 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
      * @param i              - the index of the card's position in the list.
      */
     @Override
-    public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
-        cardViewHolder.name_blueprints_text.setText(blueprintsSearchData.get(i).name);
-        cardViewHolder.id_blueprints_text.setText(blueprintsSearchData.get(i).id);
-        cardViewHolder.createdby_blueprints_text.setText(blueprintsSearchData.get(i).createdBy);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
+        switch (getItemViewType(i)) {
+            case BP:
+                CardViewHolder cardViewHolder = (CardViewHolder) holder;
+                cardViewHolder.name_blueprints_text.setText(blueprintsSearchData.get(i).name);
+                cardViewHolder.id_blueprints_text.setText(blueprintsSearchData.get(i).id);
+                cardViewHolder.createdby_blueprints_text.setText(blueprintsSearchData.get(i).createdBy);
 
-        cardViewHolder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemClick(View v, int pos) {
-                Intent i = new Intent(c, BlueprintActivity.class);
-                i.putExtra("BlueprintItemModel.BlueprintItem", blueprintsSearchData.get(pos));
+                cardViewHolder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int pos) {
+                        Intent i = new Intent(c, BlueprintActivity.class);
+                        i.putExtra("BlueprintItemModel.BlueprintItem", blueprintsSearchData.get(pos));
+                        c.startActivity(i);
+                    }
+                });
+                break;
+            case LOADING:
+                LoadingViewholder loadingViewHolder = (LoadingViewholder) holder;
+                if (retryPageLoad) {
+                    loadingViewHolder.mErrorLayout.setVisibility(View.VISIBLE);
+                    loadingViewHolder.progressbar.setVisibility(View.GONE);
+                    loadingViewHolder.mErrorTxt.setText(c.getString(R.string.error_msg_unknown));
+                } else {
+                    loadingViewHolder.progressbar.setIndeterminate(true);
+                    loadingViewHolder.progressbar.setVisibility(View.VISIBLE);
+                }
+                break;
+        }
+    }
 
-                c.startActivity(i);
-            }
-        });
+
+    @Override
+    public int getItemViewType(int position) {
+        return (blueprintsSearchData.get(position) == null) ? LOADING : BP;
     }
 
     /**
@@ -162,6 +221,35 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
         }
     }
 
+    protected class LoadingViewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private ProgressBar progressbar;
+        private ImageButton mRetryBtn;
+        private TextView mErrorTxt;
+        private LinearLayout mErrorLayout;
+
+        LoadingViewholder(View itemView) {
+            super(itemView);
+            progressbar = (ProgressBar) itemView.findViewById(R.id.new_progress);
+            mRetryBtn = itemView.findViewById(R.id.button_retry);
+            mErrorTxt = itemView.findViewById(R.id.loadmore_errortxt);
+            mErrorLayout = itemView.findViewById(R.id.loadmore_errorlayout);
+
+            mRetryBtn.setOnClickListener(this);
+            mErrorLayout.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.button_retry:
+                case R.id.loadmore_errorlayout:
+                    showRetry(false, null);
+                    callback.retryPageLoad();
+                    break;
+            }
+        }
+    }
+
     @Override
     public Filter getFilter() {
         return searchFilter;
@@ -195,4 +283,17 @@ public class BlueprintsAdapter extends RecyclerView.Adapter<BlueprintsAdapter.Ca
             notifyDataSetChanged();
         }
     };
+
+    /**
+     * Displays Pagination retry footer view along with appropriate errorMsg
+     *
+     * @param show
+     * @param errorMsg to display if page load fails
+     */
+    public void showRetry(boolean show, @Nullable String errorMsg) {
+        retryPageLoad = show;
+        notifyItemChanged(blueprintsSearchData.size() - 1);
+
+        if (errorMsg != null) this.errorMsg = errorMsg;
+    }
 }

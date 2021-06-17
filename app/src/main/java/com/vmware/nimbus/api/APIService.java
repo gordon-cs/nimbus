@@ -135,7 +135,7 @@ public class APIService {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
-                        toastMsg("The blueprints were unable to load properly", c);
+                        //toastMsg("The blueprints were unable to load properly", c);
                         callback.onError(error.getCause());
                     }
                 }) {
