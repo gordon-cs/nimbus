@@ -21,6 +21,14 @@
     <string name="login_error">There was an error during login:</string>
     <string name="login_error_general">Cloud Companion was unable to log into CAS services. Try again:</string>
 
+    <string name="missing_token_error">Failed to authenticate. Try again with username/password or use an API token.</string>
+    <string name="org_access_error">You don\'t have access to Service Broker or Cloud Assembly on your default organization. Log in with an API token for an organization where you have access or change your default organization on desktop.</string>
+    <string name="org_unconfirmed_error">Failed to confirm your default organization to finish logging in. Try again with username/password or use an API token.</string>
+    <string name="loading_failure_error">Failed to connect with Cloud Automation Services. Check your internet connection and attempt to log in again.</string>
+    <string name="general_login_error">Failed to log in. Try again with username/password or use an API token.</string>
+    <string name="token_login_error">Failed to authenticate. Try again or use a different API token.</string>
+    <string name="token_auth_error">Failed to authenticate. Verify that your API token is for an organization where you have access to Cloud Assembly and/or Service Broker. Try again or use a different API token.</string>
+
     <string name="power_on_button">Power On</string>
     <string name="power_off_button">Power Off</string>
     <string name="delete_deployment_button">Delete</string>

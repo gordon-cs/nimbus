@@ -35,15 +35,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CSPLoginActivity extends AppCompatActivity {
-    public static final String MISSING_TOKEN = "Failed to authenticate. Try again with username/password or use an API token.";
-    public static final String ORG_WITHOUT_CAS = "You don't have access to Service Broker or Cloud Assembly " +
-            "on your default organization. Log in with an API token for an organization where you have access " +
-            "or change your default organization on desktop.";
-    public static final String ORG_UNCONFIRMED = "Failed to confirm your default organization to finish logging in. " +
-            "Try again with username/password or use an API token.";
-    public static final String LOADING_FAILURE = "Failed to connect with Cloud Automation Services. " +
-            "Check your internet connection and attempt to log in again.";
-    public static final String GENERAL_FAILURE = "Failed to log in. Try again with username/password or use an API token.";
 
     Integer targetUrlHitCount;
     Boolean loaded;
@@ -115,7 +106,7 @@ public class CSPLoginActivity extends AppCompatActivity {
 
         @Override
         public void onReceivedError (WebView view, WebResourceRequest request, WebResourceError error) {
-            startActivityWithMessage(errorIntent, LOADING_FAILURE);
+            startActivityWithMessage(errorIntent, getApplicationContext().getResources().getString(R.string.loading_failure_error));
         }
 
         @Override
@@ -158,7 +149,7 @@ public class CSPLoginActivity extends AppCompatActivity {
                 CspResult result = new CspResult(token_type, access_token);
 
                 if (result.getToken().isEmpty()) {
-                    startActivityWithMessage(errorIntent, MISSING_TOKEN);
+                    startActivityWithMessage(errorIntent, getApplicationContext().getResources().getString(R.string.missing_token_error));
                 }
 
 
@@ -177,7 +168,7 @@ public class CSPLoginActivity extends AppCompatActivity {
                         if (matcher.find()){
                             defaultOrgId = matcher.group(0);
                         } else {
-                            startActivityWithMessage(errorIntent, ORG_UNCONFIRMED);
+                            startActivityWithMessage(errorIntent, getApplicationContext().getResources().getString(R.string.org_unconfirmed_error));
                         }
 
                         APIService.getUserServiceRoles(new ServiceRolesCallback() {
@@ -188,25 +179,25 @@ public class CSPLoginActivity extends AppCompatActivity {
                                         startActivity(mainIntent);
                                         finish();
                                 } else {
-                                    startActivityWithMessage(errorIntent, ORG_WITHOUT_CAS);
+                                    startActivityWithMessage(errorIntent, getApplicationContext().getResources().getString(R.string.org_access_error));
                                 }
                             }
 
                             @Override
                             public void onFailure() {
-                                startActivityWithMessage(errorIntent, ORG_UNCONFIRMED);
+                                startActivityWithMessage(errorIntent, getApplicationContext().getResources().getString(R.string.org_unconfirmed_error));
                             }
                         }, defaultOrgId, c, true);
                     }
 
                     @Override
                     public void onFailure() {
-                        startActivityWithMessage(errorIntent, ORG_UNCONFIRMED);
+                        startActivityWithMessage(errorIntent, getApplicationContext().getResources().getString(R.string.org_unconfirmed_error));
                     }
                 }, c, true);
 
             } catch (Exception e){
-                startActivityWithMessage(errorIntent, GENERAL_FAILURE);
+                startActivityWithMessage(errorIntent, getApplicationContext().getResources().getString(R.string.general_login_error));
             }
 
         }

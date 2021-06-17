@@ -33,12 +33,11 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:text="@string/login_error_general"
-        app:layout_constraintBottom_toTopOf="@+id/csplogin"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainmessage"
         tools:layout_editor_absoluteX="47dp" />
 
     <Button

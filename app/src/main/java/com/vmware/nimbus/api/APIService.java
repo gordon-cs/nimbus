@@ -207,7 +207,7 @@ public class APIService {
 
 
     /**
-     * Loads the user's service roles for an or asynchronously.
+     * Loads the user's service roles for an org asynchronously.
      *
      * @param callback - callback object to return the data to on success
      * @param orgId - id of the org to get service roles from

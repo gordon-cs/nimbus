@@ -28,9 +28,6 @@ import java.util.List;
  */
 public class TokenLoginActivity extends AppCompatActivity {
 
-    public static final String DEPLOYMENT_GET_FAILURE = "Failed to authenticate. Try again or use a different API token.";
-    public static final String AUTH_FAILURE = "Failed to authenticate. Verify that your API token is for an " +
-            "organization where you have access to Cloud Assembly and/or Service Broker. Try again or use a different API token.";
 
     String LOG_TAG = "LoginActivity";
 
@@ -85,9 +82,9 @@ public class TokenLoginActivity extends AppCompatActivity {
                                     public void onFailure(VolleyError error) {
                                         String message;
                                         if (error.toString().contains("AuthFailureError")) {
-                                            message = AUTH_FAILURE;
+                                            message = getApplicationContext().getResources().getString(R.string.token_auth_error);
                                         } else {
-                                            message = DEPLOYMENT_GET_FAILURE;
+                                            message = getApplicationContext().getResources().getString(R.string.token_login_error);
                                         }
                                         Bundle bundle = new Bundle();
                                         bundle.putString("message", message);
