@@ -17,15 +17,19 @@ import com.google.gson.Gson;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.data.model.BlueprintItemModel;
 import com.vmware.nimbus.data.model.CspResult;
+import com.vmware.nimbus.data.model.DefaultOrgModel;
 import com.vmware.nimbus.data.model.DeployBlueprintModel;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.data.model.LoginModel;
+import com.vmware.nimbus.data.model.ServiceRolesModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +40,12 @@ public class APIService {
 
     private static String blueprintsUrl;
     private static BlueprintItemModel.BlueprintItemPage blueprintItemPage;
+
+    private static String defaultOrgUrl;
+    private static DefaultOrgModel defaultOrg;
+
+    private static String serviceRolesUrl;
+    private static ServiceRolesModel serviceRoles;
 
     private static String deploymentsUrl;
     private static DeploymentItemModel.DeploymentItemPage deploymentItemPage;
@@ -150,6 +160,105 @@ public class APIService {
     }
 
     /**
+     * Loads the user's default organization asynchronously
+     *
+     * @param callback - callback object to return the data to on success
+     * @param c - the Context
+     * @param cspLogin - if cspLogin, use console base url
+     */
+    public static void getDefaultOrg(final DefaultOrgCallback callback, Context c, Boolean cspLogin) {
+        String baseUrl;
+        if (cspLogin) {
+            baseUrl = c.getApplicationContext().getResources().getString(R.string.csp_host_url);
+        } else {
+            baseUrl = getBaseEndpointURL(c);
+        }
+        defaultOrgUrl = baseUrl + c.getApplicationContext().getResources().getString(R.string.default_org_uri);
+        StringRequest jsonObjRequest = new StringRequest(
+                Request.Method.GET,
+                defaultOrgUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("default org response", response);
+                        Gson gson = new Gson();
+                        defaultOrg = gson.fromJson(response, DefaultOrgModel.class);
+                        callback.onSuccess(defaultOrg.getRefLink());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("volley", "Error: " + error.getMessage());
+                        error.printStackTrace();
+                        callback.onFailure();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                String bearerToken = "Bearer " + LoginModel.getInstance(c).getBearer_token();
+                params.put("Authorization", bearerToken);
+                return params;
+            }
+        };
+        SingletonRequest.getInstance(c).addToRequestQueue(jsonObjRequest);
+    }
+
+
+    /**
+     * Loads the user's service roles for an org asynchronously.
+     *
+     * @param callback - callback object to return the data to on success
+     * @param orgId - id of the org to get service roles from
+     * @param c - the Context
+     * @param cspLogin - if cspLogin, use console base url
+     */
+    public static void getUserServiceRoles(final ServiceRolesCallback callback, String orgId, Context c, Boolean cspLogin) {
+        String baseUrl;
+        if (cspLogin) {
+            baseUrl = c.getApplicationContext().getResources().getString(R.string.csp_host_url);
+        } else {
+            baseUrl = getBaseEndpointURL(c);
+        }
+        serviceRolesUrl = baseUrl + c.getApplicationContext().getResources().getString(R.string.user_orgs_uri) +
+                "/" + orgId + "/service-roles";
+        StringRequest jsonObjRequest = new StringRequest(
+                Request.Method.GET,
+                serviceRolesUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("user orgs response", response);
+                        Gson gson = new Gson();
+                        serviceRoles = gson.fromJson(response, ServiceRolesModel.class);
+                        List<String> allServiceRoleNames = new ArrayList<>();
+                        for (ServiceRolesModel.ServiceRoles serviceRole : serviceRoles.getServiceRoles()) {
+                            allServiceRoleNames.addAll(serviceRole.getServiceRoleNames());
+                        }
+                        callback.onSuccess(allServiceRoleNames);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("volley", "Error: " + error.getMessage());
+                        error.printStackTrace();
+                        callback.onFailure();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                String bearerToken = "Bearer " + LoginModel.getInstance(c).getBearer_token();
+                params.put("Authorization", bearerToken);
+                return params;
+            }
+        };
+        SingletonRequest.getInstance(c).addToRequestQueue(jsonObjRequest);
+    }
+
+    /**
      * Loads the deployments asynchronously
      *
      * @param callback - callback that watches for successful deployments data from the response
@@ -176,6 +285,7 @@ public class APIService {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("volley", "Error: " + error.getMessage());
                         error.printStackTrace();
+                        callback.onFailure(error);
                         toastMsg("The deployments were unable to load properly.", c);
                     }
                 }) {

@@ -17,6 +17,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.login.TokenLoginActivity"></activity>
+        <activity android:name=".ui.login.LoginErrorActivity" />
         <activity android:name=".ui.main.OptionsActivity" />
         <activity android:name=".ui.main.DeploymentActivity" />
         <activity android:name=".ui.main.BlueprintActivity" />
