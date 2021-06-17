@@ -1,10 +1,16 @@
 package com.vmware.nimbus.ui.main.fragments;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 
 import com.android.volley.VolleyError;
 import com.vmware.nimbus.R;
@@ -18,6 +24,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -39,6 +46,9 @@ public class DeploymentsViewFragment extends Fragment {
 
     private DeploymentsAdapter rvAdapter;
     private List<DeploymentItemModel.DeploymentItem> deploymentList;
+
+    private SearchView.OnQueryTextListener queryTextListener;
+    private SearchView searchView = null;
 
     /**
      * Creates a new instance of the view fragment.
@@ -68,7 +78,7 @@ public class DeploymentsViewFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
-
+        setHasOptionsMenu(true);
     }
 
     /**
@@ -142,5 +152,35 @@ public class DeploymentsViewFragment extends Fragment {
             @Override
             public void onFailure(VolleyError error){}
         }, getContext());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+            queryTextListener = new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    rvAdapter.getFilter().filter(newText);
+                    return true;
+                }
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+            };
+
+            searchView.setOnQueryTextListener(queryTextListener);
+            searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

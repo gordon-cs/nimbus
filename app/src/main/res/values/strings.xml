@@ -45,10 +45,10 @@
     <string name="mgmt_url">https://www.mgmt.cloud.vmware.com/catalog/#/library</string>
     <string name="csp_host_url">https://console.cloud.vmware.com</string>
     <string name="login_uri">/iaas/api/login</string>
-    <string name="blueprints_uri">/blueprint/api/blueprints</string>
+    <string name="blueprints_uri">/blueprint/api/blueprints?size=1000</string>
     <string name="default_org_uri">/csp/gateway/am/api/loggedin/user/default-org</string>
     <string name="user_orgs_uri">/csp/gateway/am/api/loggedin/user/orgs</string>
-    <string name="catalog_uri">/catalog/api/items</string>
+    <string name="catalog_uri">/catalog/api/items?size=1000</string>
     <string name="deployments_uri">/deployment/api/deployments?expand=resources,lastRequest</string>
     <string name="bp_request_uri">/blueprint/api/blueprint-requests</string>
     <string name="deployments_base_uri">/deployment/api/deployments/</string>

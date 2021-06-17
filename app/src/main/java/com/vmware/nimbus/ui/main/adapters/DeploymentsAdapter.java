@@ -6,6 +6,8 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +19,7 @@ import com.vmware.nimbus.api.ItemClickListener;
 import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.DeploymentActivity;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,17 +27,20 @@ import java.util.stream.Collectors;
  * A [Serializable] [RecyclerView.Adapter] that connects the DeploymentItemModel to the RecyclerView
  * for the Deployments page of the app.
  */
-public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.CardViewHolder> implements Serializable {
+public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.CardViewHolder> implements Filterable {
     Context c;
-    List<DeploymentItemModel.DeploymentItem> deploymentsData;
+    List<DeploymentItemModel.DeploymentItem> allDeploymentsData;
+    List<DeploymentItemModel.DeploymentItem> deploymentsSearchData;
+
     /**
      * Constructor for this adapter.
      *
      * @param ctx             - the context
-     * @param deploymentsData - List of items from the model for the RecyclerView to consume
+     * @param allDeploymentsData - List of items from the model for the RecyclerView to consume
      */
-    public DeploymentsAdapter(Context ctx, List<DeploymentItemModel.DeploymentItem> deploymentsData) {
-        this.deploymentsData = deploymentsData;
+    public DeploymentsAdapter(Context ctx, List<DeploymentItemModel.DeploymentItem> deploymentsSearchData) {
+        this.deploymentsSearchData = deploymentsSearchData;
+        this.allDeploymentsData = new ArrayList<>(deploymentsSearchData);
         this.c = ctx;
     }
 
@@ -43,7 +48,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
      * Clears the data associated with the RecyclerView
      */
     public void clear() {
-        deploymentsData.clear();
+        allDeploymentsData.clear();
         notifyDataSetChanged();
     }
 
@@ -53,7 +58,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
      * @param list - the List of DeploymentItems
      */
     public void addAll(List<DeploymentItemModel.DeploymentItem> list) {
-        deploymentsData.addAll(list);
+        allDeploymentsData.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -64,7 +69,7 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
      */
     @Override
     public int getItemCount() {
-        return this.deploymentsData.size();
+        return this.deploymentsSearchData.size();
     }
 
     /**
@@ -89,11 +94,10 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
      */
     @Override
     public void onBindViewHolder(CardViewHolder cardViewHolder, int i) {
-        cardViewHolder.bpid_deployments_text.setText("Blueprint: " + deploymentsData.get(i).id);
-        cardViewHolder.status_deployments_text.setText("Status: " + deploymentsData.get(i).powerState);
-
-        cardViewHolder.name_deployments_text.setText(deploymentsData.get(i).name);
-        List<String> addresses = deploymentsData.get(i).resources.stream()
+        cardViewHolder.bpid_deployments_text.setText("Blueprint: " + deploymentsSearchData.get(i).id);
+        cardViewHolder.status_deployments_text.setText("Status: " + deploymentsSearchData.get(i).powerState);
+        cardViewHolder.name_deployments_text.setText(deploymentsSearchData.get(i).name);
+        List<String> addresses = deploymentsSearchData.get(i).resources.stream()
                 .filter(deploymentResource -> deploymentResource.properties.address != null)
                 .map(deploymentResource -> deploymentResource.properties.address)
                 .collect(Collectors.toList());
@@ -102,13 +106,13 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
         }
 
         System.out.println(cardViewHolder.powerStateIndicator);
-        cardViewHolder.powerStateIndicator.getDrawable().mutate().setColorFilter(getColorFromDeployment(deploymentsData.get(i)), PorterDuff.Mode.SRC_ATOP);
+        cardViewHolder.powerStateIndicator.getDrawable().mutate().setColorFilter(getColorFromDeployment(deploymentsSearchData.get(i)), PorterDuff.Mode.SRC_ATOP);
 
         cardViewHolder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 Intent i = new Intent(c, DeploymentActivity.class);
-                i.putExtra("DeploymentItemModel.DeploymentItem", deploymentsData.get(pos));
+                i.putExtra("DeploymentItemModel.DeploymentItem", deploymentsSearchData.get(pos));
                 c.startActivity(i);
             }
         });
@@ -192,5 +196,39 @@ public class DeploymentsAdapter extends RecyclerView.Adapter<DeploymentsAdapter.
                 return c.getResources().getColor(R.color.powerState_ambiguous, null);
         }
     }
+
+    @Override
+    public Filter getFilter() {
+        return searchFilter;
+    }
+
+    private Filter searchFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<DeploymentItemModel.DeploymentItem> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(allDeploymentsData);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (DeploymentItemModel.DeploymentItem deploymentItem : allDeploymentsData) {
+                    if (deploymentItem.name.toLowerCase().startsWith(filterPattern)) {
+                        filteredList.add(deploymentItem);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            deploymentsSearchData.clear();
+            deploymentsSearchData.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
 }
