@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.VolleyError;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.DeploymentCallback;
@@ -117,7 +118,9 @@ public class DeploymentsViewFragment extends Fragment {
                                 rvAdapter.addAll(deploymentList);
                                 rvAdapter.notifyDataSetChanged();
                             }
-                        }, getContext());
+                            @Override
+                            public void onFailure(VolleyError error){}
+                            }, getContext());
                         swipeContainer.setRefreshing(false);
                     }
                 }, 5000);
@@ -136,6 +139,8 @@ public class DeploymentsViewFragment extends Fragment {
                 mRecyclerView.setAdapter(rvAdapter);
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
             }
+            @Override
+            public void onFailure(VolleyError error){}
         }, getContext());
     }
 }

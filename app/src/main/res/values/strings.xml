@@ -16,6 +16,10 @@
     <string name="option_log_out">Log Out</string>
     <string name="vertical_ellipsis_desc">Vertical ellipsis for more options</string>
     <string name="options_apply_changes">Apply Changes</string>
+    <string name="csp_login_button">Log in with Username / Password</string>
+    <string name="api_login_button">Log in with api token</string>
+    <string name="login_error">There was an error during login:</string>
+    <string name="login_error_general">Cloud Companion was unable to log into CAS services. Try again:</string>
 
     <string name="power_on_button">Power On</string>
     <string name="power_off_button">Power Off</string>
@@ -38,8 +42,12 @@
     <string name="catalog_source_text">Only source published catalog items</string>
 
     <string name="base_url">https://api.mgmt.cloud.vmware.com</string>
+    <string name="mgmt_url">https://www.mgmt.cloud.vmware.com/catalog/#/library</string>
+    <string name="csp_host_url">https://console.cloud.vmware.com</string>
     <string name="login_uri">/iaas/api/login</string>
     <string name="blueprints_uri">/blueprint/api/blueprints</string>
+    <string name="default_org_uri">/csp/gateway/am/api/loggedin/user/default-org</string>
+    <string name="user_orgs_uri">/csp/gateway/am/api/loggedin/user/orgs</string>
     <string name="catalog_uri">/catalog/api/items</string>
     <string name="deployments_uri">/deployment/api/deployments?expand=resources,lastRequest</string>
     <string name="bp_request_uri">/blueprint/api/blueprint-requests</string>

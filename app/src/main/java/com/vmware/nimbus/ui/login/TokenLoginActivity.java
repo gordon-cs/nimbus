@@ -10,18 +10,27 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.vmware.nimbus.R;
 import com.vmware.nimbus.api.APIService;
+import com.vmware.nimbus.api.DeploymentCallback;
 import com.vmware.nimbus.api.LogInCallback;
+import com.vmware.nimbus.data.model.DeploymentItemModel;
 import com.vmware.nimbus.ui.main.MainActivity;
 import com.vmware.nimbus.ui.main.OptionsActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 /**
  * The login activity.
  */
 public class TokenLoginActivity extends AppCompatActivity {
+
+    public static final String DEPLOYMENT_GET_FAILURE = "Failed to authenticate. Try again or use a different API token.";
+    public static final String AUTH_FAILURE = "Failed to authenticate. Verify that your API token is for an " +
+            "organization where you have access to Cloud Assembly and/or Service Broker. Try again or use a different API token.";
 
     String LOG_TAG = "LoginActivity";
 
@@ -37,6 +46,7 @@ public class TokenLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tokenlogin);
         Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent errorIntent = new Intent(this, LoginErrorActivity.class);
         Intent optionsIntent = new Intent(this, OptionsActivity.class);
         final EditText apiKeyEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
@@ -62,9 +72,30 @@ public class TokenLoginActivity extends AppCompatActivity {
                         apiKeyEditText.getText().toString(), new LogInCallback() {
                             @Override
                             public void onSuccess(boolean result) {
-                                startActivity(mainIntent);
-                                //Complete and destroy login activity once successful
-                                finish();
+                                //attempt deployment loading
+                                APIService.loadDeployments(new DeploymentCallback() {
+                                    @Override
+                                    public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
+                                        startActivity(mainIntent);
+                                        //Complete and destroy login activity once successful
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(VolleyError error) {
+                                        String message;
+                                        if (error.toString().contains("AuthFailureError")) {
+                                            message = AUTH_FAILURE;
+                                        } else {
+                                            message = DEPLOYMENT_GET_FAILURE;
+                                        }
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("message", message);
+                                        errorIntent.putExtras(bundle);
+                                        startActivity(errorIntent);
+                                        finish();
+                                    }
+                                }, getBaseContext());
                             }
 
                             @Override

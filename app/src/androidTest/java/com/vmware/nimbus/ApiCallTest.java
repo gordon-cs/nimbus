@@ -2,6 +2,7 @@ package com.vmware.nimbus;
 
 import android.content.Context;
 
+import com.android.volley.VolleyError;
 import com.vmware.nimbus.api.APIService;
 import com.vmware.nimbus.api.BlueprintCallback;
 import com.vmware.nimbus.api.DeploymentCallback;
@@ -92,6 +93,8 @@ public class ApiCallTest {
             public void onSuccess(List<DeploymentItemModel.DeploymentItem> result) {
                 assertNotNull(result);
             }
+            @Override
+            public void onFailure(VolleyError error){}
         }, appContext);
     }
 
