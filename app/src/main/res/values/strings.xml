@@ -33,6 +33,8 @@
     <string name="base_url_english_name">Endpoint Base URL</string>
 
     <string name="catalog_source_property_name">catalog_source</string>
+    <string name="login_source_property_name">login_source</string>
+
     <string name="catalog_source_text">Only source published catalog items</string>
 
     <string name="base_url">https://api.mgmt.cloud.vmware.com</string>

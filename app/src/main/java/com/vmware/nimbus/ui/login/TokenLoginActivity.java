@@ -1,7 +1,9 @@
 package com.vmware.nimbus.ui.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 /**
  * The login activity.
  */
-public class LoginActivity extends AppCompatActivity {
+public class TokenLoginActivity extends AppCompatActivity {
 
     String LOG_TAG = "LoginActivity";
 
@@ -30,8 +32,10 @@ public class LoginActivity extends AppCompatActivity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        switchToCSPLoginIfNotSet();
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_tokenlogin);
         Intent mainIntent = new Intent(this, MainActivity.class);
         Intent optionsIntent = new Intent(this, OptionsActivity.class);
         final EditText apiKeyEditText = findViewById(R.id.password);
@@ -81,6 +85,22 @@ public class LoginActivity extends AppCompatActivity {
     public void toastMsg(String msg) {
         Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    @Override
+    protected void onResume() {
+        switchToCSPLoginIfNotSet();
+        super.onResume();
+    }
+
+    private void switchToCSPLoginIfNotSet() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Intent cspIntent = new Intent(this, CSPLoginActivity.class);
+        if(!settings.getBoolean(getApplicationContext().getResources().getString(R.string.login_source_property_name),
+                false)) {
+            startActivity(cspIntent);
+            finish();
+        }
     }
 
     @Override
